@@ -1,0 +1,2 @@
+# ParadigmShift
+AWS global scheduler
