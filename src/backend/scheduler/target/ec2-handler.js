@@ -1,8 +1,13 @@
 "use strict";
 
-/* [ENVIRRONNEMENT VARIABLE] */
-const DDB_ID = "ParadigmShift-context";
-/* [ENVIRRONNEMENT VARIABLE] */
+/*
+** Lambda for EC2 start/stop
+** event description ->
+** {
+**   id     : ec2id
+**   action : START | STOP
+** }
+*/
 
 const AWS = require('aws-sdk');
 const ec2 = new AWS.EC2();
@@ -45,7 +50,7 @@ function ec2_stop(id)
     });
 }
 
-exports.start = async (event, context, callback) =>
+exports.handler = async (event, context, callback) =>
 {
     let event_array;
     var responseerr = {
@@ -53,7 +58,7 @@ exports.start = async (event, context, callback) =>
         body: JSON.stringify("Error"),
         headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin':'*'}
     };
-    try { 
+    try {
         event_array = JSON.parse(event.body);
     } catch (err) {
         return callback(null, responseerr);
