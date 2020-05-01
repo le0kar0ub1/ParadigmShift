@@ -1,14 +1,15 @@
 "use strict";
 
 /* [ENVIRRONNEMENT VARIABLE] */
-DDB_ID="ParadigmShift-applicationAttribute" 
+DDB_ID="ParadigmShift-context" 
 /* [ENVIRRONNEMENT VARIABLE] */
 
 const AWS = require('aws-sdk');
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 const uuidv4 = require('uuid/v4');
 
-exports.handler = async (event, context, callback) => {
+exports.handler = async (event, context, callback) =>
+{
     let event_array;
     try { event_array = JSON.parse(event.body); }
     catch (err) {
@@ -41,7 +42,8 @@ exports.handler = async (event, context, callback) => {
     }
 };
 
-function write_database(appName, resource, attribut, description, powerState, isScheluderActive) {
+function write_database(appName, resource, attribut, description, powerState, isScheluderActive)
+{
     return dynamodb.put({
         Item: {
             "appName"           : appName,
@@ -55,6 +57,7 @@ function write_database(appName, resource, attribut, description, powerState, is
     }).promise();
 }
 
-function generateUUID() {
+function generateUUID()
+{
     return uuidv4().substring(0,31);
 }
