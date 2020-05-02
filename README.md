@@ -6,7 +6,16 @@ This is a missing point in the cloud universe.
 
 The target scheduling will be higher as possible.
 
-[Project Root Documentation](doc/tree.md)
+# Project Tree Reference
+
+| Path           | Description                                             |
+|----------------|---------------------------------------------------------|
+| `doc`          | [Root documentation directory](doc/rootdoc.md)          |
+| `src`          | Root directory sources                                  |
+| `src/backend`  | [Backend sources](src/backend/README.md)                |
+| `src/frontend` | [Frontend sources](src/frontend/README.md)              |
+| `deploy`       | [Deployment env directory](deploy/README.md)            |
+
 
 ## Dependencies
 
