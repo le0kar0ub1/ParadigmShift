@@ -2,28 +2,21 @@
 
 The purpose of this project is the global AWS scheduling.
 
-This is a missing point in the cloud universe.
-
-The target scheduling will be higher as possible.
-
 # Project Tree Reference
 
 | Path           | Description                                             |
 |----------------|---------------------------------------------------------|
-| `doc`          | [Root documentation directory](doc/rootdoc.md)          |
-| `src`          | Root directory sources                                  |
+| `doc`          | [Root documentation](doc/rootdoc.md)                    |
+| `src`          | Root sources                                            |
 | `src/backend`  | [Backend sources](src/backend/README.md)                |
 | `src/frontend` | [Frontend sources](src/frontend/README.md)              |
-| `deploy`       | [Deployment env directory](deploy/README.md)            |
+| `deploy`       | [Deployment env](deploy/README.md)                      |
 
-
-## Dependencies
+# Dependencies & Install
 
   - `AWS account` configured
   - `AWS CLI`
   - `SAM CLI`
-
-## Install
 
 For `AWS CLI` please follow the [AWS documentation](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html).
 

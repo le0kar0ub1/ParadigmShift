@@ -20,19 +20,19 @@ In this mindset and Working around `AWS` universe this project was born.
 
 ## A scheduler... for what ?
 
-The central idea is that you can affect the differents ressources with your own rules using principaly low level target service scheduling and `lambda functions`.
+The central idea is that you can affect the differents ressources with your own rules using principaly low level target service scheduling and [lambda functions](https://en.wikipedia.org/wiki/AWS_Lambda).
 
-The purpose of `ParadigmShift` is to raise the target scope level from `ressource` to `application`.
+The purpose of `ParadigmShift` is to raise the target scope level from `resource` to `application`.
 
 Then, you will be allowed to schedule entire applications with your own rules.
 
 ## About the documentation
 
-As a well documented project, we will describe the [High Level Design](design/hld.md) and then the [Low Level Design](design/lld.md).
+As a well documented project, we will describe the [High Level Design](https://en.wikipedia.org/wiki/High-level_design) and then the [Low Level Design](https://en.wikipedia.org/wiki/Low-level_design).
 
 All the documentation is wroten in MarkDown so far but an other one will be provided later.
 
 | Path                      | Reference                                                         |
 |---------------------------|-------------------------------------------------------------------|
-| `doc/design/hld`          | [High Level Design documentation](design/hld.md)                  |
-| `doc/design/lld`          | [Low Level Design documentation](design/lld.md)                   |
+| `doc/design/hld.md`       | [High Level Design documentation](design/hld.md)                  |
+| `doc/design/lld.md`       | [Low Level Design documentation](design/lld.md)                   |
