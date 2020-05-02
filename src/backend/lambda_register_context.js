@@ -1,7 +1,7 @@
 "use strict";
 
 /* [ENVIRRONNEMENT VARIABLE] */
-DDB_ID="ParadigmShift-context" 
+const DDB_ID="ParadigmShift-context" 
 /* [ENVIRRONNEMENT VARIABLE] */
 
 const AWS = require('aws-sdk');

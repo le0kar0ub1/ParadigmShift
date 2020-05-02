@@ -2,4 +2,6 @@
 
 The purpose of this project is the global AWS scheduling.
 
-The target scheduling level in the scope is high.
+This is a missing point in the cloud universe.
+
+The target scheduling will be higher as possible.
