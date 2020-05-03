@@ -16,8 +16,8 @@ The array below represent a total context description.
 | `contextDescription`     | _String_            | None                             | The description of the context                               |
 | `powerState`             | _Boolean_           | None                             | The current power state of the context                       |
 | `isScheluderActive`      | _Boolean_           | None                             | Is the context currently scheduled                           |
-| `schedulingRule`         | _String_            | UNDEFINED  (cron?)               | The scheduling rule applied to the context                   |
-| `service::resource`      | _String_            | JSON stringifed                  | A list of resource with the same type                        |
+| `schedulingRule`         | _String_            | UNDEFINED  (cron ?)              | The scheduling rule applied to the context                   |
+| `service::resource`      | _String_            | JSON stringifed                  | A list of resources with the same type in the context        |
 
 `service::resource` is a template for the registering of a particular `resource`.
 
@@ -27,7 +27,7 @@ The entry below represent an example of utilization.
 |--------------------------|---------------------|----------------------------------|--------------------------------------------------------------|
 | `appstream::fleet`       | _String_            | JSON stringifed                  | List of appsteam fleet in the context                        |
 
-Each `service::resource` JSON has the following format.
+Each `service::resource` entry has the following JSON format.
 
 ```javascript
 {
@@ -37,9 +37,9 @@ Each `service::resource` JSON has the following format.
 }
 ```
 
-  - `ids` : the resource ids list
-  - `isScheduled` : is the specific resource scheduled ?
-  - `attribut` :  specific usage still undefined
+  * `ids` : the resources ids list
+  * `isScheduled` : is the specific resource scheduled ?
+  * `attribut` :  specific usage still undefined
 
 Obviously all the members *MUST* match the same size.
 
