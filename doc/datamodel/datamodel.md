@@ -27,11 +27,30 @@ The entry below represent an example of utilization.
 |--------------------------|---------------------|----------------------------------|--------------------------------------------------------------|
 | `appstream::fleet`       | _String_            | JSON stringifed                  | List of appsteam fleet in the context                        |
 
-Each service::resource JSON has the following format.
+Each `service::resource` JSON has the following format.
 
 ```javascript
 {
     ids: ["firstid", "secondid", ...],
-    isScheduled: [true, false, ...]
+    isScheduled: [true, false, ...],
+    attribut: ["", "", ...]
 }
 ```
+
+  - `ids` : the resource ids list
+  - `isScheduled` : is the specific resource scheduled ?
+  - `attribut` :  specific usage still undefined
+
+Obviously all the members *MUST* match the same size.
+
+## Implementation
+
+Ok got the model, but how it's implemented on the AWS environment ?
+
+The CURRENT used database is the AWS [DynamodDB](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Introduction.html).
+
+DynamoDB is a scalable [noSQL](https://en.wikipedia.org/wiki/NoSQL) database.
+
+## Sample
+
+The JSON below represent a context entry in the database.
