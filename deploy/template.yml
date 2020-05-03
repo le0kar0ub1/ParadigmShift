@@ -1,0 +1,121 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: ParadigmShift - AWS SAM template
+
+#
+# Deploy the project
+#
+
+Parameters:
+  Project:
+    Type: String
+    Default: paradigmshift
+    MinLength: 4
+    MaxLength: 20
+    AllowedPattern: "[a-z][[a-z0-9\-]+"
+    ConstraintDescription: must begin with a letter and contain only lowercase characters and '-'.
+  SchedulerRule:
+    Type: String
+    Default: cron(0/5 * * * ? *) # all 5 minutes
+    AllowedPattern: "cron\((\*|((\*\/)?[1-5]?[0-9])) (\*|((\*\/)?[1-5]?[0-9])) (\*|((\*\/)?(1?[0-9]|2[0-3]))) (\*|((\*\/)?([1-9]|[12][0-9]|3[0-1]))) (\*|((\*\/)?([1-9]|1[0-2]))) (\*|((\*\/)?[0-6])))"
+    ConstraintDescription: must match the cron syntax
+  Region:
+    Type: String
+    Default: !Ref 'AWS::Region'
+    AllowedPattern: "[a-z][[a-z0-9\-]+"
+    ConstraintDescription: must begin with a letter and contain only lowercase characters and '-'
+
+Globals:
+  Function:
+    Runtime: nodejs12.x
+    Timeout: 10
+    Tags:
+      Project: !Ref Project
+      Env: !Ref Env
+    Environment:
+      Variables:
+        REGION: Region
+
+Resources:
+
+  #############################################
+  ######## Scheduled Lambda Resources #########
+  #############################################
+
+  LambdaRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub "${Project}-scheduledLambdaRole"
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: LogsPolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                Resource: "*"
+        - PolicyName: DynamoDBPolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - dynamodb:BatchGet
+                  - dynamodb:Get*
+                  - dynamodb:Delete*
+                  - dynamodb:Scan
+                  - dynamodb:PutItem
+                  - dynamodb:Update*
+                  - dynamodb:Query
+                Resource:
+                  - "*"
+        - PolicyName: s3Read
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              -  Effect: Allow
+                 Action:
+                   - s3:PutObject
+                   - s3:Get*
+                   - s3:List*
+                   - s3:DeleteObject
+                 Resource:
+                   - "*"
+
+  lambdaScheduler:
+    Type: AWS::Serverless::Function
+    Properties:
+    FunctionName: !Sub "${Project-scheduledLambda"
+      Description: scheduled lambda
+      CodeUri: src
+      Handler: sample-scheduled-lambda.handler
+      Role: !GetAtt LambdaRole.Arn
+
+  lambdaSchedulerRule:
+    Type: "AWS::Events::Rule"
+    Properties:
+      Description: set the trigger rate
+      ScheduleExpression: !Sub ${SchedulerRule}
+      State: ENABLED
+      Targets:
+        - Arn: !Sub ${lambdaScheduler.Arn}
+          Id: lambdaSchedulerRule
+
+  lambdaSchedulerPermission:
+    Type: "AWS::Lambda::Permission"
+    Properties:
+      Action: 'lambda:InvokeFunction'
+      FunctionName: !Sub ${lambdaScheduler.Arn}
+      Principal: 'events.amazonaws.com'
+      SourceArn: !Sub ${lambdaSchedulerRule.Arn}

@@ -26,6 +26,10 @@ The purpose of `ParadigmShift` is to raise the target scope level from `resource
 
 Then, you will be allowed to schedule entire applications with your own rules.
 
+Due to the target level, the only scheduling will be a power on/off of the application.
+
+Think some additionnal resource operation specific will be implemented.
+
 ## About the documentation
 
 As a well documented project, we will describe the [High Level Design](https://en.wikipedia.org/wiki/High-level_design) and then the [Low Level Design](https://en.wikipedia.org/wiki/Low-level_design).
