@@ -34,9 +34,12 @@ Think some additionnal resource operation specific will be implemented.
 
 As a well documented project, we will describe the [High Level Design](https://en.wikipedia.org/wiki/High-level_design) and then the [Low Level Design](https://en.wikipedia.org/wiki/Low-level_design).
 
+Some explaination on the datamodel which will evolve without any doubt.
+
 All the documentation is wroten in MarkDown so far but an other one will be provided later.
 
-| Path                      | Reference                                                         |
-|---------------------------|-------------------------------------------------------------------|
-| `doc/design/hld.md`       | [High Level Design documentation](design/hld.md)                  |
-| `doc/design/lld.md`       | [Low Level Design documentation](design/lld.md)                   |
+| Path                               | Reference                                                         |
+|------------------------------------|-------------------------------------------------------------------|
+| `doc/design/hld.md`                | [High Level Design documentation](design/hld.md)                  |
+| `doc/design/lld.md`                | [Low Level Design documentation](design/lld.md)                   |
+| `doc/datamodel/datamodel.md`       | [DataModel Documentation](datamodel/datamodel.md)                 |
