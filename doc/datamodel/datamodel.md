@@ -6,7 +6,7 @@ As explained, the model will be reworked when necessary.
 
 ## Model
 
-At top level we register a `context` of resources. The name context is given for a future scalability over the target specific resource, where we will allow to register only one.
+At top level we register a `context` of resources. The name context is given for a future scalability over the target specific resource, where we will allow to register one by one as a context.
 
 The array below represent a total context description.
 

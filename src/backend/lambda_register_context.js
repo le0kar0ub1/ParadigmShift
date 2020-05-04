@@ -20,6 +20,7 @@ exports.handler = async (event, context, callback) =>
         });
     }
     try {
+        /* let's checkup if all informations are here */
         const appName           = event_array.appName;
         const resource          = event_array.resource;
         const attribut          = event_array.attribut;
