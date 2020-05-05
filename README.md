@@ -1,6 +1,6 @@
 # ParadigmShift
 
-The purpose of this project is the global AWS scheduling.
+The purpose of this project is the global AWS scheduling over the `ParadigmShift` application.
 
 # Project Tree Reference
 
