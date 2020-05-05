@@ -8,13 +8,12 @@ The [datamodel](../datamodel/datamodel.md) is explained in another place.
 
 ## Architecture
 
-This is a temporary architecture.
+The described architecture is temporary.
 
-We are using the `AWS Elastic Beanstalk` for the application core. This part is only for user access.
+We are using the `AWS Elastic Beanstalk` for the application core. This part is only for user access and interactions.
 
 ![architecture core](arch-core.png)
 
 Then for the purposed scheduling we are using an other context, like follow.
 
 ![architecture scheduling](arch-sched.png)
-
