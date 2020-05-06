@@ -10,14 +10,15 @@ At top level we register a `context` of resources. The name context is given for
 
 The array below represent a total context description.
 
-| Entry                    | DB Type             | Format (string relevant only)    | Description                                                  |
-|--------------------------|---------------------|----------------------------------|--------------------------------------------------------------|
-| `contextName`            | _String_            | None                             | The name of the context                                      |
-| `contextDescription`     | _String_            | None                             | The description of the context                               |
-| `powerState`             | _Boolean_           | None                             | The current power state of the context                       |
-| `isScheluderActive`      | _Boolean_           | None                             | Is the context currently scheduled                           |
-| `schedulingRule`         | _String_            | UNDEFINED  (cron ?)              | The scheduling rule applied to the context                   |
-| `service::resource`      | _String_            | JSON stringifed                  | A list of resources with the same type in the context        |
+| Entry                    | DB Type             | Format (string relevant only)    | Description                                                     |
+|--------------------------|---------------------|----------------------------------|-----------------------------------------------------------------|
+| `contextName`            | _String_            | None                             | The name of the context                                         |
+| `contextDescription`     | _String_            | None                             | The description of the context                                  |
+| `powerState`             | _Boolean_           | None                             | The current power state of the context                          |
+| `isScheluderActive`      | _Boolean_           | None                             | Is the context currently scheduled                              |
+| `schedulingRule`         | _String_            | UNDEFINED  (cron ?)              | The scheduling rule applied to the context                      |
+| `lastScheduling`         | _Number_            | None                             | Last scheduling in seconds from  01/01/1970 00:00:00 UTC        |
+| `service::resource`      | _String_            | JSON stringifed                  | A list of resources with the same type in the context           |
 
 `service::resource` is a template for the registering of a particular `resource`.
 

@@ -38,8 +38,8 @@ function CLEANUP()
 
 function RAISE()
 {
-    echo "Process terminated, fatal error"
     CLEANUP
+    echo "Process terminated, fatal error"
     exit 0
 }
 
@@ -59,7 +59,7 @@ echo "-------- Install dependencies --------"
 
 npm install ../src/backend --prefix ../src/backend
 
-echo "-------- Deploy Resources --------"
+echo "-------- Deploy resources --------"
 
 sam build 
 

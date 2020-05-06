@@ -16,7 +16,7 @@ The first way, using `AWS Elastic Beanstalk`.
 
 ![architecture core beanstalk](arch-core-beanstalk.png)
 
-The second, using `Amazon S3` as static webstite host and `AWS lambda` for the backend.
+The second, using `Amazon S3` as website host and `AWS lambda` for the backend.
 
 ![architecture core s3](arch-core-s3static.png)
 
