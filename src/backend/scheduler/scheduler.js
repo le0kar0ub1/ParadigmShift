@@ -14,18 +14,19 @@ function contextSwitchPower(context)
     
 }
 
-function parse_ISO8601(asStr)
+function ISO8601parse(asStr)
 {
     const asMs = Date.parse(asStr);
+
     if (asMs === NaN)
         return (Nan);
-    return (asMs * 1000);
+    return (asMs / 1000);
 }
 
 function schedulingEval(cronStr, lastscheduling)
 {
     const now = Date.now();
-    const appnext = parse_ISO8601(cron.parseExpression(cronStr).next().toString());
+    const appnext = ISO8601parse(cron.parseExpression(cronStr).next().toString());
 
     if (appnext == NaN)
         return (NaN)
