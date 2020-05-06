@@ -21,7 +21,30 @@ Parameters:
     Default: cron(0/5 * * * ? *) # all 5 minutes
   Region:
     Type: String
-    AllowedPattern: "(us\-east\-2|us\-east\-1|us\-west\-1|us\-west\-2|af\-south\-1|ap\-east\-1|ap\-south\-1|ap\-northeast\-3|ap\-northeast\-2|ap\-southeast\-1|ap\-southeast\-2|ap\-northeast\-1|ca\-central\-1|cn\-north\-1|cn\-northwest\-1|eu\-central\-1|eu\-west\-1|eu\-west\-2|eu\-south\-1|eu\-west\-3|eu\-north\-1|me\-south\-1|sa\-east\-1)"
+    AllowedValues:
+      - us-east-2
+      - us-east-1
+      - us-west-1
+      - us-west-2
+      - af-south-1
+      - ap-east-1
+      - ap-south-1
+      - ap-northeast-3
+      - ap-northeast-2
+      - ap-southeast-1
+      - ap-southeast-2
+      - ap-northeast-1
+      - ca-central-1
+      - cn-north-1
+      - cn-northwest-1
+      - eu-central-1
+      - eu-west-1
+      - eu-west-2
+      - eu-south-1
+      - eu-west-3
+      - eu-north-1
+      - me-south-1
+      - sa-east-1
     ConstraintDescription: must be an AWS region.
     Default: !Ref 'AWS::Region'
   RootSrcDir:
@@ -101,8 +124,8 @@ Resources:
     Properties:
     FunctionName: !Sub "${Project-scheduledLambda"
       Description: scheduled lambda
-      CodeUri: src
-      Handler: sample-scheduled-lambda.handler
+      CodeUri: !Sub "${RootSrcDir}/scheduler"
+      Handler: scheduler.handler
       Role: !GetAtt LambdaRole.Arn
 
   lambdaSchedulerRule:

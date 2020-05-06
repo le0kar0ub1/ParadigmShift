@@ -2,7 +2,9 @@
 
 The purpose of this project is the global AWS scheduling over the `ParadigmShift` application.
 
-# Project Tree Reference
+All the project is described and well documented in sub-directories.
+
+## Project Tree Reference
 
 | Path           | Description                                             |
 |----------------|---------------------------------------------------------|
@@ -12,7 +14,7 @@ The purpose of this project is the global AWS scheduling over the `ParadigmShift
 | `src/frontend` | [Frontend sources](src/frontend/README.md)              |
 | `deploy`       | [Project Deployment](deploy/README.md)                  |
 
-# Dependencies
+## Dependencies
 
   - `AWS account`
   - `AWS CLI`

@@ -45,9 +45,9 @@ Obviously all the members *MUST* match the same size.
 
 ## Implementation
 
-Ok got the model, but how it's implemented on the AWS environment ?
+Ok got the model, but how is it implemented on the AWS environment ?
 
-The CURRENT used database is the AWS [DynamodDB](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Introduction.html).
+The database CURRENTLY used is the AWS [DynamodDB](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Introduction.html).
 
 DynamoDB is a scalable [noSQL](https://en.wikipedia.org/wiki/NoSQL) database.
 

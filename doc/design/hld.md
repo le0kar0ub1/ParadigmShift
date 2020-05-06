@@ -10,9 +10,17 @@ The [datamodel](../datamodel/datamodel.md) is explained in another place.
 
 The described architecture is temporary.
 
-We are using the `AWS Elastic Beanstalk` for the application core. This part is only for user access and interactions.
+There are two differents considered methods to build our application core. This part is only for user access and interactions.
 
-![architecture core](arch-core.png)
+The first way, using `AWS Elastic Beanstalk`.
+
+![architecture core beanstalk](arch-core-beanstalk.png)
+
+The second, using `Amazon S3` as static webstite host and `AWS lambda` for the backend.
+
+![architecture core s3](arch-core-s3static.png)
+
+_So far, we are using the second way._
 
 Then for the purposed scheduling we are using an other context, like follow.
 
