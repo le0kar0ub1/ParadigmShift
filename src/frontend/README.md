@@ -2,7 +2,7 @@
 
 As explained in the design documentation, we are actually using an `Amazon S3` to host static website.
 
-The front is really simple so far and composed only of *HTML/CSS*.
+The front is really simple so far and composed only of hand made *HTML/CSS*.
 
 ## Page Description
 
