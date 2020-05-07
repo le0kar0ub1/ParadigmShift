@@ -1,8 +1,8 @@
 "use strict";
 
 /* [ENVIRRONNEMENT VARIABLE] */
-const DBID_CONTEXTDEF="paradigmshift-contextdef";
-const DBID_RESOURCES="paradigmshift-resources";
+const DBID_CONTEXTDEF="paradigmshift-context";
+const DBID_RESOURCES="paradigmshift-resource";
 /* [ENVIRRONNEMENT VARIABLE] */
 
 const AWS = require('aws-sdk');

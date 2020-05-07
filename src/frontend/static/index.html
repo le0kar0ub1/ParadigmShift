@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="css/main.css">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.1.12.min.js"></script>
 
     <script type="text/javascript" src="request.js"></script>
 
@@ -20,20 +21,22 @@
         </div>
 
         <div class="bodywrapper">
-            <div class="appSelector">
-                <select id="contextSelector" onchange="contextSelector()"></select>
-                <a id="powerState" href="#" class="state">State: Undef</a>
-                <a id="schedulingState" href="#" class="scheduling">State: Undef</a>
+            <div class="contextSelector">
+                <select id="contextSelector" onchange="contextDescription()"></select>
+                <a id="powerState" href="#" class="state">State: undefined</a>
+                <a id="schedulingState" href="#" class="scheduling">State: undefined</a>
             </div>
 
             <div class="contextinfo">
                 <div class="fields">
                     <p class="FieldTitle">Context:</p>
-                    <p class="FieldData" id="desc-context">Undef</p>
+                    <p class="FieldData" id="desc-context">undefined</p>
                     <p class="FieldTitle">Description:</p>
-                    <p class="FieldData" id="desc-desc">Undef</p>
-                    <p class="FieldTitle">Scheduling rule :</p>
-                    <p class="FieldData" id="desc-rule">Undef</p>
+                    <p class="FieldData" id="desc-desc">undefined</p>
+                    <p class="FieldTitle">Scheduling rule:</p>
+                    <p class="FieldData" id="desc-rule">undefined</p>
+                    <p class="FieldTitle">Is scheduled:</p>
+                    <p class="FieldData" id="desc-rule">undefined</p>
                     <!-- <a href="Edit">Edit entry</a> -->
                 </div>
             </div>

@@ -1,8 +1,8 @@
 "use strict";
 
 /* [ENVIRRONNEMENT VARIABLE] */
-const DBID_CONTEXTDEF="paradigmshift-contextdef";
-const DBID_RESOURCES="paradigmshift-resources";
+const DBID_CONTEXTDEF="paradigmshift-context";
+const DBID_RESOURCES="paradigmshift-resource";
 /* [ENVIRRONNEMENT VARIABLE] */
 
 const AWS = require('aws-sdk');
@@ -28,7 +28,7 @@ exports.handler = async (event, context, callback) =>
         } else if (type == "resource") {
             data = await getDatabase(contextID, process.env.DBID_RESOURCES);
         } else { 
-            return callback(err, {
+            return callback(null, {
                 statusCode: 500,
                 body: JSON.stringify("Bad data format"),
                 headers: {'Content-Type': 'application/json', 'Access-Control-Allow-Origin':'*'}
@@ -38,7 +38,7 @@ exports.handler = async (event, context, callback) =>
             statusCode: 200,
             body: JSON.stringify(data),
             headers: {'Content-Type': 'application/json', 'Access-Control-Allow-Origin':'*'}
-        })
+        });
     } catch(err) {
         return callback(err, {
             statusCode: 500,
