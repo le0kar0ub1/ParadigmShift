@@ -1,8 +1,8 @@
 "use strict";
 
 /* [ENVIRRONNEMENT VARIABLE] */
-const DBID_CONTEXTDEF="paradigmshift-contextdef"
-const DBID_RESOURCES="paradigmshift-resources" 
+const DBID_CONTEXTDEF="paradigmshift-contextdef";
+const DBID_RESOURCES="paradigmshift-resources";
 /* [ENVIRRONNEMENT VARIABLE] */
 
 const AWS = require('aws-sdk');
@@ -24,9 +24,9 @@ exports.handler = async (event, context, callback) =>
         const contextID = event_array.contextID;
         var data;
         if (type == "context") {
-            data = await getContext(contextID);
+            data = await getDatabase(contextID, process.env.DBID_CONTEXTDEF);
         } else if (type == "resource") {
-            data = await getResource(contextID);
+            data = await getDatabase(contextID, process.env.DBID_RESOURCES);
         } else { 
             return callback(err, {
                 statusCode: 500,
@@ -48,22 +48,12 @@ exports.handler = async (event, context, callback) =>
     }
 };
 
-function getContext(contextID)
+function getDatabase(contextID, database)
 {
     return dynamodb.getItem({
         Key : {
             "contextID": contextID
         },
-        TableName: process.env.DBID_CONTEXTDEF
-    }).promise();
-}
-
-function getResource(contextID)
-{
-    return dynamodb.getItem({
-        Key : {
-            "contextID": contextID
-        },
-        TableName: process.env.DBID_RESOURCES
+        TableName: database
     }).promise();
 }

@@ -14,6 +14,8 @@ For the `SAM CLI` linux installation, don't follow the AWS documentation. Just i
 
 `pip install --upgrade pip && pip install --user aws-sam-cli`
 
+The repository depend of personnal git submodule(s). The deployment script update them at each run.
+
 ## About
 
 All the created resource will match the following template name: "paradigmshift-${SUB-UTILITY}". Where ${SUB-UTILITY} is the sub-resource or the use-case in the project.

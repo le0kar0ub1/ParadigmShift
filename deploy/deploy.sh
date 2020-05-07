@@ -18,13 +18,6 @@ project="paradigmshift"
 region=$1
 bucket=$project-sambuild
 
-##
-## Environnement setup
-##
-
-BUILD="build"
-
-mkdir -p $BUILD
 
 ##
 ## Set the script controlflow
@@ -48,16 +41,28 @@ set -e
 trap RAISE EXIT
 
 ##
+## Environnement setup
+##
+
+BUILD="build"
+
+mkdir -p $BUILD
+
+##
 ## Start deploying
 ##
 
-echo "-------- Create SAM bucket --------"
+echo "-------- Update git submodule --------"
 
-aws s3api create-bucket --bucket $bucket --region $region --create-bucket-configuration LocationConstraint=$region
+git submodule update --init --recursive
 
 echo "-------- Install dependencies --------"
 
 npm install ../src/backend --prefix ../src/backend
+
+echo "-------- Create SAM bucket --------"
+
+aws s3api create-bucket --bucket $bucket --region $region --create-bucket-configuration LocationConstraint=$region
 
 echo "-------- Deploy resources --------"
 

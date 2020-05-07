@@ -119,6 +119,35 @@ Resources:
                  Resource:
                    - "*"
 
+
+  ###################################
+  ######## the two DynamoDB #########
+  ###################################
+
+  dynamoDBcontext:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: !Sub "${Project}-context"
+      AttributeDefinitions:
+      - AttributeName: contextID
+        AttributeType: S
+      KeySchema:
+      - AttributeName: contextID
+        KeyType: HASH
+      BillingMode: PAY_PER_REQUEST
+  
+  dynamoDBresource:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: !Sub "${Project}-resource"
+      AttributeDefinitions:
+      - AttributeName: contextID
+        AttributeType: S
+      KeySchema:
+      - AttributeName: contextID
+        KeyType: HASH
+      BillingMode: PAY_PER_REQUEST
+
   #############################################
   ######## Scheduled Lambda Resources #########
   #############################################
@@ -154,4 +183,3 @@ Resources:
   ######## Context get Lambda Resources #######
   #############################################
 
-  
