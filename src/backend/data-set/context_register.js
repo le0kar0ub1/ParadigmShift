@@ -31,7 +31,7 @@ exports.handler = async (event, context, callback) =>
         await registerContext(contextID, schedulingRule, schedulingRule, contextDesc, powerState, isScheluderActive);
         return callback(null, {
             statusCode: 200,
-            body: JSON.stringify("Successed"),
+            body: JSON.stringify("Success"),
             headers: {'Content-Type': 'application/json', 'Access-Control-Allow-Origin':'*'}
         })
     } catch(err) {
