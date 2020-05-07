@@ -2,40 +2,44 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="css/main.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+
+    <link rel="stylesheet" href="css/main.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
+
+    <script type="text/javascript" src="request.js"></script>
+
+    <title>ParadigmShift</title>
 </head>
 <body>
+
     <div class="contentwrapper">
         <div class="titlewrapper">
             <h2>ParadigmShift - Home</h2>
         </div>
+
         <div class="bodywrapper">
             <div class="appSelector">
-                <select name="app" id="selector">
-                    <option value="0">- Choose an app</option>
-                    <option value="0">GoodApp</option>
-                    <option value="1">LessGoodApp</option>
-                </select>
-                <a href="#" class="state">State: ON</a>
-                <a href="#">Bullshit</a>
-                <a href="#">Bullshit</a>
+                <select id="contextSelector" onchange="contextSelector()"></select>
+                <a id="powerState" href="#" class="state">State: Undef</a>
+                <a id="schedulingState" href="#" class="scheduling">State: Undef</a>
             </div>
-            <div class="appinfo">
+
+            <div class="contextinfo">
                 <div class="fields">
-                    <p class="FieldTitle">AppName:</p>
-                    <p class="FieldData">AppNameExample</p>
-                    <p class="FieldTitle">AddDescription:</p>
-                    <p class="FieldData">SomeDescription</p>
-                    <p class="FieldTitle">AddDescription:</p>
-                    <p class="FieldData">SomeDescription</p>
-                    <p class="FieldTitle">AddDescription:</p>
-                    <p class="FieldData">SomeDescription</p>
-                    <a href="Edit">Edit entry</a>
+                    <p class="FieldTitle">Context:</p>
+                    <p class="FieldData" id="desc-context">Undef</p>
+                    <p class="FieldTitle">Description:</p>
+                    <p class="FieldData" id="desc-desc">Undef</p>
+                    <p class="FieldTitle">Scheduling rule :</p>
+                    <p class="FieldData" id="desc-rule">Undef</p>
+                    <!-- <a href="Edit">Edit entry</a> -->
                 </div>
             </div>
         </div>
+
+        <!--
         <div class="appeditor">
             <h3 style="text-align: center;">Edit application</h3>
             <form action="">
@@ -46,6 +50,12 @@
                 <a href="#" style="width: 30%; margin: auto;">Edit</a>
             </form>
         </div>
+        -->
     </div>
+
+    <script type="text/javascript">
+        dynamize();
+    </script>
+
 </body>
 </html>
