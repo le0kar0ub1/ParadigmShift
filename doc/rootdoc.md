@@ -43,3 +43,4 @@ All the documentation is wroten in MarkDown so far but an other one will be prov
 | `doc/design/hld.md`                | [High Level Design documentation](design/hld.md)                  |
 | `doc/design/lld.md`                | [Low Level Design documentation](design/lld.md)                   |
 | `doc/datamodel/datamodel.md`       | [Data Model documentation](datamodel/datamodel.md)                |
+| `doc/resources.md`                 | [List of targetable resources](resources.md)                      |

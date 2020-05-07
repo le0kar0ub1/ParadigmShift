@@ -16,7 +16,7 @@ At top level we register a `context` of resources. The name context is given for
 
 The array below represent a context description.
 
-| Entry                    | DB Type             | Format (string relevant only)    | Description                                                     |
+| Field                    | DB Type             | Format (string relevant only)    | Description                                                     |
 |--------------------------|---------------------|----------------------------------|-----------------------------------------------------------------|
 | `contextID`              | _String_            | None                             | The name of the context (must be uniq)                          |
 | `contextDesc`            | _String_            | None                             | The description of the context                                  |
@@ -30,7 +30,7 @@ The array below represent a context description.
 
 The entry below represent an entry which reference resources in one context above.
 
-| Entry                    | DB Type             | Format (string relevant only)    | Description                                                  |
+| Field                    | DB Type             | Format (string relevant only)    | Description                                                  |
 |--------------------------|---------------------|----------------------------------|--------------------------------------------------------------|
 | `contextID`              | _String_            | None                             | The name of the context (must match the one above)           |
 | `service::resource`      | _String_            | JSON stringifed                  | A list of resources with the same type in the context        |
@@ -52,6 +52,8 @@ Each `service::resource` entry has the following JSON format.
   * `ids` : the resources ids list
   * `isScheduled` : is the specific resource scheduled ?
   * `attribut` : specific usage still undefined
+
+The list of accepted resources is centralized [here](../resources.md).
 
 Obviously all the members *MUST* match the same size.
 
