@@ -64,14 +64,14 @@ Globals:
 
 Resources:
 
-  #############################################
-  ######## Scheduled Lambda Resources #########
-  #############################################
+  #####################################
+  ######## Lambda global role #########
+  #####################################
 
   LambdaRole:
     Type: AWS::IAM::Role
     Properties:
-      RoleName: !Sub "${Project}-scheduledLambdaRole"
+      RoleName: !Sub "${Project}-lambdaRole"
       AssumeRolePolicyDocument:
         Version: '2012-10-17'
         Statement:
@@ -119,6 +119,10 @@ Resources:
                  Resource:
                    - "*"
 
+  #############################################
+  ######## Scheduled Lambda Resources #########
+  #############################################
+
   lambdaScheduler:
     Type: AWS::Serverless::Function
     Properties:
@@ -145,3 +149,9 @@ Resources:
       FunctionName: !Sub ${lambdaScheduler.Arn}
       Principal: 'events.amazonaws.com'
       SourceArn: !Sub ${lambdaSchedulerRule.Arn}
+
+  #############################################
+  ######## Context get Lambda Resources #######
+  #############################################
+
+  

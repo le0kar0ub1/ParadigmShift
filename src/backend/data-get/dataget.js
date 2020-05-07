@@ -20,11 +20,23 @@ exports.handler = async (event, context, callback) =>
         });
     }
     try {
+        const type = event_array.type;
         const contextID = event_array.contextID;
-        const contextdesc = await getContext(contextID);
+        var data;
+        if (type == "context") {
+            data = await getContext(contextID);
+        } else if (type == "resource") {
+            data = await getResource(contextID);
+        } else { 
+            return callback(err, {
+                statusCode: 500,
+                body: JSON.stringify("Bad data format"),
+                headers: {'Content-Type': 'application/json', 'Access-Control-Allow-Origin':'*'}
+            });
+        }
         return callback(null, {
             statusCode: 200,
-            body: JSON.stringify(contextdesc),
+            body: JSON.stringify(data),
             headers: {'Content-Type': 'application/json', 'Access-Control-Allow-Origin':'*'}
         })
     } catch(err) {
@@ -43,5 +55,15 @@ function getContext(contextID)
             "contextID": contextID
         },
         TableName: process.env.DBID_CONTEXTDEF
+    }).promise();
+}
+
+function getResource(contextID)
+{
+    return dynamodb.getItem({
+        Key : {
+            "contextID": contextID
+        },
+        TableName: process.env.DBID_RESOURCES
     }).promise();
 }
