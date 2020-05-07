@@ -3,14 +3,14 @@
 # Variables required : 
 # region
 
-echo $@
+printf $@
 
 ##
 ## Entry checkup
 ##
 
 if [ $# -ne 1 ] || [ $1 == "--help" ]; then
-    echo "$0 \$region"
+    printf "$0 \$region"
     exit 0
 fi
 
@@ -32,7 +32,7 @@ function CLEANUP()
 function RAISE()
 {
     CLEANUP
-    echo "Process terminated, fatal error"
+    printf "Process terminated, fatal error"
     exit 0
 }
 
@@ -52,19 +52,19 @@ mkdir -p $BUILD
 ## Start deploying
 ##
 
-echo "-------- Update git submodule --------"
+printf "-------- Update git submodule --------"
 
 git submodule update --init --recursive
 
-echo "-------- Install dependencies --------"
+printf "-------- Install dependencies --------"
 
 npm install ../src/backend --prefix ../src/backend
 
-echo "-------- Create SAM bucket --------"
+printf "-------- Create SAM bucket --------"
 
 aws s3api create-bucket --bucket $bucket --region $region --create-bucket-configuration LocationConstraint=$region
 
-echo "-------- Deploy resources --------"
+printf "-------- Deploy resources --------"
 
 sam build 
 
@@ -83,6 +83,6 @@ sam deploy \
 
 CLEANUP
 
-echo "We are done !"
+printf "We are done !"
 
 trap - EXIT

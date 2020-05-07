@@ -2,16 +2,12 @@ AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: ParadigmShift - AWS SAM template
 
-#
-# Deploy the project
-#
-
 Parameters:
   Project:
     Type: String
     MinLength: 4
     MaxLength: 20
-    AllowedPattern: "[a-z][[a-z0-9\-]+"
+    AllowedPattern: "[a-z][a-z0-9\-]+"
     ConstraintDescription: must begin with a letter and contain only lowercase characters and '-'.
     Default: paradigmshift
   SchedulerRule:
@@ -57,7 +53,6 @@ Globals:
     Timeout: 10
     Tags:
       Project: !Ref Project
-      Env: !Ref Env
     Environment:
       Variables:
         REGION: !Ref Region
@@ -107,7 +102,7 @@ Resources:
                   - dynamodb:Query
                 Resource:
                   - "*"
-        - PolicyName: s3Read
+        - PolicyName: s3Policy
           PolicyDocument:
             Version: '2012-10-17'
             Statement:
@@ -119,6 +114,15 @@ Resources:
                    - s3:DeleteObject
                  Resource:
                    - "*"
+        - PolicyName: lambdaPolicy
+        PolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+            -  Effect: Allow
+               Action:
+                 - lambda:Invoke
+               Resource:
+                 - "*"
 
   ###################################
   ######## the two DynamoDB #########
@@ -197,7 +201,7 @@ Resources:
   #############################################
   ######## Context get Lambda Resources #######
   #############################################
-  
+
   lambdaGetData:
     Type: AWS::Serverless::Function
     Properties:
@@ -217,7 +221,7 @@ Resources:
   ##################################################
   ######## Context register Lambda Resources #######
   ##################################################
-  
+
   lambdaContextRegister:
     Type: AWS::Serverless::Function
     Properties:
