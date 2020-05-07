@@ -60,7 +60,9 @@ Globals:
       Env: !Ref Env
     Environment:
       Variables:
-        REGION: Region
+        REGION: !Ref Region
+        DBID_CONTEXTDEF: !Sub ${Project}-context
+        DBID_RESOURCES: !Sub ${Project}-resource
 
 Resources:
 
@@ -97,11 +99,10 @@ Resources:
             Statement:
               - Effect: Allow
                 Action:
-                  - dynamodb:BatchGet
                   - dynamodb:Get*
                   - dynamodb:Delete*
                   - dynamodb:Scan
-                  - dynamodb:PutItem
+                  - dynamodb:Put*
                   - dynamodb:Update*
                   - dynamodb:Query
                 Resource:
@@ -118,7 +119,6 @@ Resources:
                    - s3:DeleteObject
                  Resource:
                    - "*"
-
 
   ###################################
   ######## the two DynamoDB #########
@@ -183,3 +183,73 @@ Resources:
   ######## Context get Lambda Resources #######
   #############################################
 
+  APIGateway:
+    Type: AWS::Serverless::Api
+    Properties:
+        Name: !Sub ${Project}-globapi
+        StageName: prod
+        EndpointConfiguration: EDGE
+        Cors:
+            AllowMethods: "'*'"
+            AllowHeaders: "'*'"
+            AllowOrigin: "'*'"
+
+  #############################################
+  ######## Context get Lambda Resources #######
+  #############################################
+  
+  lambdaGetData:
+    Type: AWS::Serverless::Function
+    Properties:
+        FunctionName: !Sub "${Project}-getdata"
+        Description: get context and resources from database
+        CodeUri: !Sub ${RootSrcDir}/data-get
+        Handler: dataget.handler
+        Role: !GetAtt LambdaRole.Arn
+        Events:
+          getData:
+            Type: Api
+            Properties:
+              RestApiId: !Ref APIGateway
+              Path: /getdata
+              Method: POST
+
+  ##################################################
+  ######## Context register Lambda Resources #######
+  ##################################################
+  
+  lambdaContextRegister:
+    Type: AWS::Serverless::Function
+    Properties:
+        FunctionName: !Sub "${Project}-registercontext"
+        Description: register an entire context in database
+        CodeUri: !Sub ${RootSrcDir}/data-set
+        Handler: context_register.handler
+        Role: !GetAtt LambdaRole.Arn
+        Events:
+          getData:
+            Type: Api
+            Properties:
+              RestApiId: !Ref APIGateway
+              Path: /registercontext
+              Method: POST
+
+  ##################################################
+  ######## Context register Lambda Resources #######
+  ##################################################
+  
+  lambdaContextUNRegister:
+    Type: AWS::Serverless::Function
+    Properties:
+        FunctionName: !Sub "${Project}-unregistercontext"
+        Description: unregister an entire context in database
+        CodeUri: !Sub ${RootSrcDir}/data-set
+        Handler: context_unregister.handler
+        Role: !GetAtt LambdaRole.Arn
+        Events:
+          getData:
+            Type: Api
+            Properties:
+              RestApiId: !Ref APIGateway
+              Path: /unregistercontext
+              Method: POST
