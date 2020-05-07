@@ -22,13 +22,13 @@ exports.handler = async (event, context, callback) =>
     }
     try {
         /* let's checkup if all informations are here */
-        const contextID              = event_array.contextID;
-        const contextDesc            = event_array.contextDesc;
-        const schedulingRule         = event_array.schedulingRule;
-        const powerState             = event_array.powerState;
-        const isScheluderActive      = event_array.isScheluderActive;
+        const contextID        = event_array.contextID;
+        const contextDesc      = event_array.contextDesc;
+        const schedulingRule   = event_array.schedulingRule;
+        const powerState       = event_array.powerState;
+        const isScheduled      = event_array.isScheduled;
 
-        await registerContext(contextID, schedulingRule, schedulingRule, contextDesc, powerState, isScheluderActive);
+        await registerContext(contextID, schedulingRule, schedulingRule, contextDesc, powerState, isScheduled);
         return callback(null, {
             statusCode: 200,
             body: JSON.stringify("Success"),
@@ -43,16 +43,16 @@ exports.handler = async (event, context, callback) =>
     }
 };
 
-function registerContext(contextID, schedulingRule, schedulingRule, contextDesc, powerState, isScheluderActive)
+function registerContext(contextID, schedulingRule, schedulingRule, contextDesc, powerState, isScheduled)
 {
     return dynamodb.put({
         Item: {
-            "contextID"              : contextID,
-            "contextDesc"            : contextDesc,
-            "schedulingRule"         : schedulingRule,
-            "powerState"             : powerState,
-            "isScheluderActive"      : isScheluderActive,
-            "lastScheduling"         : Date.now()
+            "contextID"        : contextID,
+            "contextDesc"      : contextDesc,
+            "schedulingRule"   : schedulingRule,
+            "powerState"       : powerState,
+            "isScheduled"      : isScheduled,
+            "lastScheduling"   : Date.now()
         },
         TableName: process.env.DBID_CONTEXTDEF
     }).promise();

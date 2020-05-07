@@ -47,8 +47,21 @@ exports.handler = async (event, context, callback) =>
             // update last scheduling in DB
             // contextSwitchPower(context);
         }
-        
     } catch (err) {
         return callback(err);
     }
 };
+
+function getScheduledContext()
+{
+    return dynamodb.query({ 
+        KeyConditionExpression:"#isScheduled = :schedval",
+        ExpressionAttributeNames: {
+            "#isScheduled" : "isScheduled"
+        },
+        ExpressionAttributeValues: {
+            ":schedval": true
+        },
+        TableName: process.env.DBID_CONTEXTDEF
+    }).promise();
+}

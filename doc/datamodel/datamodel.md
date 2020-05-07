@@ -21,7 +21,7 @@ The array below represent a context description.
 | `contextID`              | _String_            | None                             | The name of the context (must be uniq)                          |
 | `contextDesc`            | _String_            | None                             | The description of the context                                  |
 | `powerState`             | _Boolean_           | None                             | The current power state of the context                          |
-| `isScheluderActive`      | _Boolean_           | None                             | Is the context currently scheduled                              |
+| `isScheduled`            | _Boolean_           | None                             | Is the context currently scheduled                              |
 | `schedulingRule`         | _String_            | UNDEFINED  (cron ?)              | The scheduling rule applied to the context                      |
 | `lastScheduling`         | _Number_            | None                             | Last scheduling in seconds from  01/01/1970 00:00:00 UTC        |
 
@@ -53,9 +53,9 @@ Each `service::resource` entry has the following JSON format.
   * `isScheduled` : is the specific resource scheduled ?
   * `attribut` : specific usage still undefined
 
-The list of accepted resources is centralized [here](../resources.md).
-
 Obviously all the members *MUST* match the same size.
+
+The list of schedulable resources is provided [here](../resources.md).
 
 ## Implementation
 

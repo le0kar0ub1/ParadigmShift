@@ -20,9 +20,7 @@ exports.handler = async (event, context, callback) =>
         });
     }
     try {
-        /* let's checkup if all informations are here */
-        const contextID              = event_array.contextID;
-
+        const contextID = event_array.contextID;
         await unregisterContext(contextID);
         await unregisterResources(contextID)
         return callback(null, {
