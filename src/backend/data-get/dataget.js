@@ -54,7 +54,7 @@ function getDatabase(contextID, database)
             if (err)
                 return reject (err);
             else
-                return resolve (data);
+                return resolve (data.Item);
         });
     });
 }
@@ -72,7 +72,7 @@ function scanDatabase(database)
             if (err)
                 return reject (err);
             else
-                return resolve (data);
+                return resolve (data.Items);
         });
     });
 }

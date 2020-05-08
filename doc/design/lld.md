@@ -1,5 +1,12 @@
 # Low Level Design Documentation
 
+A big part of the low level design is explained respectively in frontend and backend directories.
+
+| Path             | Reference                                      |
+|------------------|------------------------------------------------|
+| `src/frontend`   | [frontend lld](../../src/frontend/README.md)   |
+| `src/backend`    | [backend lld](../../src/backend/README.md)     |
+
 ## Scheduling design
 
 The choosen scheduling [cron](https://en.wikipedia.org/wiki/Cron) way isn't very user friendly but usefull.

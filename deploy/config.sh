@@ -1,5 +1,3 @@
-#!/bin/sh
-
 #
 # Create the frontend `config.js` file
 #

@@ -155,24 +155,24 @@ input {
     border-bottom: 4px solid rgba(228, 228, 228, 0.3);
 }
 
-.appregister {
+.contextRegister {
     grid-column: 1 / 3;
     width: 50%;
     margin: auto;
 }
 
-.registerf {
+.registerform {
     display: grid;
     grid-gap: 10px;
     grid-template-columns: 1fr;
     transition: all 0.2s ease-in-out;
 }
 
-.registerf input[type="text"], input[type="file"] {
+.registerform input[type="text"], input[type="file"] {
     width: 70%;
 }
 
-.registerf a {
+.registerform a {
     width: 30%;
     margin: auto;
     text-align: center;

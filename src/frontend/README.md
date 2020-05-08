@@ -28,6 +28,6 @@ This page is dedicated to the registering of an application.
 
 /!\ image
 
-### Modifying Page (Not implemented Yet)
+### Modifying Page (not implemented yet)
 
 Only for modifying existing context.

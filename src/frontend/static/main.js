@@ -18,9 +18,6 @@ async function contextDescription()
 {
     const select = document.getElementById("contextSelector");
     const data = contextlist[select.selectedIndex]
-    // const contextID = contextlist[select.selectedIndex].contextID;
-    // const rawdata = await backend_request_context(contextid, "context");
-    // const data = JSON.parse(rawdata).Item;
 
     try {
         var context = document.getElementById("desc-context");
@@ -40,6 +37,7 @@ async function contextDescription()
 function setPowerState(bool)
 {
     var state = document.getElementById("powerState");
+
     if (bool == true)
         state.textContent = "State: RUNNING";
     else
@@ -48,9 +46,16 @@ function setPowerState(bool)
 
 async function preload()
 {
+    return;
     const rawdata = await backend_request_context("restricted-all", "context");
-    contextlist = JSON.parse(rawdata).Items
 
+    console.log(rawdata);
+    try {
+        contextlist = JSON.parse(rawdata);
+    } catch (err) {
+        console.log("Database access failed: " + err);
+        return;
+    }
     var select = document.getElementById("contextSelector");
     for(let i = 0; contextlist[i]; i++)
     {

@@ -67,4 +67,6 @@ DynamoDB is a scalable [noSQL](https://en.wikipedia.org/wiki/NoSQL) database.
 
 ## Sample
 
-The JSON below represent a context entry in the database.
+The JSON below represent an entry in the _context_ database.
+
+The JSON below represent an entry in the _resource_ database.
