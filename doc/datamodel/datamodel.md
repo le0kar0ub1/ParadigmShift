@@ -49,7 +49,7 @@ Each `service::resource` entry has the following JSON format.
 }
 ```
 
-  * `ids` : the resources ids list
+  * `id` : the resources ids list
   * `isScheduled` : is the specific resource scheduled ?
   * `attribut` : specific usage still undefined
 
