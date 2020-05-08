@@ -1,4 +1,3 @@
-
 function backend_request_context(contextid, type)
 {
     return new Promise((resolve, reject) => {
@@ -39,9 +38,9 @@ function setPowerState(bool)
 {
     var state = document.getElementById("powerState");
     if (bool == true)
-        state.textContent = "State: ruuning";
+        state.textContent = "State: RUNNING";
     else
-        state.textContent = "State: stopped";
+        state.textContent = "State: STOPPED";
 }
 
 function dynamize()
