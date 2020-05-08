@@ -10,18 +10,9 @@ const dynamodb = new AWS.DynamoDB.DocumentClient();
 
 exports.handler = async (event, context, callback) =>
 {
-    let event_array;
-    try { event_array = JSON.parse(event.body); }
-    catch (err) {
-        return callback(null, {
-            statusCode: 500,
-            body: JSON.stringify("Bad data format"),
-            headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin':'*'}
-        });
-    }
     try {
-        const type = event_array.type;
-        const contextID = event_array.contextID;
+        const type = event.data.type;
+        const contextID = event.data.contextID;
         var data;
         if (type == "context") {
             data = await getDatabase(contextID, process.env.DBID_CONTEXTDEF);
@@ -30,7 +21,7 @@ exports.handler = async (event, context, callback) =>
         } else { 
             return callback(null, {
                 statusCode: 500,
-                body: JSON.stringify("Bad data format"),
+                body: "Bad data format",
                 headers: {'Content-Type': 'application/json', 'Access-Control-Allow-Origin':'*'}
             });
         }
@@ -42,7 +33,7 @@ exports.handler = async (event, context, callback) =>
     } catch(err) {
         return callback(err, {
             statusCode: 500,
-            body: JSON.stringify("Bad data format"),
+            body: "Bad data format",
             headers: {'Content-Type': 'application/json', 'Access-Control-Allow-Origin':'*'}
         });
     }
@@ -50,10 +41,17 @@ exports.handler = async (event, context, callback) =>
 
 function getDatabase(contextID, database)
 {
-    return dynamodb.getItem({
-        Key : {
-            "contextID": contextID
-        },
-        TableName: database
-    }).promise();
+    return new Promise((resolve, reject) => {
+        dynamodb.get({
+            Key: {
+                "contextID": contextID
+            },
+            TableName: database
+        }, function(err, data) {
+            if (err)
+                return reject (err);
+            else
+                return resolve (data);
+        });
+    });
 }
