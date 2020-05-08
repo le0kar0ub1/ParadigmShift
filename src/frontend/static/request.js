@@ -1,3 +1,5 @@
+var contextlist;
+
 function backend_request_context(contextid, type)
 {
     return new Promise((resolve, reject) => {
@@ -14,10 +16,11 @@ function backend_request_context(contextid, type)
 
 async function contextDescription()
 {
-    // const contextid = document.getElementById("contextSelector").textContent;
-    const contextid = "myfirstcontext";
-    const rawdata = await backend_request_context(contextid, "context");
-    const data = JSON.parse(rawdata).Item;
+    const select = document.getElementById("contextSelector");
+    const data = contextlist[select.selectedIndex]
+    // const contextID = contextlist[select.selectedIndex].contextID;
+    // const rawdata = await backend_request_context(contextid, "context");
+    // const data = JSON.parse(rawdata).Item;
 
     try {
         var context = document.getElementById("desc-context");
@@ -43,15 +46,16 @@ function setPowerState(bool)
         state.textContent = "State: STOPPED";
 }
 
-function dynamize()
+async function preload()
 {
-    slist = ["blafffffffffffffff", "bloffffffffffffffff", "blujjjjjjjjjjjjjj"];
+    const rawdata = await backend_request_context("restricted-all", "context");
+    contextlist = JSON.parse(rawdata).Items
 
     var select = document.getElementById("contextSelector");
-    for(let i = 0; slist[i]; i++)
+    for(let i = 0; contextlist[i]; i++)
     {
         var elem = document.createElement("option");
-        elem.textContent = slist[i];
+        elem.textContent = contextlist[i].contextID;
         elem.value = i;
         select.appendChild(elem);
     }

@@ -14,9 +14,12 @@ exports.handler = async (event, context, callback) =>
         const type = event.data.type;
         const contextID = event.data.contextID;
         var data;
-        if (type == "context") {
-            data = await getDatabase(contextID, process.env.DBID_CONTEXTDEF);
-        } else if (type == "resource") {
+        if (type === "context") {
+            if (contextID === "restricted-all")
+                data = await scanDatabase(process.env.DBID_CONTEXTDEF);
+            else
+                data = await getDatabase(contextID, process.env.DBID_CONTEXTDEF);
+        } else if (type === "resource") {
             data = await getDatabase(contextID, process.env.DBID_RESOURCES);
         } else { 
             return callback(null, {
@@ -46,6 +49,24 @@ function getDatabase(contextID, database)
             Key: {
                 "contextID": contextID
             },
+            TableName: database
+        }, function(err, data) {
+            if (err)
+                return reject (err);
+            else
+                return resolve (data);
+        });
+    });
+}
+
+/*
+** Yeah, ugly...
+** Think about an other way to achieve this part
+*/
+function scanDatabase(database)
+{
+    return new Promise((resolve, reject) => {
+        dynamodb.scan({
             TableName: database
         }, function(err, data) {
             if (err)

@@ -29,6 +29,6 @@ set -e
 trap RAISE EXIT
 
 # First we need the APIs endpoints 
-
+printf "const API_CONTEXTGET_ENDPOINT=" > $TARGET
 
 trap - EXIT

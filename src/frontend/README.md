@@ -2,11 +2,15 @@
 
 As explained in the design documentation, we are actually using an `Amazon S3` to host static website.
 
-The front is really simple so far and composed only of hand made *HTML/CSS*.
+The front is actually simple so far and composed only of hand made *HTML/CSS*.
+
+## User access flow
+
+![logicalflow](../../doc/front-resources/logicalflow.png)
 
 ## Page Description
 
-Got two pages to handle the necessary.
+Got three pages to handle the necessary.
 
 ### Root Page
 
@@ -23,3 +27,7 @@ You can then target a particular one to apply modification.
 This page is dedicated to the registering of an application.
 
 /!\ image
+
+### Modifying Page (Not implemented Yet)
+
+Only for modifying existing context.
