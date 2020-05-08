@@ -1,4 +1,3 @@
-const API_CONTEXTGET_ENDPOINT="https://gli41icizd.execute-api.eu-west-1.amazonaws.com/dev/tkt"
 
 function backend_request_context(contextid, type)
 {
@@ -18,12 +17,10 @@ async function contextDescription()
 {
     // const contextid = document.getElementById("contextSelector").textContent;
     const contextid = "myfirstcontext";
-    const data = await backend_request_context(contextid, "context");
+    const rawdata = await backend_request_context(contextid, "context");
+    const data = JSON.parse(rawdata).Item;
 
-    console.log(data);
-    if (data.contextID && data.contextDesc && data.schedulingRule
-&& data.powerState && data.isScheduled)
-    {
+    try {
         var context = document.getElementById("desc-context");
         var desc = document.getElementById("desc-desc");
         var rule = document.getElementById("desc-rule");
@@ -33,6 +30,8 @@ async function contextDescription()
         rule.textContent = data.schedulingRule
         issched.textContent = data.isScheduled == true ? "True" : "False";
         setPowerState(data.powerState);
+    } catch (err) {
+        console.log("An unexpected error occured: " + err);
     }
 }
 
@@ -47,14 +46,14 @@ function setPowerState(bool)
 
 function dynamize()
 {
-    slist = ["bla", "blo", "blu"];
+    slist = ["blafffffffffffffff", "bloffffffffffffffff", "blujjjjjjjjjjjjjj"];
 
     var select = document.getElementById("contextSelector");
     for(let i = 0; slist[i]; i++)
     {
-        var el = document.createElement("option");
-        el.textContent = slist[i];
-        el.value = i;
-        select.appendChild(el);
+        var elem = document.createElement("option");
+        elem.textContent = slist[i];
+        elem.value = i;
+        select.appendChild(elem);
     }
 }
