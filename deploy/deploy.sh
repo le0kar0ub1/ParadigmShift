@@ -3,14 +3,14 @@
 # Variables required : 
 # region
 
-printf $@
+echo $@
 
 ##
 ## Entry checkup
 ##
 
 if [ $# -ne 1 ] || [ $1 == "--help" ]; then
-    printf "$0 \$region"
+    echo "$0 \$region"
     exit 0
 fi
 
@@ -39,7 +39,7 @@ function CLEANUP()
 function RAISE()
 {
     CLEANUP
-    printf "Process terminated, fatal error"
+    echo "Process terminated, fatal error"
     exit 0
 }
 
@@ -51,19 +51,19 @@ trap RAISE EXIT
 ## Start deploying
 ##
 
-printf "-------- Update git submodule --------"
+echo "-------- Update git submodule --------"
 
-git submodule update --init --recursive
+# git submodule update --init --recursive
 
-printf "-------- Install dependencies --------"
+echo "-------- Install dependencies --------"
 
-npm install ../src/backend --prefix ../src/backend
+# npm install ../src/backend --prefix ../src/backend
 
-printf "-------- Create SAM bucket --------"
+echo "-------- Create SAM bucket --------"
 
-aws s3api create-bucket --bucket $bucket --region $region --create-bucket-configuration LocationConstraint=$region
+# aws s3api create-bucket --bucket $bucket --region $region --create-bucket-configuration LocationConstraint=$region
 
-printf "-------- Deploy resources --------"
+echo "-------- Deploy resources --------"
 
 sam build 
 
@@ -80,12 +80,12 @@ sam deploy \
     --parameter-overrides \
         Project=$project \
 
-printf "-------- Deploy frontend --------"
+echo "-------- Deploy frontend --------"
 
-aws s3 cp --recursive ../src/frontend/static "s3://$s3path"
+# aws s3 cp --recursive ../src/frontend/static "s3://$s3path"
 
 CLEANUP
 
-printf "We are done !"
+echo "We are done !"
 
 trap - EXIT

@@ -8,9 +8,8 @@ The are principlay 3 parts, like follow.
 
 This is the part wich managing frontend/user requests.
 
-Absolute involved paths:
-  * `src/backend/data-get`
-  * `src/backend/data-set`
+Absolute involved path:
+  * `src/backend/requests`
 
 The lambda handlers are triggered by `Amazon API gateway` (rest api).
 

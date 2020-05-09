@@ -5,21 +5,16 @@ Metadata:
 Description: ParadigmShift - AWS SAM template
 
 Parameters:
-  HostedZone:
-    Type: String
-    Description: The DNS name of an existing Amazon Route 53 hosted zone
-    AllowedPattern: (?!-)[a-zA-Z0-9-.]{1,63}(?<!-)
-    ConstraintDescription: must be a valid DNS zone name.
   Project:
     Type: String
     MinLength: 4
     MaxLength: 20
-    AllowedPattern: "[a-z][a-z0-9\-]+"
+    AllowedPattern: '[a-z][a-z0-9\-]+'
     ConstraintDescription: must begin with a letter and contain only lowercase characters and '-'.
     Default: paradigmshift
   SchedulerRule:
     Type: String
-    AllowedPattern: "cron\((\*|((\*\/)?[1-5]?[0-9])) (\*|((\*\/)?[1-5]?[0-9])) (\*|((\*\/)?(1?[0-9]|2[0-3]))) (\*|((\*\/)?([1-9]|[12][0-9]|3[0-1]))) (\*|((\*\/)?([1-9]|1[0-2]))) (\*|((\*\/)?[0-6])))"
+    AllowedPattern: cron\((\*|((\*\/)?[1-5]?[0-9])) (\*|((\*\/)?[1-5]?[0-9])) (\*|((\*\/)?(1?[0-9]|2[0-3]))) (\*|((\*\/)?([1-9]|[12][0-9]|3[0-1]))) (\*|((\*\/)?([1-9]|1[0-2]))) (\*|((\*\/)?[0-6])))
     ConstraintDescription: must match the cron syntax.
     Default: cron(0/10 * * * ? *) # all 10 minutes
   Region:
@@ -113,82 +108,82 @@ Resources:
           PolicyDocument:
             Version: '2012-10-17'
             Statement:
-              -  Effect: Allow
-                 Action:
-                   - s3:PutObject
-                   - s3:Get*
-                   - s3:List*
-                   - s3:DeleteObject
-                 Resource:
-                   - "*"
+              - Effect: Allow
+                Action:
+                  - s3:PutObject
+                  - s3:Get*
+                  - s3:List*
+                  - s3:DeleteObject
+                Resource:
+                  - "*"
         - PolicyName: lambdaPolicy
-        PolicyDocument:
-          Version: '2012-10-17'
-          Statement:
-            -  Effect: Allow
-               Action:
-                 - lambda:Invoke
-               Resource:
-                 - "*"
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - lambda:Invoke
+                Resource:
+                  - "*"
 
   ###################################
   ######## the two DynamoDB #########
   ###################################
 
-  dynamoDBcontext:
-    Type: AWS::DynamoDB::Table
-    Properties:
-      TableName: !Sub "${Project}-context"
-      AttributeDefinitions:
-      - AttributeName: contextID
-        AttributeType: S
-      KeySchema:
-      - AttributeName: contextID
-        KeyType: HASH
-      BillingMode: PAY_PER_REQUEST
+  # dynamoDBcontext:
+  #   Type: AWS::DynamoDB::Table
+  #   Properties:
+  #     TableName: !Sub "${Project}-context"
+  #     AttributeDefinitions:
+  #     - AttributeName: contextID
+  #       AttributeType: S
+  #     KeySchema:
+  #     - AttributeName: contextID
+  #       KeyType: HASH
+  #     BillingMode: PAY_PER_REQUEST
   
-  dynamoDBresource:
-    Type: AWS::DynamoDB::Table
-    Properties:
-      TableName: !Sub "${Project}-resource"
-      AttributeDefinitions:
-      - AttributeName: contextID
-        AttributeType: S
-      KeySchema:
-      - AttributeName: contextID
-        KeyType: HASH
-      BillingMode: PAY_PER_REQUEST
+  # dynamoDBresource:
+  #   Type: AWS::DynamoDB::Table
+  #   Properties:
+  #     TableName: !Sub "${Project}-resource"
+  #     AttributeDefinitions:
+  #     - AttributeName: contextID
+  #       AttributeType: S
+  #     KeySchema:
+  #     - AttributeName: contextID
+  #       KeyType: HASH
+  #     BillingMode: PAY_PER_REQUEST
 
   #############################################
   ######## Scheduled Lambda Resources #########
   #############################################
 
-  lambdaScheduler:
-    Type: AWS::Serverless::Function
-    Properties:
-    FunctionName: !Sub "${Project-scheduledLambda"
-      Description: scheduled lambda
-      CodeUri: !Sub "${RootSrcDir}/scheduler"
-      Handler: scheduler.handler
-      Role: !GetAtt LambdaRole.Arn
+  # lambdaScheduler:
+  #   Type: AWS::Serverless::Function
+  #   Properties:
+  #   FunctionName: !Sub "${Project-scheduledLambda"
+  #     Description: scheduled lambda
+  #     CodeUri: !Sub "${RootSrcDir}/scheduler"
+  #     Handler: scheduler.handler
+  #     Role: !GetAtt LambdaRole.Arn
 
-  lambdaSchedulerRule:
-    Type: "AWS::Events::Rule"
-    Properties:
-      Description: set the trigger rate
-      ScheduleExpression: !Sub ${SchedulerRule}
-      State: ENABLED
-      Targets:
-        - Arn: !Sub ${lambdaScheduler.Arn}
-          Id: lambdaSchedulerRule
+  # lambdaSchedulerRule:
+  #   Type: "AWS::Events::Rule"
+  #   Properties:
+  #     Description: set the trigger rate
+  #     ScheduleExpression: !Sub ${SchedulerRule}
+  #     State: ENABLED
+  #     Targets:
+  #       - Arn: !Sub ${lambdaScheduler.Arn}
+  #         Id: lambdaSchedulerRule
 
-  lambdaSchedulerPermission:
-    Type: "AWS::Lambda::Permission"
-    Properties:
-      Action: 'lambda:InvokeFunction'
-      FunctionName: !Sub ${lambdaScheduler.Arn}
-      Principal: 'events.amazonaws.com'
-      SourceArn: !Sub ${lambdaSchedulerRule.Arn}
+  # lambdaSchedulerPermission:
+  #   Type: "AWS::Lambda::Permission"
+  #   Properties:
+  #     Action: 'lambda:InvokeFunction'
+  #     FunctionName: !Sub ${lambdaScheduler.Arn}
+  #     Principal: 'events.amazonaws.com'
+  #     SourceArn: !Sub ${lambdaSchedulerRule.Arn}
 
   #############################################
   ######## Context get Lambda Resources #######
@@ -214,7 +209,7 @@ Resources:
     Properties:
         FunctionName: !Sub "${Project}-getdata"
         Description: get context and resources from database
-        CodeUri: !Sub ${RootSrcDir}/data-get
+        CodeUri: !Sub ${RootSrcDir}/requests
         Handler: dataget.handler
         Role: !GetAtt LambdaRole.Arn
         Events:
@@ -234,7 +229,7 @@ Resources:
     Properties:
         FunctionName: !Sub "${Project}-registercontext"
         Description: register an entire context in database
-        CodeUri: !Sub ${RootSrcDir}/data-set
+        CodeUri: !Sub ${RootSrcDir}/requests
         Handler: context_register.handler
         Role: !GetAtt LambdaRole.Arn
         Events:
@@ -254,7 +249,7 @@ Resources:
     Properties:
         FunctionName: !Sub "${Project}-unregistercontext"
         Description: unregister an entire context in database
-        CodeUri: !Sub ${RootSrcDir}/data-set
+        CodeUri: !Sub ${RootSrcDir}/requests
         Handler: context_unregister.handler
         Role: !GetAtt LambdaRole.Arn
         Events:
@@ -268,6 +263,30 @@ Resources:
   ####################################
   ######## CloudFront & Bucket #######
   ####################################
+
+  S3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Ref Project
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+      Tags:
+        - Key: Project
+          Value: !Ref Project
+  S3BucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref S3Bucket
+      PolicyDocument:
+        Statement:
+          - Effect: Allow
+            Action: 's3:GetObject'
+            Resource:
+              - !Sub "arn:aws:s3:::${S3Bucket}/*"
+            Principal:
+              AWS: !Sub "arn:aws:iam::cloudfront:user/CloudFront Origin Access Identity ${CloudFrontOriginAccessIdentity}"
 
   CloudFrontOriginAccessIdentity:
     Type: 'AWS::CloudFront::CloudFrontOriginAccessIdentity'
@@ -303,27 +322,3 @@ Resources:
     Tags:
       - Key: Project
         Value: !Ref Project
-
-  S3Bucket:
-    Type: AWS::S3::Bucket
-    Properties:
-      BucketName: paradigmshift
-      BucketEncryption:
-        ServerSideEncryptionConfiguration:
-          - ServerSideEncryptionByDefault:
-              SSEAlgorithm: AES256
-      Tags:
-        - Key: Project
-          Value: !Ref Project
-  S3BucketPolicy:
-    Type: AWS::S3::BucketPolicy
-    Properties:
-      Bucket: !Ref S3Bucket
-      PolicyDocument:
-        Statement:
-          - Effect: Allow
-            Action: 's3:GetObject'
-            Resource:
-              - !Sub "arn:aws:s3:::${S3Bucket}/*"
-            Principal:
-              AWS: !Sub "arn:aws:iam::cloudfront:user/CloudFront Origin Access Identity ${CloudFrontOriginAccessIdentity}"
