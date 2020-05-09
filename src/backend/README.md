@@ -22,7 +22,7 @@ The lambda handlers are triggered by `Amazon API gateway` (rest api).
 | Register a context               | _Must_         | Handled       |
 | Unregister a context             | _Must_         | Handled       |
 | Get a context                    | _Must_         | Handled       |
-| Get a resource context           | _Must_         | Handled       |
+| Get a resources context          | _Must_         | Handled       |
 | Add a resource to a context      | _Should_       |               |
 | Sub a resource to a context      | _Should_       |               |
 
@@ -33,9 +33,13 @@ Our purposed scheduler which will be called by `Amazon CloudWatch` event.
 Absolute involved path:
   * `src/backend/scheduler`
 
+The periodicity of the event is targeted during de deployment and currently can't be amended. This feature is in the scope.
+
 ## Scheduler handler
 
-Linked with the scheduler core, composed of the sub-module `Thunderbolt` which contain all the handlers for the target resources.
+Linked with the scheduler core, composed of the sub-module [Thunderbolt](https://github.com/le0kar0ub1/Thunderbolt) which contain all the handlers for the target resources.
 
 Absolute involved path:
   * `src/backend/scheduler/target`
+
+The repository [Thunderbolt](https://github.com/le0kar0ub1/Thunderbolt) host all our resource handlers and is too open source, deployable, usable. Here we are using it as a part of the project.

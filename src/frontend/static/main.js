@@ -16,10 +16,9 @@ function backend_request_context(contextid, type)
 
 function contextDescription()
 {
-    const select = document.getElementById("contextSelector");
-    const data = contextlist[select.selectedIndex]
-
     try {
+        const select = document.getElementById("contextSelector");
+        const data = contextlist[select.selectedIndex];
         var context = document.getElementById("desc-context");
         var desc = document.getElementById("desc-desc");
         var rule = document.getElementById("desc-rule");

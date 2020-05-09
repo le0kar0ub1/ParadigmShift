@@ -18,6 +18,13 @@ project="paradigmshift"
 region=$1
 bucket=$project-sambuild
 
+##
+## Environnement setup
+##
+
+BUILD="build"
+
+mkdir -p $BUILD
 
 ##
 ## Set the script controlflow
@@ -39,14 +46,6 @@ function RAISE()
 set -e
 
 trap RAISE EXIT
-
-##
-## Environnement setup
-##
-
-BUILD="build"
-
-mkdir -p $BUILD
 
 ##
 ## Start deploying
@@ -80,6 +79,10 @@ sam deploy \
     --tags Project=$project \
     --parameter-overrides \
         Project=$project \
+
+printf "-------- Deploy frontend --------"
+
+aws s3 cp --recursive ../src/frontend/static "s3://$s3path"
 
 CLEANUP
 
