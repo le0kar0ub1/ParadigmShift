@@ -14,7 +14,7 @@ function backend_request_context(contextid, type)
     });
 }
 
-async function contextDescription()
+function contextDescription()
 {
     const select = document.getElementById("contextSelector");
     const data = contextlist[select.selectedIndex]
@@ -46,7 +46,6 @@ function setPowerState(bool)
 
 async function preload()
 {
-    return;
     const rawdata = await backend_request_context("restricted-all", "context");
 
     console.log(rawdata);
@@ -64,4 +63,5 @@ async function preload()
         elem.value = i;
         select.appendChild(elem);
     }
+    contextDescription();
 }

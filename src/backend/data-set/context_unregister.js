@@ -10,28 +10,19 @@ const dynamodb = new AWS.DynamoDB.DocumentClient();
 
 exports.handler = async (event, context, callback) =>
 {
-    let event_array;
-    try { event_array = JSON.parse(event.body); }
-    catch (err) {
-        return callback(null, {
-            statusCode: 500,
-            body: JSON.stringify("Bad data format"),
-            headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin':'*'}
-        });
-    }
     try {
-        const contextID = event_array.contextID;
+        const contextID = event.contextID;
         await unregisterContext(contextID);
         await unregisterResources(contextID)
         return callback(null, {
             statusCode: 200,
-            body: JSON.stringify("Success"),
+            body: "Success",
             headers: {'Content-Type': 'application/json', 'Access-Control-Allow-Origin':'*'}
         })
     } catch(err) {
         return callback(err, {
             statusCode: 500,
-            body: JSON.stringify("Bad data format"),
+            body: "Bad data format",
             headers: {'Content-Type': 'application/json', 'Access-Control-Allow-Origin':'*'}
         });
     }

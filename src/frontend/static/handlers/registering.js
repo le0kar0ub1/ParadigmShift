@@ -31,7 +31,8 @@ async function transferResources(context, description, scheduling, isScheduled, 
         resources: JSON.stringify(datares)
     };
     var resolved = await backend_write_resource(transfer);
-    console.log(resolved);
+    if (resolved !== "Success")
+        alert("Registering failed" + resolved);
 }
 
 function checkFileValidity(data)

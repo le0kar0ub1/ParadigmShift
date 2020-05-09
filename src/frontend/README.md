@@ -20,13 +20,13 @@ All the registered applications are displayed.
 
 You can then target a particular one to apply modification.
 
-/!\ image
+![root page](../../doc/front-resources/sample-home.png)
 
 ### Registering Page
 
 This page is dedicated to the registering of an application.
 
-/!\ image
+![registering page](../../doc/front-resources/sample-registering.png)
 
 ### Modifying Page (not implemented yet)
 
