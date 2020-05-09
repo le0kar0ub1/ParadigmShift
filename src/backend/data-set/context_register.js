@@ -37,28 +37,42 @@ exports.handler = async (event, context, callback) =>
 
 function registerContext(contextID, schedulingRule, contextDesc, powerState, isScheduled)
 {
-    return dynamodb.put({
-        Item: {
-            "contextID"        : contextID,
-            "contextDesc"      : contextDesc,
-            "schedulingRule"   : schedulingRule,
-            "powerState"       : powerState,
-            "isScheduled"      : isScheduled,
-            "lastScheduling"   : Date.now()
-        },
-        TableName: process.env.DBID_CONTEXTDEF
-    }).promise();
+    return new Promise((resolve, reject) => {
+        dynamodb.put({
+            Item: {
+                "contextID"        : contextID,
+                "contextDesc"      : contextDesc,
+                "schedulingRule"   : schedulingRule,
+                "powerState"       : powerState,
+                "isScheduled"      : isScheduled,
+                "lastScheduling"   : Date.now()
+            },
+            TableName: process.env.DBID_CONTEXTDEF
+        }, function(err, data) {
+            if (err)
+                return reject (err);
+            else
+                return resolve (true);
+        });
+    });
 }
 
 function registerResources(contextID, resources)
 {
-    return dynamodb.put({
-        Item: {
-            "contextID" : contextID,
-            "ec2::instance"     : JSON.stringify(resources["ec2::instance"]),
-            "rds::instance"     : JSON.stringify(resources["rds::instance"]),
-            "appstream::fleet"  : JSON.stringify(resources["appstream::fleet"])
-        },
-        TableName: process.env.DBID_RESOURCES
-    }).promise();
+    return new Promise((resolve, reject) => {
+        dynamodb.put({
+            Item: {
+                "contextID"         : contextID,
+                "ec2::instance"     : JSON.stringify(resources["ec2::instance"]),
+                "rds::instance"     : JSON.stringify(resources["rds::instance"]),
+                "appstream::fleet"  : JSON.stringify(resources["appstream::fleet"])
+            },
+            TableName: process.env.DBID_RESOURCES
+        }, function(err, data) {
+            if (err)
+                return reject (err);
+            else
+                return resolve (true);
+        });
+    });
 }
