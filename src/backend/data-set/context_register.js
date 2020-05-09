@@ -7,7 +7,6 @@ const DBID_RESOURCES="paradigmshift-resource";
 
 const AWS = require('aws-sdk');
 const dynamodb = new AWS.DynamoDB.DocumentClient();
-const uuidv4 = require('uuid/v4');
 
 exports.handler = async (event, context, callback) =>
 {
@@ -20,23 +19,23 @@ exports.handler = async (event, context, callback) =>
         const isScheduled      = event.data.isScheduled;
         var   resources        = JSON.parse(event.data.resources);
 
-        await registerContext(contextID, schedulingRule, schedulingRule, contextDesc, powerState, isScheduled);
+        await registerContext(contextID, schedulingRule, contextDesc, powerState, isScheduled);
         await registerResources(contextID,resources);
         return callback(null, {
             statusCode: 200,
-            body: JSON.stringify("Success"),
+            body: "Success",
             headers: {'Content-Type': 'application/json', 'Access-Control-Allow-Origin':'*'}
-        })
+        });
     } catch(err) {
         return callback(err, {
             statusCode: 500,
-            body: JSON.stringify("Bad data format"),
+            body: "Bad data format",
             headers: {'Content-Type': 'application/json', 'Access-Control-Allow-Origin':'*'}
         });
     }
 };
 
-function registerContext(contextID, schedulingRule, schedulingRule, contextDesc, powerState, isScheduled)
+function registerContext(contextID, schedulingRule, contextDesc, powerState, isScheduled)
 {
     return dynamodb.put({
         Item: {
@@ -56,15 +55,10 @@ function registerResources(contextID, resources)
     return dynamodb.put({
         Item: {
             "contextID" : contextID,
-            "ec2"       : resources.ec2,
-            "rds"       : resources.rds,
-            "fleet"     : resources.fleet,
+            "ec2::instance"     : JSON.stringify(resources["ec2::instance"]),
+            "rds::instance"     : JSON.stringify(resources["rds::instance"]),
+            "appstream::fleet"  : JSON.stringify(resources["appstream::fleet"])
         },
         TableName: process.env.DBID_RESOURCES
     }).promise();
-}
-
-function generateUUID()
-{
-    return uuidv4().substring(0,31);
 }

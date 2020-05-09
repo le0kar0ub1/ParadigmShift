@@ -9,23 +9,29 @@ function readFile(file)
     }); 
 }
 
-function backend_write_resource(contextid, data)
+function backend_write_resource(transfer)
 {
     return new Promise((resolve, reject) => {
         axios.post(API_CONTEXTREGISTER_ENDPOINT, {
-            data: {
-                type: type,
-                contextID: contextid
-            }
+            data: transfer
         }).then(function (response) {
             return resolve (response.data.body);
         })
     });
 }
 
-function transferResources(data, contextid)
+async function transferResources(context, description, scheduling, isScheduled, isRunning, datares)
 {
-    alert("YOUHOU");
+    transfer = {
+        contextID: context,
+        contextDesc: description,
+        schedulingRule: scheduling,
+        isScheduled: isScheduled,
+        powerState: isRunning,
+        resources: JSON.stringify(datares)
+    };
+    var resolved = await backend_write_resource(transfer);
+    console.log(resolved);
 }
 
 function checkFileValidity(data)
@@ -40,9 +46,6 @@ function checkFileValidity(data)
             continue;
         }
         try {
-            console.log(cur.id.length);
-            console.log(cur.attribut.length);
-            console.log(cur.isScheduled.length);
             if (cur.id.length !== cur.attribut.length ||
             cur.id.length !== cur.isScheduled.length)
             {
@@ -75,5 +78,5 @@ async function fireRegistering()
         alert("Registering failed: All resources array must match the same size");
         return;
     }
-    transferResources(datares, context);
+    transferResources(context, description, scheduling, isScheduled, isRunning, datares);
 }
