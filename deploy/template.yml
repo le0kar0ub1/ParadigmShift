@@ -333,3 +333,6 @@ Outputs:
   CloudfrontEndpoint:
     Value: !GetAtt [CloudfrontDistribution, DomainName]
     Description: Endpoint for Cloudfront distribution
+  APIendpoint:
+    Value: !Sub https://${APIGateway}.execute-api.${Region}.amazonaws.com/prod/
+    Description: API gateway endpoint
