@@ -1,6 +1,10 @@
 # ParadigmShift
 
-The purpose of this project is the global AWS scheduling over the `ParadigmShift` application.
+The purpose of this project is the global AWS scheduling.
+
+`ParadigmShift` is a _low cost_ (by design) AWS hosted application for AWS resources scheduling.
+
+Open source, documented, deployable, usable.
 
 All the project is described and well documented in sub-directories.
 
@@ -21,3 +25,7 @@ All the project is described and well documented in sub-directories.
   - `SAM CLI`
 
 See the deploy directory for dependencies installation.
+
+## Epilogue
+
+Feel free to fork, use, improve.

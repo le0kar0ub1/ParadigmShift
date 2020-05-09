@@ -8,12 +8,12 @@ The array and list below describe all the resources/actions handle currently by 
 | `rds::instance`          | handled        | handled     |
 | `appstream::fleet`       | handled        | handled     |
 
-- [X] ec2::instance
+- [X] `ec2::instance`
   - [X] Power on
   - [X] Power off
-- [X] rds::instance
+- [X] `rds::instance`
   - [X] Power on
   - [X] Power off
-- [X] appstream::fleet
+- [X] `appstream::fleet`
   - [X] Power on
   - [X] Power off
