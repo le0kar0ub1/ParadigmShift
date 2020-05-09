@@ -264,7 +264,7 @@ Resources:
   ######## CloudFront & Bucket #######
   ####################################
 
-  S3Bucket:
+  S3BucketWebsite:
     Type: AWS::S3::Bucket
     Properties:
       BucketName: !Sub "${Project}-static"
@@ -278,13 +278,13 @@ Resources:
   S3BucketPolicy:
     Type: AWS::S3::BucketPolicy
     Properties:
-      Bucket: !Ref S3Bucket
+      Bucket: !Ref S3BucketWebsite
       PolicyDocument:
         Statement:
           - Effect: Allow
             Action: 's3:GetObject'
             Resource:
-              - !Sub "arn:aws:s3:::${S3Bucket}/*"
+              - !Sub "arn:aws:s3:::${S3BucketWebsite}/*"
             Principal:
               AWS: !Sub "arn:aws:iam::cloudfront:user/CloudFront Origin Access Identity ${CloudFrontOriginAccessIdentity}"
 
@@ -304,7 +304,7 @@ Resources:
         HttpVersion: http2
         Origins:
           - Id: s3-website
-            DomainName: !GetAtt S3Bucket.DomainName
+            DomainName: !GetAtt S3BucketWebsite.DomainName
             S3OriginConfig:
               OriginAccessIdentity: 
                 Fn::Sub: 'origin-access-identity/cloudfront/${CloudFrontOriginAccessIdentity}'
@@ -325,3 +325,11 @@ Resources:
       Tags:
         - Key: Project
           Value: !Ref Project
+
+Outputs:
+  BucketName:
+    Value: !Ref 'S3BucketWebsite'
+    Description: Name of S3 bucket to hold website content
+  CloudfrontEndpoint:
+    Value: !GetAtt [CloudfrontDistribution, DomainName]
+    Description: Endpoint for Cloudfront distribution
