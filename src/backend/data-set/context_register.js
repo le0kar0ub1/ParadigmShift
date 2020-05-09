@@ -11,24 +11,17 @@ const uuidv4 = require('uuid/v4');
 
 exports.handler = async (event, context, callback) =>
 {
-    let event_array;
-    try { event_array = JSON.parse(event.body); }
-    catch (err) {
-        return callback(null, {
-            statusCode: 500,
-            body: JSON.stringify("Bad data format"),
-            headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin':'*'}
-        });
-    }
     try {
         /* let's checkup if all informations are here */
-        const contextID        = event_array.contextID;
-        const contextDesc      = event_array.contextDesc;
-        const schedulingRule   = event_array.schedulingRule;
-        const powerState       = event_array.powerState;
-        const isScheduled      = event_array.isScheduled;
+        const contextID        = event.data.contextID;
+        const contextDesc      = event.data.contextDesc;
+        const schedulingRule   = event.data.schedulingRule;
+        const powerState       = event.data.powerState;
+        const isScheduled      = event.data.isScheduled;
+        var   resources        = JSON.parse(event.data.resources);
 
         await registerContext(contextID, schedulingRule, schedulingRule, contextDesc, powerState, isScheduled);
+        await registerResources(contextID,resources);
         return callback(null, {
             statusCode: 200,
             body: JSON.stringify("Success"),

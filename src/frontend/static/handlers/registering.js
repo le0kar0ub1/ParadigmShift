@@ -9,7 +9,7 @@ function readFile(file)
     }); 
 }
 
-function backend_write_resource(contextid)
+function backend_write_resource(contextid, data)
 {
     return new Promise((resolve, reject) => {
         axios.post(API_CONTEXTREGISTER_ENDPOINT, {
@@ -23,25 +23,44 @@ function backend_write_resource(contextid)
     });
 }
 
-async function prepareTransfer(data)
+function transferResources(data, contextid)
 {
-    try {
-        var ec2 = data["ec2::instance"];
-        if (ec2.id.length === ec2.attribut.length && 
-        ec2.id.length === ec2.isScheduled.length)
-        {
+    alert("YOUHOU");
+}
 
+function checkFileValidity(data)
+{
+    for (res in resourceref)
+    {
+        try { 
+            var cur = data[resourceref[res]]; 
+            if (cur === undefined)
+                continue;
+        } catch (err) {
+            continue;
         }
-    } catch (err) {}
-    alert("stopped");
+        try {
+            console.log(cur.id.length);
+            console.log(cur.attribut.length);
+            console.log(cur.isScheduled.length);
+            if (cur.id.length !== cur.attribut.length ||
+            cur.id.length !== cur.isScheduled.length)
+            {
+                return (false)
+            }
+        } catch (err) { 
+            return (false) 
+        }
+    }
+    return (true);
 }
 
 async function fireRegistering()
 {
     const form = document.getElementById("registerform");
-    const Context = form["form-Context"].value;
-    const Description = form["form-Description"].value;
-    const Scheduling = form["form-Scheduling"].value;
+    const context = form["form-Context"].value;
+    const description = form["form-Description"].value;
+    const scheduling = form["form-Scheduling"].value;
     const isScheduled = form["form-isScheduled"].value == "yes" ? true : false;
     const isRunning = form["form-isRunning"].value == "yes" ?  true : false;
     var datares = await readFile(form["form-file"].files[0]);
@@ -51,5 +70,10 @@ async function fireRegistering()
         alert("Registering failed: Bad resource JSON format");
         return;
     }
-    prepareTransfer(datares);
+    if (checkFileValidity(datares) == false)
+    {
+        alert("Registering failed: All resources array must match the same size");
+        return;
+    }
+    transferResources(datares, context);
 }
