@@ -69,7 +69,8 @@ sam build
 
 sam package \
     --s3-bucket $bucket \
-    --output-template-file build/package.yml
+    --output-template-file build/package.yml \
+    --debug
 
 sam deploy \
     --template-file build/package.yml \
@@ -79,6 +80,7 @@ sam deploy \
     --tags Project=$project \
     --parameter-overrides \
         Project=$project \
+        Region=$region \
 
 echo "-------- Deploy frontend --------"
 

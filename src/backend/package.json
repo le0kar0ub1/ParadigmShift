@@ -1,13 +1,13 @@
 {
-  "name": "backend",
+  "name": "backend-install",
   "version": "1.0.0",
-  "description": "backend",
+  "description": "backend-install",
   "main": "",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Leo Karoubi",
-  "license": "ISC",
+  "license": "GNU3",
   "dependencies": {
     "cron-parser": "2.13.0",
     "uuid": "8.0.0"
