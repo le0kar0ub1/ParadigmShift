@@ -48,6 +48,13 @@ Parameters:
   RootSrcDir:
     Type: String
     Default: ../src/backend
+  matchuniq:
+    Type: String
+    MinLength: 4
+    MaxLength: 20
+    AllowedPattern: '[a-z][a-z0-9\-]+'
+    ConstraintDescription: must begin with a letter and contain only lowercase characters and '-'.
+
 
 Globals:
   Function:
@@ -130,60 +137,60 @@ Resources:
   ######## the two DynamoDB #########
   ###################################
 
-  # dynamoDBcontext:
-  #   Type: AWS::DynamoDB::Table
-  #   Properties:
-  #     TableName: !Sub "${Project}-context"
-  #     AttributeDefinitions:
-  #     - AttributeName: contextID
-  #       AttributeType: S
-  #     KeySchema:
-  #     - AttributeName: contextID
-  #       KeyType: HASH
-  #     BillingMode: PAY_PER_REQUEST
+  dynamoDBcontext:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: !Sub "${Project}-context"
+      AttributeDefinitions:
+      - AttributeName: contextID
+        AttributeType: S
+      KeySchema:
+      - AttributeName: contextID
+        KeyType: HASH
+      BillingMode: PAY_PER_REQUEST
   
-  # dynamoDBresource:
-  #   Type: AWS::DynamoDB::Table
-  #   Properties:
-  #     TableName: !Sub "${Project}-resource"
-  #     AttributeDefinitions:
-  #     - AttributeName: contextID
-  #       AttributeType: S
-  #     KeySchema:
-  #     - AttributeName: contextID
-  #       KeyType: HASH
-  #     BillingMode: PAY_PER_REQUEST
+  dynamoDBresource:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: !Sub "${Project}-resource"
+      AttributeDefinitions:
+      - AttributeName: contextID
+        AttributeType: S
+      KeySchema:
+      - AttributeName: contextID
+        KeyType: HASH
+      BillingMode: PAY_PER_REQUEST
 
   #############################################
   ######## Scheduled Lambda Resources #########
   #############################################
 
-  # lambdaScheduler:
-  #   Type: AWS::Serverless::Function
-  #   Properties:
-  #   FunctionName: !Sub "${Project-scheduledLambda"
-  #     Description: scheduled lambda
-  #     CodeUri: !Sub "${RootSrcDir}/scheduler"
-  #     Handler: scheduler.handler
-  #     Role: !GetAtt LambdaRole.Arn
+  lambdaScheduler:
+    Type: AWS::Serverless::Function
+    Properties:
+    FunctionName: !Sub "${Project-scheduledLambda"
+      Description: scheduled lambda
+      CodeUri: !Sub "${RootSrcDir}/scheduler"
+      Handler: scheduler.handler
+      Role: !GetAtt LambdaRole.Arn
 
-  # lambdaSchedulerRule:
-  #   Type: "AWS::Events::Rule"
-  #   Properties:
-  #     Description: set the trigger rate
-  #     ScheduleExpression: !Sub cron(${SchedulerRule})
-  #     State: ENABLED
-  #     Targets:
-  #       - Arn: !Sub ${lambdaScheduler.Arn}
-  #         Id: lambdaSchedulerRule
+  lambdaSchedulerRule:
+    Type: "AWS::Events::Rule"
+    Properties:
+      Description: set the trigger rate
+      ScheduleExpression: !Sub cron(${SchedulerRule})
+      State: ENABLED
+      Targets:
+        - Arn: !Sub ${lambdaScheduler.Arn}
+          Id: lambdaSchedulerRule
 
-  # lambdaSchedulerPermission:
-  #   Type: "AWS::Lambda::Permission"
-  #   Properties:
-  #     Action: 'lambda:InvokeFunction'
-  #     FunctionName: !Sub ${lambdaScheduler.Arn}
-  #     Principal: 'events.amazonaws.com'
-  #     SourceArn: !Sub ${lambdaSchedulerRule.Arn}
+  lambdaSchedulerPermission:
+    Type: "AWS::Lambda::Permission"
+    Properties:
+      Action: 'lambda:InvokeFunction'
+      FunctionName: !Sub ${lambdaScheduler.Arn}
+      Principal: 'events.amazonaws.com'
+      SourceArn: !Sub ${lambdaSchedulerRule.Arn}
 
   #############################################
   ######## Context get Lambda Resources #######
@@ -267,7 +274,7 @@ Resources:
   S3BucketWebsite:
     Type: AWS::S3::Bucket
     Properties:
-      BucketName: !Sub "${Project}-static"
+      BucketName: !Sub "${Project}-${matchuniq}-static"
       BucketEncryption:
         ServerSideEncryptionConfiguration:
           - ServerSideEncryptionByDefault:

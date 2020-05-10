@@ -24,9 +24,10 @@ All the created resource will match the following template name: "paradigmshift-
 
 Run the script `deploy.sh` to deploy the project.
 
-`./deploy.sh $AWS-REGION`
+`./deploy.sh $AWS-REGION $MATCH-UNIQ`
 
 Where:
   * `$AWS-REGION` : is deployment region
+  * `$MATCH-UNIQ` : is a uniq id for bucket naming -> 'paradigmshift-${MATH-UNIQ}-XXX'
 
-example: `./deploy.sh eu-west-1`
+example: `./deploy.sh eu-west-1 myentreprisename`

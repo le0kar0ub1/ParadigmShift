@@ -2,7 +2,7 @@
 
 # Variables required : 
 # region
-# matchuniq
+# matchuniq for bucket
 
 echo $@
 
@@ -10,7 +10,7 @@ echo $@
 ## Entry checkup
 ##
 
-if [ $# -ne 1 ] || [ $1 == "--help" ]; then
+if [ $# -ne 2 ] || [ $1 == "--help" ]; then
     echo "$0 \$region" "\$matchuniq"
     exit 0
 fi
@@ -18,7 +18,7 @@ fi
 project="paradigmshift"
 region=$1
 matchuniq=$2
-bucket=$project-$2-sambuild
+bucket=$project-matchuniq-sambuild
 
 ##
 ## Environnement setup
@@ -87,6 +87,7 @@ sam deploy \
     --parameter-overrides \
         Project=$project \
         Region=$region \
+        matchuniq=$matchuniq \
 
 echo "-------- Build config --------"
 
