@@ -34,7 +34,7 @@ The entry below represent an entry which reference resources in one context abov
 |--------------------------|---------------------|----------------------------------|--------------------------------------------------------------|
 | `contextID`              | _String_            | None                             | The name of the context (must match the one above)           |
 | `service::resource`      | _String_            | JSON stringifed                  | A list of resources with the same type in the context        |
-| `appstream::fleet`       | _String_            | JSON stringifed                  | List of appsteeam fleet in the context                       |
+| `appstream::fleet`       | _String_            | JSON stringifed                  | List of appstream fleet in the context                       |
 | `...::...`               | _String_            | JSON stringifed                  | List of ............... in the context                       |
 
 `service::resource` is a template for the registering of a particular `resource`.

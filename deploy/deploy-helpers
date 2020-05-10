@@ -1,18 +1,15 @@
 #
 # Get Value of a stack output from key and stack name
 # Parameters:
-#   key to catch
-#   stack name
-#   aws profile
+#    - $1: key to catch
+#    - $2: stack name
+#    - $3: aws profile
 #
 
 function getValueFromKey() 
 {
-    local keycatch=$1
-    local stackname=$2
-    local awsprofile=$3
-    local text=$(aws cloudformation describe-stacks --stack-name $stackname --profile $awsprofile)
-    local line=$(echo "$text" | grep -in "\"OutputKey\": \"$keycatch\"," | cut -d : -f 1)
+    local text=$(aws cloudformation describe-stacks --stack-name $2 --profile $3)
+    local line=$(echo "$text" | grep -in "\"OutputKey\": \"$1\"," | cut -d : -f 1)
     let line=line+1
     local value=$(echo "$text" | head -n $line | tail -1 | cut -d : -f 2- | xargs | cut -d , -f -1)
     echo $value

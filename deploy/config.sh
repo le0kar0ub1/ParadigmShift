@@ -26,12 +26,12 @@ set -e
 
 trap RAISE EXIT
 
-# First we need the APIs endpoints 
-echo -n "const API_BASEURL=" > $TARGET
-echo -e "\"$apiendpoint\"" >> $TARGET
-
-echo -e "const API_CONTEXTGET_ENDPOINT=\"$apiendpoint\"/dataget" >> $TARGET
+# First we need the API endpoints 
+echo -e "const API_CONTEXTGET_ENDPOINT=\"$apiendpoint\"/getdata" >> $TARGET
 echo -e "const API_CONTEXTREGISTER_ENDPOINT=\"$apiendpoint\"/registercontext" >> $TARGET
+
+# Then put the handled resources
+# so far, it's not useful but later that will allow us a deploy-time config for resources
 
 echo -en "
 const resourceref = [

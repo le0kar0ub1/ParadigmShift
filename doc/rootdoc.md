@@ -6,7 +6,7 @@ This is little personnal project without any ambition.
 
 ## The Cloud
 
-Working with a [cloud provider](https://fr.wikipedia.org/wiki/Cloud_computing) as [AWS](https://en.wikipedia.org/wiki/Amazon_Web_Services) change many things.
+Working with a [cloud provider](https://fr.wikipedia.org/wiki/Cloud_computing) as [AWS](https://en.wikipedia.org/wiki/Amazon_Web_Services).
 
 This is a universe where the automatation is taken to the extreme and the end user work is highly reduced.
 

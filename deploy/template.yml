@@ -217,7 +217,7 @@ Resources:
         FunctionName: !Sub "${Project}-getdata"
         Description: get context and resources from database
         CodeUri: !Sub ${RootSrcDir}/requests
-        Handler: dataget.handler
+        Handler: getdata.handler
         Role: !GetAtt LambdaRole.Arn
         Events:
           getData:
@@ -341,5 +341,5 @@ Outputs:
     Value: !GetAtt [CloudfrontDistribution, DomainName]
     Description: Endpoint for Cloudfront distribution
   APIendpoint:
-    Value: !Sub https://${APIGateway}.execute-api.${Region}.amazonaws.com/prod/
+    Value: !Sub https://${APIGateway}.execute-api.${Region}.amazonaws.com/prod
     Description: API gateway endpoint

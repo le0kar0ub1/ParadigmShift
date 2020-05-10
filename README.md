@@ -20,9 +20,9 @@ All the project is described and well documented in sub-directories.
 
 ## Dependencies
 
-  - `AWS account`
-  - `AWS CLI`
-  - `SAM CLI`
+  * `AWS account`
+  * `AWS CLI`
+  * `SAM CLI`
 
 See the deploy directory for dependencies installation.
 
