@@ -2,9 +2,9 @@
 
 `ParadigmShift` is deployed using the `AWS CLI` and `SAM CLI` (Serverless Application Model).
 
-All the deployment is localy scripted and effective on the default AWS CLI account.
-
 All the used resource will be centralized on a `cloudFormation` stack on the targeted environnement.
+
+`ParadigmShift` have to be as generic as possible, the security is handled by the deployer, you MUST add the security you want on the app.
 
 ## Install dependencies
 
@@ -24,10 +24,11 @@ All the created resource will match the following template name: "paradigmshift-
 
 Run the script `deploy.sh` to deploy the project.
 
-`./deploy.sh $AWS-REGION $MATCH-UNIQ`
+`cd deploy && ./deploy.sh $AWS-REGION $MATCH-UNIQ $AWS-PROFILE`
 
 Where:
   * `$AWS-REGION` : is deployment region
   * `$MATCH-UNIQ` : is a uniq id for bucket naming -> 'paradigmshift-${MATH-UNIQ}-XXX'
+  * `AWS-PROFILE` : is the aws profile which will be used while deploying
 
-example: `./deploy.sh eu-west-1 myentreprisename`
+example: `./deploy.sh eu-west-1 mysociety default`

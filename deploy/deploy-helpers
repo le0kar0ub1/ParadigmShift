@@ -3,15 +3,17 @@
 # Parameters:
 #   key to catch
 #   stack name
+#   aws profile
 #
 
 function getValueFromKey() 
 {
-    keycatch=$1
-    stackname=$2
-    text=$(aws cloudformation describe-stacks --stack-name $stackname)
-    line=$(echo "$text" | grep -in "\"OutputKey\": \"$keycatch\"," | cut -d : -f 1)
+    local keycatch=$1
+    local stackname=$2
+    local awsprofile=$3
+    local text=$(aws cloudformation describe-stacks --stack-name $stackname --profile $awsprofile)
+    local line=$(echo "$text" | grep -in "\"OutputKey\": \"$keycatch\"," | cut -d : -f 1)
     let line=line+1
-    value=$(echo "$text" | head -n $line | tail -1 | cut -d : -f 2- | xargs | cut -d , -f -1)
+    local value=$(echo "$text" | head -n $line | tail -1 | cut -d : -f 2- | xargs | cut -d , -f -1)
     echo $value
 }

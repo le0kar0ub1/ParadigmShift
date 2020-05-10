@@ -3,6 +3,7 @@
 # Variables required : 
 # region
 # matchuniq for bucket
+# aws profile
 
 echo $@
 
@@ -10,14 +11,15 @@ echo $@
 ## Entry checkup
 ##
 
-if [ $# -ne 2 ] || [ $1 == "--help" ]; then
-    echo "$0 \$region" "\$matchuniq"
+if [ $# -ne 3 ] || [ $1 == "--help" ]; then
+    echo "$0 \$region \$matchuniq \$awsprofile"
     exit 0
 fi
 
 project="paradigmshift"
 region=$1
 matchuniq=$2
+awsprofile=$3
 bucket=$project-matchuniq-sambuild
 
 ##
@@ -67,16 +69,16 @@ npm install ../src/backend --prefix ../src/backend
 
 echo "-------- Create SAM bucket --------"
 
-aws s3api create-bucket --bucket $bucket --region $region --create-bucket-configuration LocationConstraint=$region
+aws s3api create-bucket --bucket $bucket --region $region --create-bucket-configuration LocationConstraint=$region --profile $awsprofile
 
 echo "-------- Deploy resources --------"
 
-sam build 
+sam build --profile $awsprofile
 
 sam package \
     --s3-bucket $bucket \
     --output-template-file build/package.yml \
-    --debug
+    --profile $awsprofile
 
 sam deploy \
     --template-file build/package.yml \
@@ -84,6 +86,7 @@ sam deploy \
     --capabilities CAPABILITY_NAMED_IAM \
     --region $region \
     --tags Project=$project \
+    --profile $awsprofile
     --parameter-overrides \
         Project=$project \
         Region=$region \
@@ -91,18 +94,22 @@ sam deploy \
 
 echo "-------- Build config --------"
 
-apiendpoint=$(getValueFromKey APIendpoint paradigmshift)
+apiendpoint=$(getValueFromKey APIendpoint $project $awsprofile)
 
 . config.sh
 
 echo "-------- Deploy frontend --------"
 
-s3path=$(getValueFromKey BucketName paradigmshift)
+s3path=$(getValueFromKey BucketName $project $awsprofile)
 
-aws s3 cp --recursive ../src/frontend/static "s3://$s3path"
+aws s3 cp --recursive ../src/frontend/static "s3://$s3path" --profile $awsprofile
 
 CLEANUP
 
 echo "We are done !"
+
+CFendpoint=$(getValueFromKey CloudfrontEndpoint $project $awsprofile)
+
+echo "\nEndpoint Access: $CFendpoint"
 
 trap - EXIT
