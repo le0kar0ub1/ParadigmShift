@@ -44,15 +44,15 @@ Each `service::resource` entry has the following JSON format.
 
 ```javascript
 {
-    ids: ["firstid", "secondid", ...],
+    id: ["firstid", "secondid", ...],
     isScheduled: [true, false, ...],
-    attribut: ["", "", ...]
+    attrib: ["", "", ...]
 }
 ```
 
-  * `id` : the resources ids list
+  * `id` : the resources id list
   * `isScheduled` : is the specific resource scheduled ?
-  * `attribut` : specific usage still undefined
+  * `attrib` : specific usage still undefined
 
 Obviously all the members *MUST* match the same size.
 
@@ -107,12 +107,12 @@ In reality, the JSON objects are stringifyied.
   ec2::instance: {
       id: ["ec2id1","ec2id2"],
       isScheduled: [true, false],
-      attribut:["",""]
+      attrib:["",""]
   },
   rds::instance: {
       id: ["rdsid1", "rdsid2", "rdsid3"],
       isScheduled: [true, false, true],
-      attribut: ["", "", ""]
+      attrib: ["", "", ""]
   }
 }
 ```

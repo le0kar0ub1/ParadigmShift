@@ -31,10 +31,9 @@ async function transferResources(context, description, schedStart, schedStop, is
         powerState: isRunning,
         resources: JSON.stringify(datares)
     };
-    console.log(transfer);
-    var resolved = await backend_write_resource(transfer);
+    let resolved = await backend_write_resource(transfer);
     if (resolved != "Success")
-        alert("Registering failed" + resolved);
+        alert("Registering failed: " + resolved);
 }
 
 function checkFileValidity(data)
@@ -49,7 +48,7 @@ function checkFileValidity(data)
             continue;
         }
         try {
-            if (cur.id.length !== cur.attribut.length ||
+            if (cur.id.length !== cur.attrib.length ||
             cur.id.length !== cur.isScheduled.length)
             {
                 return (false)

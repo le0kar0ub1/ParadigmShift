@@ -10,11 +10,6 @@ const dynamodb = new AWS.DynamoDB.DocumentClient();
 
 // const cron = require('cron-parser');
 
-function contextSwitchPower(context)
-{
-    
-}
-
 function ISO8601parse(asStr)
 {
     const asMs = Date.parse(asStr);
@@ -24,36 +19,49 @@ function ISO8601parse(asStr)
     return (asMs / 1000);
 }
 
-// function schedulingEval(cronStr, lastscheduling)
-// {
-//     const now = Date.now();
-//     const appnext = ISO8601parse(cron.parseExpression(cronStr).next().toString());
+function schedulingEval(cronStr, lastscheduling)
+{
+    const now = Date.now();
+    const appnext = ISO8601parse(cron.parseExpression(cronStr).next().toString());
 
-//     if (isNaN(appnext))
-//         return (NaN)
-//     if (now >= appnext)
-//         return (appnext);
-//     return (NaN);
-// }
+    if (isNaN(appnext))
+        return (NaN)
+    if (now >= appnext)
+        return (appnext);
+    return (NaN);
+}
+
+async function contextSwitchPowerState(context)
+{
+    try {
+        const ec2 = context.resources["ec2::instance"];
+        for (let inc in ec2.id)
+    } catch (err) {}
+}
+
+async function scheduleOneContext(context)
+{
+    let state;
+
+    if (context.powerState == false)
+        state = schedulingEval(context.schedulingRuleStart, context.lastscheduling);
+    else
+        state = schedulingEval(context.schedulingRuleStop, context.lastscheduling);
+    if (isNaN(state))
+        return;
+    contextSwitchPowerState(context);
+    await updateLastScheduling();
+}
 
 exports.handler = async (event, context, callback) =>
 {
-    var next;
-
     try {
-        /* Get the database timer */
-        // for each context scheduled
         var allcontext = await getScheduledContext();
-        // console.log(allcontext);
-        for (context in allcontext)
+        for (let context in allcontext)
         {
             console.log(context);
+            scheduleOneContext(context);
         }
-        // next = schedulingEval(cron, lastscheduling);
-        // if (next != NaN) {
-            // update last scheduling in DB
-            // contextSwitchPower(context);
-        // }
         return callback(null, {
             statusCode: 200,
             body: "Success",
@@ -68,8 +76,35 @@ exports.handler = async (event, context, callback) =>
     }
 };
 
+function updateLastScheduling(contextID, newsched)
+{
+    return new Promise((resolve, reject) => {
+        var params = {
+            ExpressionAttributeNames: { 
+                "#entry": "lastscheduling"
+            },
+            ExpressionAttributeValues: {
+                ":newsched": newsched
+            },
+            Key: {
+                contextID
+            },
+            UpdateExpression: "SET #entry = :newsched",
+            TableName: DBID_CONTEXTDEF
+        };
+        dynamodb.update(params, function(err, data) {
+            if (err) {
+                console.log("Error while updating the database" + err);
+                return reject (err);
+            } else {
+                return resolve (data);
+            }
+        });
+    });
+}
+
 /*
-** Please, before any cry , read the data model documentation :)
+** Please, before any cry, read the datamodel documentation :)
 */
 function getScheduledContext()
 {

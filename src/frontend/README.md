@@ -39,12 +39,12 @@ Example of the file 'resources.json'
     "ec2::instance": {
         "id" : ["ec2id1", "ec2id2"],
         "isScheduled": [true, false],
-        "attribut": ["", ""]
+        "attrib": ["", ""]
     },
     "rds::instance": {
         "id" : ["rdsid1"],
         "isScheduled": [true],
-        "attribut": [""]
+        "attrib": [""]
     }
 }
 ```
