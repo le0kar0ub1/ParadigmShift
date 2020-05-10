@@ -19,10 +19,12 @@
         </div>
         <div class="bodywrapper">
             <div class="contextRegister">
-                <form acti id="registerform" class="registerform" onsubmit="fireRegistering(); return false">
+                <form acti id="registerform" class="registerform" onsubmit="fireRegistering()">
                 <input id="form-Context" type="text" placeholder="Context">
                 <input id="form-Description" type="text" placeholder="Description">
-                <input id="form-Scheduling" type="text" placeholder="Scheduling rule" pattern="cron\((\*|([0-9]|1[0-9]|2[0-9]|3[0-9]|4[0-9]|5[0-9])|\*\/([0-9]|1[0-9]|2[0-9]|3[0-9]|4[0-9]|5[0-9])) (\*|([0-9]|1[0-9]|2[0-3])|\*\/([0-9]|1[0-9]|2[0-3])) (\*|([1-9]|1[0-9]|2[0-9]|3[0-1])|\*\/([1-9]|1[0-9]|2[0-9]|3[0-1])) (\*|([1-9]|1[0-2])|\*\/([1-9]|1[0-2])) (\*|([0-6])|\*\/([0-6]))\)"
+                <input id="form-Scheduling-start" type="text" placeholder="Scheduling rule start" pattern="(\*|([0-9]|1[0-9]|2[0-9]|3[0-9]|4[0-9]|5[0-9])|\*\/([0-9]|1[0-9]|2[0-9]|3[0-9]|4[0-9]|5[0-9])) (\*|([0-9]|1[0-9]|2[0-3])|\*\/([0-9]|1[0-9]|2[0-3])) (\*|([1-9]|1[0-9]|2[0-9]|3[0-1])|\*\/([1-9]|1[0-9]|2[0-9]|3[0-1])) (\*|([1-9]|1[0-2])|\*\/([1-9]|1[0-2])) (\*|([0-6])|\*\/([0-6]))"
+                title="must match cron syntax">
+                <input id="form-Scheduling-stop" type="text" placeholder="Scheduling rule stop" pattern="(\*|([0-9]|1[0-9]|2[0-9]|3[0-9]|4[0-9]|5[0-9])|\*\/([0-9]|1[0-9]|2[0-9]|3[0-9]|4[0-9]|5[0-9])) (\*|([0-9]|1[0-9]|2[0-3])|\*\/([0-9]|1[0-9]|2[0-3])) (\*|([1-9]|1[0-9]|2[0-9]|3[0-1])|\*\/([1-9]|1[0-9]|2[0-9]|3[0-1])) (\*|([1-9]|1[0-2])|\*\/([1-9]|1[0-2])) (\*|([0-6])|\*\/([0-6]))"
                 title="must match cron syntax">
                 <input id="form-isScheduled" type="text" placeholder="Is scheduled" pattern="yes|no" title="'yes' or 'no'">
                 <input id="form-isRunning" type="text" placeholder="Is running" pattern="yes|no" title="'yes' or 'no'">

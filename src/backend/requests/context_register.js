@@ -7,14 +7,15 @@ exports.handler = async (event, context, callback) =>
 {
     try {
         /* let's checkup if all informations are here */
-        const contextID        = event.data.contextID;
-        const contextDesc      = event.data.contextDesc;
-        const schedulingRule   = event.data.schedulingRule;
-        const powerState       = event.data.powerState;
-        const isScheduled      = event.data.isScheduled;
-        var   resources        = JSON.parse(event.data.resources);
+        const contextID            = event.data.contextID;
+        const contextDesc          = event.data.contextDesc;
+        const schedulingRuleStart  = event.data.schedulingRuleStart;
+        const schedulingRuleStop   = event.data.schedulingRuleStop;
+        const powerState           = event.data.powerState;
+        const isScheduled          = event.data.isScheduled;
+        var   resources            = JSON.parse(event.data.resources);
 
-        await registerContext(contextID, schedulingRule, contextDesc, powerState, isScheduled);
+        await registerContext(contextID, schedulingRuleStart, schedulingRuleStop, contextDesc, powerState, isScheduled);
         await registerResources(contextID,resources);
         return callback(null, {
             statusCode: 200,
@@ -30,17 +31,18 @@ exports.handler = async (event, context, callback) =>
     }
 };
 
-function registerContext(contextID, schedulingRule, contextDesc, powerState, isScheduled)
+function registerContext(contextID, schedulingRuleStart, schedulingRuleStop, contextDesc, powerState, isScheduled)
 {
     return new Promise((resolve, reject) => {
         dynamodb.put({
             Item: {
-                "contextID"        : contextID,
-                "contextDesc"      : contextDesc,
-                "schedulingRule"   : schedulingRule,
-                "powerState"       : powerState,
-                "isScheduled"      : isScheduled,
-                "lastScheduling"   : Date.now()
+                "contextID"           : contextID,
+                "contextDesc"         : contextDesc,
+                "schedulingRuleStart" : schedulingRuleStart,
+                "schedulingRuleStop"  : schedulingRuleStop,
+                "powerState"          : powerState,
+                "isScheduled"         : isScheduled,
+                "lastScheduling"      : Date.now()
             },
             TableName: process.env.DBID_CONTEXTDEF
         }, function(err, data) {

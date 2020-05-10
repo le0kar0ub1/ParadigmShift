@@ -21,11 +21,13 @@ function contextDescription()
         const data = contextlist[select.selectedIndex];
         var context = document.getElementById("desc-context");
         var desc = document.getElementById("desc-desc");
-        var rule = document.getElementById("desc-rule");
+        var rulestart = document.getElementById("desc-rule-start");
+        var rulestop = document.getElementById("desc-rule-stop");
         var issched = document.getElementById("desc-issched");
         context.textContent = data.contextID;
         desc.textContent = data.contextDesc;
-        rule.textContent = data.schedulingRule
+        rulestart.textContent = data.schedulingRuleStart;
+        rulestop.textContent = data.schedulingRuleStop;
         issched.textContent = data.isScheduled == true ? "True" : "False";
         setPowerState(data.powerState);
     } catch (err) {

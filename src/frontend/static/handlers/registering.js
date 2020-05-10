@@ -20,18 +20,20 @@ function backend_write_resource(transfer)
     });
 }
 
-async function transferResources(context, description, scheduling, isScheduled, isRunning, datares)
+async function transferResources(context, description, schedStart, schedStop, isScheduled, isRunning, datares)
 {
     transfer = {
         contextID: context,
         contextDesc: description,
-        schedulingRule: scheduling,
+        schedulingRuleStart: schedStart,
+        schedulingRuleStop: schedStop,
         isScheduled: isScheduled,
         powerState: isRunning,
         resources: JSON.stringify(datares)
     };
+    console.log(transfer);
     var resolved = await backend_write_resource(transfer);
-    if (resolved !== "Success")
+    if (resolved != "Success")
         alert("Registering failed" + resolved);
 }
 
@@ -77,7 +79,8 @@ async function fireRegistering()
     const form = document.getElementById("registerform");
     const context = form["form-Context"].value;
     const description = form["form-Description"].value;
-    const scheduling = form["form-Scheduling"].value;
+    const schedStart = form["form-Scheduling-start"].value;
+    const schedStop = form["form-Scheduling-stop"].value;
     const isScheduled = form["form-isScheduled"].value == "yes" ? true : false;
     const isRunning = form["form-isRunning"].value == "yes" ?  true : false;
     var datares = await readFile(form["form-file"].files[0]);
@@ -92,5 +95,5 @@ async function fireRegistering()
         alert("Registering failed: All resources array must match the same size");
         return;
     }
-    transferResources(context, description, scheduling, isScheduled, isRunning, datares);
+    transferResources(context, description, schedStart, schedStop, isScheduled, isRunning, datares);
 }
