@@ -47,7 +47,6 @@ async function preload()
 {
     const rawdata = await backend_request_context("restricted-all", "context");
 
-    console.log(rawdata);
     try {
         contextlist = JSON.parse(rawdata);
     } catch (err) {

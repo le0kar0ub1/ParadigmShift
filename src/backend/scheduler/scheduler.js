@@ -69,7 +69,7 @@ exports.handler = async (event, context, callback) =>
 };
 
 /*
-** Please, before any cry , read the datamodel documentation :)
+** Please, before any cry , read the data model documentation :)
 */
 function getScheduledContext()
 {

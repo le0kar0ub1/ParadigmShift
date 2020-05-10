@@ -59,15 +59,23 @@ function checkFileValidity(data)
     return (true);
 }
 
+function isContextAlreadyExist(context)
+{
+    console.log(contextlist);
+    for (i in contextlist)
+    {
+        if (context === contextlist[i].contextID)
+        {
+            return (false);
+        }
+    }
+    return (true);
+}
+
 async function fireRegistering()
 {
     const form = document.getElementById("registerform");
     const context = form["form-Context"].value;
-    if (contextlist.indexOf(context) >= 0)
-    {
-        alert("The context name already exist");
-        return;
-    }
     const description = form["form-Description"].value;
     const scheduling = form["form-Scheduling"].value;
     const isScheduled = form["form-isScheduled"].value == "yes" ? true : false;

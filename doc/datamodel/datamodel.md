@@ -61,20 +61,20 @@ The list of schedulable resources is provided [here](../resources.md).
 
 Ok got the model, but how is it implemented on the AWS environment ?
 
-The database CURRENTLY used is the AWS [DynamodDB](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Introduction.html).
+The database currently used is the AWS [DynamodDB](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Introduction.html).
 
 DynamoDB is a scalable [noSQL](https://en.wikipedia.org/wiki/NoSQL) database.
 
 ## Implementation 'problems'
 
-In the process we will have to `query` on the entry `isScheduled`.
+In the processus we will have to `query` on the entry `isScheduled`.
 The problem is that *DynamoDB* does not allow us to create a *secondary index* with boolean type.
 
 So, we will be forced to `scan` the database instead of `query`.
 
 This is not an error, but in a clarity mindset the choice has been to NOT used `sparse` method.
 
-For a little explaination, we would have been able to set `isScheduled` as a _String_ and mark it with a *"X"* when scheduled is active and nothing if not.
+For a little explaination, we would have been able to set `isScheduled` as a _String_ and mark it with a *"X"* when the scheduling is active and nothing if not.
 
 This method works very well but involves a loss of coherence and understanding.
 
