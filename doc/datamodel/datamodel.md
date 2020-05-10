@@ -69,4 +69,33 @@ DynamoDB is a scalable [noSQL](https://en.wikipedia.org/wiki/NoSQL) database.
 
 The JSON below represent an entry in the _context_ database.
 
+```javascript
+{
+    contextID: "myapp",
+    contextDesc: "just an example",
+    isScheduled: true,
+    lastScheduling: 1589012783441,
+    powerState: false,
+    schedulingRule: "cron(0/10 * * * *)"
+}
+```
+
 The JSON below represent an entry in the _resource_ database.
+
+In reality, the JSON object are stringifyied.
+
+```javascript
+{
+  contextID: "myapp",
+  ec2::instance: {
+      id: ["ec2id1","ec2id2"],
+      isScheduled: [true, false],
+      attribut:["",""]
+  },
+  rds::instance: {
+      id: ["rdsid1", "rdsid2", "rdsid3"],
+      isScheduled: [true, false, true],
+      attribut: ["", "", ""]
+  }
+}
+```
