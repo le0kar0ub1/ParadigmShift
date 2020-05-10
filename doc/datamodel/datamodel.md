@@ -22,7 +22,8 @@ The array below represent a context description.
 | `contextDesc`            | _String_            | None                             | The description of the context                                  |
 | `powerState`             | _Boolean_           | None                             | The current power state of the context                          |
 | `isScheduled`            | _String_            | None                             | Is the context currently scheduled                              |
-| `schedulingRule`         | _String_            | crontab expression               | The scheduling rule applied to the context                      |
+| `schedulingRuleStart`    | _String_            | crontab expression               | The scheduling rule applied to the context to start             |
+| `schedulingRuleStop`     | _String_            | crontab expression               | The scheduling rule applied to the context to stop              |
 | `lastScheduling`         | _Number_            | None                             | Last scheduling in seconds from  01/01/1970 00:00:00 UTC        |
 
 
@@ -91,7 +92,8 @@ The JSON below represent an entry in the _context_ database.
     isScheduled: true,
     lastScheduling: 1589012783441,
     powerState: false,
-    schedulingRule: "cron(0/10 * * * *)"
+    schedulingRuleStart: "cron(0 8 * * ? *)"
+    schedulingRuleStop: "cron(0 18 * * ? *)"
 }
 ```
 
