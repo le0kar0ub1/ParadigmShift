@@ -28,6 +28,27 @@ This page is dedicated to the registering of an application.
 
 ![registering page](../../doc/front-resources/sample-registering.png)
 
+All the fields are explicited in the datamodel documentation.
+
+The field 'file' in the resgistering desire a file with JSON format describing the context resources.
+
+Example of the file 'resources.json'
+
+```javascript
+{
+    "ec2::instance": {
+        "id" : ["ec2id1", "ec2id2"],
+        "isScheduled": [true, false],
+        "attribut": ["", ""]
+    },
+    "rds::instance": {
+        "id" : ["rdsid1"],
+        "isScheduled": [true],
+        "attribut": [""]
+    }
+}
+```
+
 ### Modifying Page (not implemented yet)
 
 Only for modifying existing context.

@@ -2,7 +2,7 @@
 
 # Variables required : 
 # region
-# matchuniq for bucket
+# matchuniqu for bucket
 # aws profile
 
 echo $@
@@ -12,15 +12,15 @@ echo $@
 ##
 
 if [ $# -ne 3 ] || [ $1 == "--help" ]; then
-    echo "$0 \$region \$matchuniq \$awsprofile"
+    echo "$0 \$region \$matchuniqu \$awsprofile"
     exit 0
 fi
 
 project="paradigmshift"
 region=$1
-matchuniq=$2
+matchuniqu=$2
 awsprofile=$3
-bucket=$project-matchuniq-sambuild
+bucket=$project-matchuniqu-sambuild
 
 ##
 ## Environnement setup
@@ -90,7 +90,7 @@ sam deploy \
     --parameter-overrides \
         Project=$project \
         Region=$region \
-        matchuniq=$matchuniq \
+        matchuniqu=$matchuniqu \
 
 echo "-------- Build config --------"
 

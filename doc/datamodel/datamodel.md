@@ -18,7 +18,7 @@ The array below represent a context description.
 
 | Field                    | DB Type             | Format (string relevant only)    | Description                                                     |
 |--------------------------|---------------------|----------------------------------|-----------------------------------------------------------------|
-| `contextID`              | _String_            | None                             | The name of the context (must be uniq)                          |
+| `contextID`              | _String_            | None                             | The name of the context (must be uniqu)                          |
 | `contextDesc`            | _String_            | None                             | The description of the context                                  |
 | `powerState`             | _Boolean_           | None                             | The current power state of the context                          |
 | `isScheduled`            | _String_            | None                             | Is the context currently scheduled                              |

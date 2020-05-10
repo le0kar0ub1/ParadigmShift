@@ -24,11 +24,11 @@ All the created resources will match the following template name: _paradigmshift
 
 Run the script `deploy.sh` to deploy the project.
 
-`cd deploy && ./deploy.sh $AWS-REGION $MATCH-UNIQ $AWS-PROFILE`
+`cd deploy && ./deploy.sh $AWS-REGION $MATCH-UNIQU $AWS-PROFILE`
 
 Where:
   * `$AWS-REGION` : is deployment region
-  * `$MATCH-UNIQ` : is a uniq id for bucket naming -> _paradigmshift-${MATH-UNIQ}-XXX_
+  * `$MATCH-UNIQU` : is a uniqu id for bucket naming -> _paradigmshift-${MATH-UNIQU}-XXX_
   * `AWS-PROFILE` : is the aws profile which will be used while deploying
 
 example: `./deploy.sh eu-west-1 mysociety default`

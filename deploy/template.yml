@@ -48,7 +48,7 @@ Parameters:
   RootSrcDir:
     Type: String
     Default: ../src/backend
-  matchuniq:
+  matchuniqu:
     Type: String
     MinLength: 4
     MaxLength: 20
@@ -274,7 +274,7 @@ Resources:
   S3BucketWebsite:
     Type: AWS::S3::Bucket
     Properties:
-      BucketName: !Sub "${Project}-${matchuniq}-static"
+      BucketName: !Sub "${Project}-${matchuniqu}-static"
       BucketEncryption:
         ServerSideEncryptionConfiguration:
           - ServerSideEncryptionByDefault:
