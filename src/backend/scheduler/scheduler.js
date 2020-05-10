@@ -43,8 +43,12 @@ exports.handler = async (event, context, callback) =>
     try {
         /* Get the database timer */
         // for each context scheduled
-        var total = await getScheduledContext();
-        console.log(total);
+        var allcontext = await getScheduledContext();
+        // console.log(allcontext);
+        for (context in allcontext)
+        {
+            console.log(context);
+        }
         // next = schedulingEval(cron, lastscheduling);
         // if (next != NaN) {
             // update last scheduling in DB
@@ -64,28 +68,29 @@ exports.handler = async (event, context, callback) =>
     }
 };
 
+/*
+** Please, before any cry , read the datamodel documentation :)
+*/
 function getScheduledContext()
 {
     return new Promise((resolve, reject) => {
         var params = {
-            IndexName: 'isScheduled-index',
-            KeyConditionExpression: "#isScheduled = :isScheduled",
-            ExpressionAttributeNames:{
-                "#isScheduled": "isScheduled"
+            FilterExpression: "#isScheduled = :eqval",
+            ExpressionAttributeNames: {
+                "#isScheduled": "isScheduled",
             },
             ExpressionAttributeValues: {
-                ":isScheduled": true
+                ":eqval": true
             },
             TableName: DBID_CONTEXTDEF
         };
-        dynamodb.query(params, function(err, data) {
+        dynamodb.scan(params, function(err, data) {
             if (err) {
-                console.log("Error when read database" + err);
+                console.log("Error while reading database" + err);
                 return reject (err);
             } else {
-                return resolve (data);
+                return resolve (data.Items);
             }
         });
     });
 }
-// TableName: process.env.DBID_CONTEXTDEF
