@@ -2,6 +2,7 @@
 
 # Variables required : 
 # region
+# matchuniq
 
 echo $@
 
@@ -10,13 +11,14 @@ echo $@
 ##
 
 if [ $# -ne 1 ] || [ $1 == "--help" ]; then
-    echo "$0 \$region"
+    echo "$0 \$region" "\$matchuniq"
     exit 0
 fi
 
 project="paradigmshift"
 region=$1
-bucket=$project-sambuild
+matchuniq=$2
+bucket=$project-$2-sambuild
 
 ##
 ## Environnement setup
@@ -26,6 +28,8 @@ BUILD="build"
 
 mkdir -p $BUILD
 
+. deploy-helpers
+
 ##
 ## Set the script controlflow
 ##
@@ -34,6 +38,8 @@ function CLEANUP()
 {
     rm -rf $BUILD
     rm -rf .aws-sam
+    rm -rf $(find ../ -name node_modules)
+    rm -f  $(find ../ -name package-lock.json)
 }
 
 function RAISE()
@@ -53,15 +59,15 @@ trap RAISE EXIT
 
 echo "-------- Update git submodule --------"
 
-# git submodule update --init --recursive
+git submodule update --init --recursive
 
 echo "-------- Install dependencies --------"
 
-# npm install ../src/backend --prefix ../src/backend
+npm install ../src/backend --prefix ../src/backend
 
 echo "-------- Create SAM bucket --------"
 
-# aws s3api create-bucket --bucket $bucket --region $region --create-bucket-configuration LocationConstraint=$region
+aws s3api create-bucket --bucket $bucket --region $region --create-bucket-configuration LocationConstraint=$region
 
 echo "-------- Deploy resources --------"
 
@@ -82,9 +88,17 @@ sam deploy \
         Project=$project \
         Region=$region \
 
+echo "-------- Build config --------"
+
+apiendpoint=$(getValueFromKey APIendpoint paradigmshift)
+
+. config.sh
+
 echo "-------- Deploy frontend --------"
 
-# aws s3 cp --recursive ../src/frontend/static "s3://$s3path"
+s3path=$(getValueFromKey BucketName paradigmshift)
+
+aws s3 cp --recursive ../src/frontend/static "s3://$s3path"
 
 CLEANUP
 
