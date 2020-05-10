@@ -21,8 +21,8 @@ The array below represent a context description.
 | `contextID`              | _String_            | None                             | The name of the context (must be uniq)                          |
 | `contextDesc`            | _String_            | None                             | The description of the context                                  |
 | `powerState`             | _Boolean_           | None                             | The current power state of the context                          |
-| `isScheduled`            | _Boolean_           | None                             | Is the context currently scheduled                              |
-| `schedulingRule`         | _String_            | UNDEFINED  (cron ?)              | The scheduling rule applied to the context                      |
+| `isScheduled`            | _String_            | None                             | Is the context currently scheduled                              |
+| `schedulingRule`         | _String_            | crontab expression               | The scheduling rule applied to the context                      |
 | `lastScheduling`         | _Number_            | None                             | Last scheduling in seconds from  01/01/1970 00:00:00 UTC        |
 
 
@@ -65,6 +65,21 @@ The database CURRENTLY used is the AWS [DynamodDB](https://docs.aws.amazon.com/a
 
 DynamoDB is a scalable [noSQL](https://en.wikipedia.org/wiki/NoSQL) database.
 
+## Implementation 'problems'
+
+In the process we will have to `query` on the entry `isScheduled`.
+The problem is that *DynamoDB* does not allow us to create a *secondary index* with boolean type.
+
+So, we will be forced to `scan` the database instead of `query`.
+
+This is not an error, but in a clarity mindset the choice has been to NOT used `sparse` method.
+
+For a little explaination, we would have been able to set `isScheduled` as a _String_ and mark it with a *"X"* when scheduled is active and nothing if not.
+
+This method works very well but involves a loss of coherence and understanding.
+
+The choice made is very probably questionable, ready to discuss :)
+
 ## Sample
 
 The JSON below represent an entry in the _context_ database.
@@ -82,7 +97,7 @@ The JSON below represent an entry in the _context_ database.
 
 The JSON below represent an entry in the _resource_ database.
 
-In reality, the JSON object are stringifyied.
+In reality, the JSON objects are stringifyied.
 
 ```javascript
 {
