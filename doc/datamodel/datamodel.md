@@ -6,13 +6,14 @@ As explained, the model will be reworked when necessary.
 
 ## Model
 
-The model is composed of two databases, the first one which contain the basics informations on the context and the second all the registered resources.
+The model is composed of three databases. For the context, the first one which contain the basics informations on the context and the second all the registered resources.
+The choice to use two database is driven by the fact that we will often request one of them, then it allow us to lower the weight of data during requests.
 
-The choice to use 2 database is driven by the fact that we will often request one of them, then it allow us to lower the weight of data during requests.
+The third database is used for scheduling by resources tags.
 
 At top level we register a `context` of resources. The name context is given for a future scalability over the target specific resource, where we will allow to register one by one as a context.
 
-### Database: basic context
+### Database: context
 
 The array below represent a context description.
 
@@ -26,6 +27,19 @@ The array below represent a context description.
 | `schedulingRuleStop`     | _String_            | crontab expression               | The scheduling rule applied to the context to stop              |
 | `lastScheduling`         | _Number_            | None                             | Last scheduling in seconds from  01/01/1970 00:00:00 UTC        |
 
+The JSON below is a sample entry.
+
+```javascript
+{
+    contextID: "myapp",
+    contextDesc: "just an example",
+    isScheduled: true,
+    lastScheduling: 1589012783441,
+    powerState: false,
+    schedulingRuleStart: "cron(0 8 * * ? *)"
+    schedulingRuleStop: "cron(0 18 * * ? *)"
+}
+```
 
 ### Database: resources
 
@@ -58,48 +72,7 @@ Obviously all the members *MUST* match the same size.
 
 The list of schedulable resources is provided [here](../resources.md).
 
-## Implementation
-
-Ok got the model, but how is it implemented on the AWS environment ?
-
-The database currently used is the AWS [DynamodDB](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Introduction.html).
-
-DynamoDB is a scalable [noSQL](https://en.wikipedia.org/wiki/NoSQL) database.
-
-## Implementation 'problems'
-
-In the processus we will have to `query` on the entry `isScheduled`.
-The problem is that *DynamoDB* does not allow us to create a *secondary index* with boolean type.
-
-So, we will be forced to `scan` the database instead of `query`.
-
-This is not an error, but in a clarity mindset the choice has been to NOT used `sparse` method.
-
-For a little explaination, we would have been able to set `isScheduled` as a _String_ and mark it with a *"X"* when the scheduling is active and nothing if not.
-
-This method works very well but involves a loss of coherence and understanding.
-
-The choice made is very probably questionable, ready to discuss :)
-
-## Sample
-
-The JSON below represent an entry in the _context_ database.
-
-```javascript
-{
-    contextID: "myapp",
-    contextDesc: "just an example",
-    isScheduled: true,
-    lastScheduling: 1589012783441,
-    powerState: false,
-    schedulingRuleStart: "cron(0 8 * * ? *)"
-    schedulingRuleStop: "cron(0 18 * * ? *)"
-}
-```
-
-The JSON below represent an entry in the _resource_ database.
-
-In reality, the JSON objects are stringifyied.
+The JSON below is a sample entry. In reality, the JSON objects are stringifyied.
 
 ```javascript
 {
@@ -116,3 +89,47 @@ In reality, the JSON objects are stringifyied.
   }
 }
 ```
+
+### Database: tags
+
+| Field                    | DB Type             | Format (string relevant only)    | Description                                                  |
+|--------------------------|---------------------|----------------------------------|--------------------------------------------------------------|
+| `tagKey`                 | _String_            | None                             | The key of the targeted tag                                  |
+| `tagValue`               | _String_            | None                             | The value of the targeted tag                                |
+| `schedulingRuleStart`    | _String_            | crontab expression               | The scheduling rule applied to the context to start          |
+| `schedulingRuleStop`     | _String_            | crontab expression               | The scheduling rule applied to the context to stop           |
+
+The JSON below is a sample entry.
+
+```javascript
+{
+    tagKey: "Project",
+    tagValue: "paradigmshift",
+    schedulingRuleStart: "cron(0 8 * * ? *)"
+    schedulingRuleStop: "cron(0 18 * * ? *)"
+}
+```
+
+
+## Implementation
+
+Ok got the model, but how is it implemented on the AWS environment ?
+
+The database currently used is the AWS [DynamodDB](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Introduction.html).
+
+DynamoDB is a scalable [noSQL](https://en.wikipedia.org/wiki/NoSQL) database.
+
+## Implementation 'problems' (context db)
+
+In the processus we will have to `query` on the entry `isScheduled`.
+The problem is that *DynamoDB* does not allow us to create a *secondary index* with boolean type.
+
+So, we will be forced to `scan` the database instead of `query`.
+
+This is not an error, but in a clarity mindset the choice has been to NOT used `sparse` method.
+
+For a little explaination, we would have been able to set `isScheduled` as a _String_ and mark it with a *"X"* when the scheduling is active and nothing if not.
+
+This method works very well but involves a loss of coherence and understanding.
+
+The choice made is very probably questionable, ready to discuss :)
