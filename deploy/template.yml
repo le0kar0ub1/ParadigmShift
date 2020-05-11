@@ -165,15 +165,24 @@ Resources:
   ######## Scheduled Lambda Resources #########
   #############################################
 
-  lambdaScheduler:
+  lambdaSchedulerContext:
     Type: AWS::Serverless::Function
     Properties:
-    FunctionName: !Sub "${Project-scheduledLambda"
+    FunctionName: !Sub "${Project-scheduledLambda-context"
       Description: scheduled lambda
       CodeUri: !Sub "${RootSrcDir}/scheduler"
-      Handler: scheduler.handler
+      Handler: scheduler-bycontext.handler
       Role: !GetAtt LambdaRole.Arn
 
+  lambdaSchedulerTag:
+    Type: AWS::Serverless::Function
+    Properties:
+    FunctionName: !Sub "${Project-scheduledLambda-tag"
+      Description: scheduled lambda
+      CodeUri: !Sub "${RootSrcDir}/scheduler"
+      Handler: scheduler-bytag.handler
+      Role: !GetAtt LambdaRole.Arn
+  
   lambdaSchedulerRule:
     Type: "AWS::Events::Rule"
     Properties:
@@ -181,14 +190,24 @@ Resources:
       ScheduleExpression: !Sub cron(${SchedulerRule})
       State: ENABLED
       Targets:
-        - Arn: !Sub ${lambdaScheduler.Arn}
+        - Arn: !Sub ${lambdaSchedulerContext.Arn}
+          Id: lambdaSchedulerRule
+        - Arn: !Sub ${lambdaSchedulerTag.Arn}
           Id: lambdaSchedulerRule
 
-  lambdaSchedulerPermission:
+  lambdaSchedulerContextPermission:
     Type: "AWS::Lambda::Permission"
     Properties:
       Action: 'lambda:InvokeFunction'
-      FunctionName: !Sub ${lambdaScheduler.Arn}
+      FunctionName: !Sub ${lambdaSchedulerContext.Arn}
+      Principal: 'events.amazonaws.com'
+      SourceArn: !Sub ${lambdaSchedulerRule.Arn}
+
+  lambdaSchedulerContextPermission:
+    Type: "AWS::Lambda::Permission"
+    Properties:
+      Action: 'lambda:InvokeFunction'
+      FunctionName: !Sub ${lambdaSchedulerTag.Arn}
       Principal: 'events.amazonaws.com'
       SourceArn: !Sub ${lambdaSchedulerRule.Arn}
 

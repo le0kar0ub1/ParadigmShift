@@ -8,7 +8,7 @@ const DBID_RESOURCES="paradigmshift-resource"
 const AWS = require('aws-sdk');
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 
-// const cron = require('cron-parser');
+const cron = require('cron-parser');
 
 function ISO8601parse(asStr)
 {
@@ -31,11 +31,35 @@ function schedulingEval(cronStr, lastscheduling)
     return (NaN);
 }
 
+function invokeLambda(func, playload)
+{
+    return new Promise((resolve, reject) => {
+        var params = {
+            FunctionName: func,
+            InvocationType: 'RequestResponse',
+            Payload: JSON.stringify(playload)
+        };
+        lambda.invoke(params, function(err, data) {
+            if (err) {
+                return reject (err);
+            } else {
+                return resolve (data.Payload);
+            }
+        });
+    });
+}
+
 async function contextSwitchPowerState(context)
 {
     try {
         const ec2 = context.resources["ec2::instance"];
         for (let inc in ec2.id)
+        {
+            if (ec2.isScheduled[inc] == true)
+            {
+                await invokeLambda('ec2handler', ec2.id[inc]);
+            }
+        }
     } catch (err) {}
 }
 
