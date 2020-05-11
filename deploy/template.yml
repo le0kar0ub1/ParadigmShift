@@ -161,6 +161,18 @@ Resources:
         KeyType: HASH
       BillingMode: PAY_PER_REQUEST
 
+  dynamoDBtag:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: !Sub "${Project}-tag"
+      AttributeDefinitions:
+      - AttributeName: keytag
+        AttributeType: S
+      KeySchema:
+      - AttributeName: keytag
+        KeyType: HASH
+      BillingMode: PAY_PER_REQUEST
+
   #############################################
   ######## Scheduled Lambda Resources #########
   #############################################
@@ -191,9 +203,9 @@ Resources:
       State: ENABLED
       Targets:
         - Arn: !Sub ${lambdaSchedulerContext.Arn}
-          Id: lambdaSchedulerRule
+          Id: lambdaSchedulerRuleContext
         - Arn: !Sub ${lambdaSchedulerTag.Arn}
-          Id: lambdaSchedulerRule
+          Id: lambdaSchedulerRuleTag
 
   lambdaSchedulerContextPermission:
     Type: "AWS::Lambda::Permission"
