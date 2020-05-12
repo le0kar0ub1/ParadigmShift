@@ -31,7 +31,7 @@ function schedulingEval(cronStr, lastscheduling)
     return (NaN);
 }
 
-function invokeLambda(func, playload)
+function invokeLambdaApplySched(playload, action)
 {
     return new Promise((resolve, reject) => {
         var params = {
@@ -49,20 +49,6 @@ function invokeLambda(func, playload)
     });
 }
 
-async function contextSwitchPowerState(context)
-{
-    try {
-        const ec2 = context.resources["ec2::instance"];
-        for (let inc in ec2.id)
-        {
-            if (ec2.isScheduled[inc] == true)
-            {
-                await invokeLambda('ec2handler', ec2.id[inc]);
-            }
-        }
-    } catch (err) {}
-}
-
 async function scheduleOneContext(context)
 {
     let state;
@@ -73,7 +59,7 @@ async function scheduleOneContext(context)
         state = schedulingEval(context.schedulingRuleStop, context.lastscheduling);
     if (isNaN(state))
         return;
-    contextSwitchPowerState(context);
+    invokeLambdaApplySched(context.resources, context.powerState == true ? "STOP" : "START");
     await updateLastScheduling();
 }
 
