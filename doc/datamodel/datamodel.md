@@ -6,7 +6,9 @@ As explained, the model will be reworked when necessary.
 
 ## Model
 
-The model is composed of three databases. For the context, the first one which contain the basics informations on the context and the second all the registered resources.
+The model is composed of three tables.
+
+For the scheduling by context, the first one which contain the basics informations on the context and the second all the registered resources.
 The choice to use two database is driven by the fact that we will often request one of them, then it allow us to lower the weight of data during requests.
 
 The third database is used for scheduling by resources tags.
@@ -22,7 +24,7 @@ The array below represent a context description.
 | `contextID`              | _String_            | None                             | The name of the context (must be uniqu)                          |
 | `contextDesc`            | _String_            | None                             | The description of the context                                  |
 | `powerState`             | _Boolean_           | None                             | The current power state of the context                          |
-| `isScheduled`            | _String_            | None                             | Is the context currently scheduled                              |
+| `isScheduled`            | _Boolean_           | None                             | Is the context currently scheduled                              |
 | `schedulingRuleStart`    | _String_            | crontab expression               | The scheduling rule applied to the context to start             |
 | `schedulingRuleStop`     | _String_            | crontab expression               | The scheduling rule applied to the context to stop              |
 | `lastScheduling`         | _Number_            | None                             | Last scheduling in seconds from  01/01/1970 00:00:00 UTC        |
@@ -36,8 +38,8 @@ The JSON below is a sample entry.
     isScheduled: true,
     lastScheduling: 1589012783441,
     powerState: false,
-    schedulingRuleStart: "cron(0 8 * * ? *)"
-    schedulingRuleStop: "cron(0 18 * * ? *)"
+    schedulingRuleStart: "0 8 * * ? *",
+    schedulingRuleStop: "0 18 * * ? *"
 }
 ```
 
@@ -98,6 +100,7 @@ The JSON below is a sample entry. In reality, the JSON objects are stringifyied.
 | `tagValue`               | _String_            | None                             | The value of the targeted tag                                |
 | `schedulingRuleStart`    | _String_            | crontab expression               | The scheduling rule applied to the context to start          |
 | `schedulingRuleStop`     | _String_            | crontab expression               | The scheduling rule applied to the context to stop           |
+| `isScheduled`            | _Boolean_           | None                             | Is the current tag scheduled                                 |
 
 The JSON below is a sample entry.
 
@@ -105,11 +108,10 @@ The JSON below is a sample entry.
 {
     tagKey: "Project",
     tagValue: "paradigmshift",
-    schedulingRuleStart: "cron(0 8 * * ? *)"
-    schedulingRuleStop: "cron(0 18 * * ? *)"
+    schedulingRuleStart: "0 8 * * ? *",
+    schedulingRuleStop: "0 18 * * ? *"
 }
 ```
-
 
 ## Implementation
 
@@ -119,9 +121,9 @@ The database currently used is the AWS [DynamodDB](https://docs.aws.amazon.com/a
 
 DynamoDB is a scalable [noSQL](https://en.wikipedia.org/wiki/NoSQL) database.
 
-## Implementation 'problems' (context db)
+### Implementation 'problems'
 
-In the processus we will have to `query` on the entry `isScheduled`.
+In the processus we will have to `query` on the `isScheduled` entries.
 The problem is that *DynamoDB* does not allow us to create a *secondary index* with boolean type.
 
 So, we will be forced to `scan` the database instead of `query`.
