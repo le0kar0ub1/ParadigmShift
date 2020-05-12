@@ -80,11 +80,11 @@ async function scheduleOneContext(context)
 exports.handler = async (event, context, callback) =>
 {
     try {
-        var allcontext = await getScheduledContext();
-        for (let context in allcontext)
+        var allcontext = await getScheduledContexts();
+        for (let inc in allcontext)
         {
-            console.log(context);
-            scheduleOneContext(context);
+            console.log(inc);
+            scheduleOneContext(inc);
         }
         return callback(null, {
             statusCode: 200,
@@ -130,7 +130,7 @@ function updateLastScheduling(contextID, newsched)
 /*
 ** Please, before any cry, read the datamodel documentation :)
 */
-function getScheduledContext()
+function getScheduledContexts()
 {
     return new Promise((resolve, reject) => {
         var params = {

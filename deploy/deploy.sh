@@ -61,7 +61,8 @@ trap RAISE EXIT
 
 echo "-------- Update git submodule --------"
 
-git submodule update --init --recursive
+git pull --recurse-submodules
+git submodule update --init --remote --recursive
 
 echo "-------- Install dependencies --------"
 

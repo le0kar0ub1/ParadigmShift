@@ -1,37 +1,26 @@
 "use strict";
 
-/* [ENVIRRONNEMENT VARIABLE] */
-const DBID_CONTEXTDEF="paradigmshift-context"
-const DBID_RESOURCES="paradigmshift-resource" 
-/* [ENVIRRONNEMENT VARIABLE] */
-
 const AWS = require('aws-sdk');
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 const resourcegroupstaggingapi = new AWS.ResourceGroupsTaggingAPI();
 
-function getResourcesByTag()
+const cron = require('cron-parser');
+
+function getResourcesByTag(tag, values)
 {
     return new Promise((resolve, reject) => {
         var params = {
-          ExcludeCompliantResources: true || false,
-          IncludeComplianceDetails: true || false,
-          PaginationToken: 'STRING_VALUE',
-          ResourceTypeFilters: [
-            'STRING_VALUE',
-            /* more items */
-          ],
-          ResourcesPerPage: 'NUMBER_VALUE',
-          TagFilters: [
-            {
-              Key: 'STRING_VALUE',
-              Values: [
-                'STRING_VALUE',
-                /* more items */
-              ]
-            },
-            /* more items */
-          ],
-          TagsPerPage: 'NUMBER_VALUE'
+            ResourceTypeFilters: [
+              'ec2:instance',
+              'rds:instance',
+              'appstream:fleet'
+            ],
+            TagFilters: [
+              {
+                Key: tag,
+                Values: values
+              }
+            ],
         };
         resourcegroupstaggingapi.getResources(params, function(err, data) {
             if (err) 
@@ -45,11 +34,11 @@ function getResourcesByTag()
 exports.handler = async (event, context, callback) =>
 {
     try {
-        var allcontext = await getScheduledContext();
-        for (let context in allcontext)
+        var alltags = await getScheduledTags();
+        for (let tag in alltags)
         {
-            console.log(context);
-            scheduleOneContext(context);
+            console.log(tag);
+            scheduleOneContext(tag);
         }
         return callback(null, {
             statusCode: 200,
@@ -64,3 +53,30 @@ exports.handler = async (event, context, callback) =>
         });
     }
 };
+
+/*
+** Please, before any cry, read the datamodel documentation :)
+*/
+function getScheduledTags()
+{
+    return new Promise((resolve, reject) => {
+        var params = {
+            FilterExpression: "#isScheduled = :eqval",
+            ExpressionAttributeNames: {
+                "#isScheduled": "isScheduled",
+            },
+            ExpressionAttributeValues: {
+                ":eqval": true
+            },
+            TableName: process.env.DBID_TAGDEF
+        };
+        dynamodb.scan(params, function(err, data) {
+            if (err) {
+                console.log("Error while reading database" + err);
+                return reject (err);
+            } else {
+                return resolve (data.Items);
+            }
+        });
+    });
+}
