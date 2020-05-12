@@ -1,18 +1,7 @@
-function readFile(file)
-{
-    return new Promise((resolve, reject) => {
-        var reader = new FileReader();
-        reader.onload = function fileReadCompleted() {
-            return resolve (reader.result);
-        };
-        reader.readAsText(file);
-    }); 
-}
-
 function backend_write_resource(transfer)
 {
     return new Promise((resolve, reject) => {
-        axios.post(API_TagREGISTER_ENDPOINT, {
+        axios.post(API_TAGREGISTER_ENDPOINT, {
             data: transfer
         }).then(function (response) {
             return resolve (response.data.body);
@@ -20,16 +9,15 @@ function backend_write_resource(transfer)
     });
 }
 
-async function transferResources(Tag, description, schedStart, schedStop, isScheduled, isRunning, datares)
+async function transferResources(key, values, description, schedStart, schedStop, isScheduled);
 {
     transfer = {
-        TagID: Tag,
-        TagDesc: description,
+        tagKey: key,
+        tagValues: values,
+        tagDesc: description,
         schedulingRuleStart: schedStart,
         schedulingRuleStop: schedStop,
-        isScheduled: isScheduled,
-        powerState: isRunning,
-        resources: JSON.stringify(datares)
+        isScheduled: isScheduled
     };
     let resolved = await backend_write_resource(transfer);
     if (resolved != "Success")
@@ -64,5 +52,5 @@ async function fireRegisteringTag()
         alert("Bad Tag values");
         return;
     }
-    transferResources(Tag, description, schedStart, schedStop, isScheduled, isRunning, datares);
+    transferResources(key, values, description, schedStart, schedStop, isScheduled);
 }
