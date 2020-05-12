@@ -4,7 +4,7 @@ const AWS = require('aws-sdk');
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 const resourcegroupstaggingapi = new AWS.ResourceGroupsTaggingAPI();
 
-const cron = require('cron-parser');
+// const cron = require('cron-parser');
 
 function getResourcesByTag(tag, values)
 {

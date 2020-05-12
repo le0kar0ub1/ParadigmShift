@@ -19,7 +19,7 @@ At top level we register a `context` of resources. The name context is given for
 
 The array below represent a context description.
 
-| Field                    | DB Type             | Format (string relevant only)    | Description                                                     |
+| Field                    | DB Type             | Format (string relevant)         | Description                                                     |
 |--------------------------|---------------------|----------------------------------|-----------------------------------------------------------------|
 | `contextID`              | _String_            | None                             | The name of the context (must be uniqu)                          |
 | `contextDesc`            | _String_            | None                             | The description of the context                                  |
@@ -47,7 +47,7 @@ The JSON below is a sample entry.
 
 The entry below represent an entry which reference resources in one context above.
 
-| Field                    | DB Type             | Format (string relevant only)    | Description                                                  |
+| Field                    | DB Type             | Format (string relevant)         | Description                                                  |
 |--------------------------|---------------------|----------------------------------|--------------------------------------------------------------|
 | `contextID`              | _String_            | None                             | The name of the context (must match the one above)           |
 | `service::resource`      | _String_            | JSON stringifed                  | A list of resources with the same type in the context        |
@@ -94,10 +94,11 @@ The JSON below is a sample entry. In reality, the JSON objects are stringifyied.
 
 ### Database: tags
 
-| Field                    | DB Type             | Format (string relevant only)    | Description                                                  |
+| Field                    | DB Type             | Format (string relevant)         | Description                                                  |
 |--------------------------|---------------------|----------------------------------|--------------------------------------------------------------|
 | `tagKey`                 | _String_            | None                             | The key of the targeted tag                                  |
 | `tagValues`              | _String Array_      | None                             | The possible values of the targeted tag                      |
+| `tagDesc`                | _String_            | None                             | The description of the tag                                   |
 | `schedulingRuleStart`    | _String_            | crontab expression               | The scheduling rule applied to the context to start          |
 | `schedulingRuleStop`     | _String_            | crontab expression               | The scheduling rule applied to the context to stop           |
 | `isScheduled`            | _Boolean_           | None                             | Is the current tag scheduled                                 |
@@ -108,6 +109,7 @@ The JSON below is a sample entry.
 {
     tagKey: "Project",
     tagValue: ["paradigmshift"],
+    tagDesc: "simple project tagging",
     schedulingRuleStart: "0 8 * * ? *",
     schedulingRuleStop: "0 18 * * ? *",
     isScheduled: true

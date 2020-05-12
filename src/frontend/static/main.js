@@ -47,6 +47,7 @@ function setPowerState(bool)
 
 async function preload()
 {
+    return;
     const rawdata = await backend_request_context("restricted-all", "context");
 
     try {

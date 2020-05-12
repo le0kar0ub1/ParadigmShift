@@ -73,16 +73,16 @@ function isContextAlreadyExist(context)
     return (true);
 }
 
-async function fireRegistering()
+async function fireRegisteringContext()
 {
-    const form = document.getElementById("registerform");
-    const context = form["form-Context"].value;
-    const description = form["form-Description"].value;
-    const schedStart = form["form-Scheduling-start"].value;
-    const schedStop = form["form-Scheduling-stop"].value;
-    const isScheduled = form["form-isScheduled"].value == "yes" ? true : false;
-    const isRunning = form["form-isRunning"].value == "yes" ?  true : false;
-    var datares = await readFile(form["form-file"].files[0]);
+    const form = document.getElementById("registerFormContext");
+    const context = form["form-context-Context"].value;
+    const description = form["form-context-Description"].value;
+    const schedStart = form["form-context-Scheduling-start"].value;
+    const schedStop = form["form-context-Scheduling-stop"].value;
+    const isScheduled = form["form-context-isScheduled"].value == "yes" ? true : false;
+    const isRunning = form["form-context-isRunning"].value == "yes" ?  true : false;
+    var datares = await readFile(form["form-context-file"].files[0]);
     try {
         datares = JSON.parse(datares);
     } catch {

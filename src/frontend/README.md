@@ -10,7 +10,7 @@ The front is actually simple so far and composed only of hand made *HTML/CSS*.
 
 ## Page Description
 
-Got three pages to handle the necessary.
+Got four pages to handle the necessary.
 
 ### Root Page
 
@@ -22,7 +22,7 @@ You can then target a particular one to apply modification.
 
 ![root page](../../doc/front-resources/sample-home.png)
 
-### Registering Page
+### Context Registering Page
 
 This page is dedicated to the registering of an application.
 
@@ -48,6 +48,8 @@ Example of the file 'resources.json'
     }
 }
 ```
+
+### Tag Registering Page (not implemented yet)
 
 ### Modifying Page (not implemented yet)
 

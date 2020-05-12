@@ -12,11 +12,10 @@ function invokeLambda(func, playload)
             Payload: JSON.stringify(playload)
         };
         lambda.invoke(params, function(err, data) {
-            if (err) {
+            if (err)
                 return reject (err);
-            } else {
+            else
                 return resolve (data.Payload);
-            }
         });
     });
 }

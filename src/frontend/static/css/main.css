@@ -155,7 +155,7 @@ input {
     border-bottom: 4px solid rgba(228, 228, 228, 0.3);
 }
 
-.contextRegister {
+.registering {
     grid-column: 1 / 3;
     width: 50%;
     margin: auto;

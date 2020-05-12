@@ -20,10 +20,15 @@ The lambda handlers are triggered by `Amazon API gateway` (rest api).
 | Context power state on/off       | _Must_         |               |
 | Register a context               | _Must_         | Handled       |
 | Unregister a context             | _Must_         | Handled       |
+| Register a tag                   | _Must_         |               |
+| Unregister a tag                 | _Must_         |               |
 | Get a context                    | _Must_         | Handled       |
 | Get a resources context          | _Must_         | Handled       |
 | Add a resource to a context      | _Should_       |               |
 | Sub a resource to a context      | _Should_       |               |
+| Add a value to a tag             | _Should_       |               |
+| Sub a value to a tag             | _Should_       |               |
+
 
 ## Scheduler core
 
