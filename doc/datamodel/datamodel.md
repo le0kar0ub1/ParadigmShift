@@ -97,7 +97,7 @@ The JSON below is a sample entry. In reality, the JSON objects are stringifyied.
 | Field                    | DB Type             | Format (string relevant only)    | Description                                                  |
 |--------------------------|---------------------|----------------------------------|--------------------------------------------------------------|
 | `tagKey`                 | _String_            | None                             | The key of the targeted tag                                  |
-| `tagValue`               | _String_            | None                             | The value of the targeted tag                                |
+| `tagValues`              | _String Array_      | None                             | The possible values of the targeted tag                      |
 | `schedulingRuleStart`    | _String_            | crontab expression               | The scheduling rule applied to the context to start          |
 | `schedulingRuleStop`     | _String_            | crontab expression               | The scheduling rule applied to the context to stop           |
 | `isScheduled`            | _Boolean_           | None                             | Is the current tag scheduled                                 |
@@ -107,9 +107,10 @@ The JSON below is a sample entry.
 ```javascript
 {
     tagKey: "Project",
-    tagValue: "paradigmshift",
+    tagValue: ["paradigmshift"],
     schedulingRuleStart: "0 8 * * ? *",
-    schedulingRuleStop: "0 18 * * ? *"
+    schedulingRuleStop: "0 18 * * ? *",
+    isScheduled: true
 }
 ```
 
