@@ -20,7 +20,7 @@ project="paradigmshift"
 region=$1
 matchuniqu=$2
 awsprofile=$3
-bucket=$project-matchuniqu-sambuild
+bucket=$project-$matchuniqu-sambuild
 
 ##
 ## Environnement setup
@@ -30,7 +30,16 @@ BUILD="build"
 
 mkdir -p $BUILD
 
-. deploy-helpers
+. ./deploy-helper
+
+##
+## submodule update
+##
+
+echo "-------- Update git submodule --------"
+
+# git pull --recurse-submodules
+# git submodule update --init --remote --recursive
 
 ##
 ## Set the script controlflow
@@ -59,39 +68,34 @@ trap RAISE EXIT
 ## Start deploying
 ##
 
-echo "-------- Update git submodule --------"
-
-git pull --recurse-submodules
-git submodule update --init --remote --recursive
-
 echo "-------- Install dependencies --------"
 
-npm install ../src/backend --prefix ../src/backend
+# npm install ../src/backend --prefix ../src/backend
 
 echo "-------- Create SAM bucket --------"
 
-aws s3api create-bucket --bucket $bucket --region $region --create-bucket-configuration LocationConstraint=$region --profile $awsprofile
+# aws s3api create-bucket --bucket $bucket --region $region --create-bucket-configuration LocationConstraint=$region --profile $awsprofile
 
 echo "-------- Deploy resources --------"
 
 sam build --profile $awsprofile
 
-sam package \
-    --s3-bucket $bucket \
-    --output-template-file build/package.yml \
+sam package                                      \
+    --s3-bucket $bucket                          \
+    --output-template-file build/package.yml     \
     --profile $awsprofile
 
-sam deploy \
-    --template-file build/package.yml \
-    --stack-name $project \
-    --capabilities CAPABILITY_NAMED_IAM \
-    --region $region \
-    --tags Project=$project \
-    --profile $awsprofile
-    --parameter-overrides \
-        Project=$project \
-        Region=$region \
-        matchuniqu=$matchuniqu \
+sam deploy                                       \
+    --template-file build/package.yml            \
+    --stack-name $project                        \
+    --capabilities CAPABILITY_NAMED_IAM          \
+    --region $region                             \
+    --tags Project=$project                      \
+    --profile $awsprofile                        \
+    --parameter-overrides                        \
+        Project=$project                         \
+        Region=$region                           \
+        matchuniqu=$matchuniqu
 
 echo "-------- Build config --------"
 

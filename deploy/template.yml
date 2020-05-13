@@ -14,8 +14,8 @@ Parameters:
     Default: paradigmshift
   SchedulerRule:
     Type: String
-    AllowedPattern: (\*|([0-9]|1[0-9]|2[0-9]|3[0-9]|4[0-9]|5[0-9])|\*\/([0-9]|1[0-9]|2[0-9]|3[0-9]|4[0-9]|5[0-9])) (\*|([0-9]|1[0-9]|2[0-3])|\*\/([0-9]|1[0-9]|2[0-3])) (\*|([1-9]|1[0-9]|2[0-9]|3[0-1])|\*\/([1-9]|1[0-9]|2[0-9]|3[0-1])) (\*|([1-9]|1[0-2])|\*\/([1-9]|1[0-2])) (\*|([0-6])|\*\/([0-6]))\)
-    ConstraintDescription: must match the cron syntax.
+    # AllowedPattern: (\*|([0-9]|1[0-9]|2[0-9]|3[0-9]|4[0-9]|5[0-9])|\*\/([0-9]|1[0-9]|2[0-9]|3[0-9]|4[0-9]|5[0-9])) (\*|([0-9]|1[0-9]|2[0-3])|\*\/([0-9]|1[0-9]|2[0-3])) (\*|([1-9]|1[0-9]|2[0-9]|3[0-1])|\*\/([1-9]|1[0-9]|2[0-9]|3[0-1])) (\*|([1-9]|1[0-2])|\*\/([1-9]|1[0-2])) (\*|([0-6])|\*\/([0-6]))\)
+    # ConstraintDescription: must match the cron syntax.
     Default: 0/10 * * * ? *
   Region:
     Type: String
@@ -110,7 +110,9 @@ Resources:
                   - dynamodb:Update*
                   - dynamodb:Query
                 Resource:
-                  - "*"
+                  - !GetAtt dynamoDBcontext.Arn
+                  - !GetAtt dynamoDBresource.Arn
+                  - !GetAtt dynamoDBtag.Arn
         - PolicyName: s3Policy
           PolicyDocument:
             Version: '2012-10-17'
@@ -180,8 +182,8 @@ Resources:
   lambdaSchedulerContext:
     Type: AWS::Serverless::Function
     Properties:
-    FunctionName: !Sub "${Project-scheduledLambda-context"
-      Description: scheduled lambda
+      FunctionName: !Sub "${Project}-scheduledLambda-context"
+      Description: scheduled lambda context
       CodeUri: !Sub "${RootSrcDir}/scheduler"
       Handler: scheduler-bycontext.handler
       Role: !GetAtt LambdaRole.Arn
@@ -189,8 +191,8 @@ Resources:
   lambdaSchedulerTag:
     Type: AWS::Serverless::Function
     Properties:
-    FunctionName: !Sub "${Project-scheduledLambda-tag"
-      Description: scheduled lambda
+      FunctionName: !Sub "${Project}-scheduledLambda-tag"
+      Description: scheduled lambda tag
       CodeUri: !Sub "${RootSrcDir}/scheduler"
       Handler: scheduler-bytag.handler
       Role: !GetAtt LambdaRole.Arn
