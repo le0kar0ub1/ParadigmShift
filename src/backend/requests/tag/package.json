@@ -1,7 +1,7 @@
 {
-    "name": "backend-request",
+    "name": "backend-request-tag",
     "version": "1.0.0",
-    "description": "backend-request",
+    "description": "backend-request-tag",
     "author": "Leo Karoubi",
     "license": "GNU3"
 }
