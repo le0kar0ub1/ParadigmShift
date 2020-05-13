@@ -24,46 +24,48 @@
 
         <div class="bodywrapper">
             <div class="context">
-                <div class="contextSelector">
+                <div class="rootSelector">
                     <select id="contextSelector" class="selector" onchange="contextDescription()"></select>
-                    <a id="powerState" href="#" class="state">State: undefined</a>
+                    <a id="cotextPowerState" href="#" class="state">State: undefined</a>
                 </div>
 
-                <div class="contextinfo">
+                <div>
                     <div class="fields">
                         <p class="FieldTitle">Context:</p>
-                        <p class="FieldData" id="desc-context">undefined</p>
+                        <p class="FieldData" id="desc-context-context">undefined</p>
                         <p class="FieldTitle">Description:</p>
-                        <p class="FieldData" id="desc-desc">undefined</p>
+                        <p class="FieldData" id="desc-context-desc">undefined</p>
                         <p class="FieldTitle">Scheduling rule start:</p>
-                        <p class="FieldData" id="desc-rule-start">undefined</p>
+                        <p class="FieldData" id="desc-context-rule-start">undefined</p>
                         <p class="FieldTitle">Scheduling rule stop:</p>
-                        <p class="FieldData" id="desc-rule-stop">undefined</p>
+                        <p class="FieldData" id="desc-context-rule-stop">undefined</p>
                         <p class="FieldTitle">Is scheduled:</p>
-                        <p class="FieldData" id="desc-issched">undefined</p>
-                        <!-- <a href="pages/modifying.html">Modify the context</a> -->
+                        <p class="FieldData" id="desc-context-issched">undefined</p>
+                        <!-- <a href="pages/modifying-context.html">Modify the context</a> -->
                     </div>
                 </div>
             </div>
             <div class="tag">
-                <div class="contextSelector">
-                    <select id="contextSelector" class="selector" onchange="contextDescription()"></select>
-                    <a id="powerState" href="#" class="state">State: undefined</a>
+                <div class="rootSelector">
+                    <select id="tagSelector" class="selector" onchange="tagDescription()"></select>
+                    <!-- <a id="tagPowerState" href="#" class="state">State: undefined</a> -->
                 </div>
 
-                <div class="contextinfo">
+                <div>
                     <div class="fields">
-                        <p class="FieldTitle">Context:</p>
-                        <p class="FieldData" id="desc-context">undefined</p>
+                        <p class="FieldTitle">Tag key:</p>
+                        <p class="FieldData" id="desc-tag-key">undefined</p>
+                        <p class="FieldTitle">Tag values:</p>
+                        <p class="FieldData" id="desc-tag-values">undefined</p>
                         <p class="FieldTitle">Description:</p>
-                        <p class="FieldData" id="desc-desc">undefined</p>
+                        <p class="FieldData" id="desc-tag-desc">undefined</p>
                         <p class="FieldTitle">Scheduling rule start:</p>
-                        <p class="FieldData" id="desc-rule-start">undefined</p>
+                        <p class="FieldData" id="desc-tag-rule-start">undefined</p>
                         <p class="FieldTitle">Scheduling rule stop:</p>
-                        <p class="FieldData" id="desc-rule-stop">undefined</p>
+                        <p class="FieldData" id="desc-tag-rule-stop">undefined</p>
                         <p class="FieldTitle">Is scheduled:</p>
-                        <p class="FieldData" id="desc-issched">undefined</p>
-                        <!-- <a href="pages/modifying.html">Modify the context</a> -->
+                        <p class="FieldData" id="desc-tag-issched">undefined</p>
+                        <!-- <a href="pages/modifying-tag.html">Modify the tag</a> -->
                     </div>
                 </div>
             </div>
