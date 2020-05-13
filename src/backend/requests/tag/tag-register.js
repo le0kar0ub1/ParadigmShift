@@ -30,7 +30,7 @@ exports.handler = async (event, context, callback) =>
     }
 };
 
-function registerTag(tagKey, schedulingRuleStart, schedulingRuleStop, tagDesc, powerState, isScheduled)
+function registerTag(tagKey, tagValues, schedulingRuleStart, schedulingRuleStop, tagDesc, powerState, isScheduled)
 {
     return new Promise((resolve, reject) => {
         dynamodb.put({

@@ -278,9 +278,9 @@ Resources:
               Path: /context-register
               Method: POST
 
-  ##################################################
-  ######## Context register Lambda Resources #######
-  ##################################################
+  ####################################################
+  ######## Context unregister Lambda Resources #######
+  ####################################################
   
   lambdaContextUNRegister:
     Type: AWS::Serverless::Function
@@ -296,6 +296,66 @@ Resources:
             Properties:
               RestApiId: !Ref APIGateway
               Path: /context-unregister
+              Method: POST
+
+  #########################################
+  ######## Tag get Lambda Resources #######
+  #########################################
+
+  lambdaGetData:
+    Type: AWS::Serverless::Function
+    Properties:
+        FunctionName: !Sub "${Project}-tag-get"
+        Description: get tag and resources from database
+        CodeUri: !Sub ${RootSrcDir}/requests/tag
+        Handler: tag-get.handler
+        Role: !GetAtt LambdaRole.Arn
+        Events:
+          getData:
+            Type: Api
+            Properties:
+              RestApiId: !Ref APIGateway
+              Path: /tag-get
+              Method: POST
+
+  ##############################################
+  ######## Tag register Lambda Resources #######
+  ##############################################
+
+  lambdaContextRegister:
+    Type: AWS::Serverless::Function
+    Properties:
+        FunctionName: !Sub "${Project}-tag-register"
+        Description: register a tag in database
+        CodeUri: !Sub ${RootSrcDir}/requests/tag
+        Handler: tag-register.handler
+        Role: !GetAtt LambdaRole.Arn
+        Events:
+          getData:
+            Type: Api
+            Properties:
+              RestApiId: !Ref APIGateway
+              Path: /tag-register
+              Method: POST
+
+  ################################################
+  ######## Tag unregister Lambda Resources #######
+  ################################################
+  
+  lambdaContextUNRegister:
+    Type: AWS::Serverless::Function
+    Properties:
+        FunctionName: !Sub "${Project}-tag-unregister"
+        Description: unregister a tag in database
+        CodeUri: !Sub ${RootSrcDir}/requests/tag
+        Handler: tag-unregister.handler
+        Role: !GetAtt LambdaRole.Arn
+        Events:
+          getData:
+            Type: Api
+            Properties:
+              RestApiId: !Ref APIGateway
+              Path: /tag-unregister
               Method: POST
 
   ####################################
