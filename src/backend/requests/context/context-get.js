@@ -20,19 +20,19 @@ exports.handler = async (event, context, callback) =>
             return callback(null, {
                 statusCode: 500,
                 body: "Bad data format",
-                headers: {'Content-Type': 'application/json', 'Access-Control-Allow-Origin':'*'}
+                headers: {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'}
             });
         }
         return callback(null, {
             statusCode: 200,
             body: JSON.stringify(data),
-            headers: {'Content-Type': 'application/json', 'Access-Control-Allow-Origin':'*'}
+            headers: {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'}
         });
     } catch(err) {
         return callback(err, {
             statusCode: 500,
             body: "Bad data format",
-            headers: {'Content-Type': 'application/json', 'Access-Control-Allow-Origin':'*'}
+            headers: {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'}
         });
     }
 };
@@ -54,10 +54,6 @@ function getDatabase(contextID, database)
     });
 }
 
-/*
-** Yeah, ugly...
-** Think about an other way to achieve this part
-*/
 function scanDatabase(database)
 {
     return new Promise((resolve, reject) => {

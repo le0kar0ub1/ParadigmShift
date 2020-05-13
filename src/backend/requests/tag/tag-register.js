@@ -19,13 +19,13 @@ exports.handler = async (event, context, callback) =>
         return callback(null, {
             statusCode: 200,
             body: "Success",
-            headers: {'Content-Type': 'application/json', 'Access-Control-Allow-Origin':'*'}
+            headers: {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'}
         });
     } catch(err) {
         return callback(err, {
             statusCode: 500,
             body: "Bad data format",
-            headers: {'Content-Type': 'application/json', 'Access-Control-Allow-Origin':'*'}
+            headers: {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'}
         });
     }
 };

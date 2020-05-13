@@ -2,7 +2,7 @@
 
 # Variables required : 
 # region
-# matchuniqu for bucket
+# MatchUniqu for bucket
 # aws profile
 
 echo $@
@@ -12,15 +12,15 @@ echo $@
 ##
 
 if [ $# -ne 3 ] || [ $1 == "--help" ]; then
-    echo "$0 \$region \$matchuniqu \$awsprofile"
+    echo "$0 \$region \$MatchUniqu \$awsprofile"
     exit 0
 fi
 
 project="paradigmshift"
 region=$1
-matchuniqu=$2
+MatchUniqu=$2
 awsprofile=$3
-bucket=$project-$matchuniqu-sambuild
+bucket=$project-$MatchUniqu-sambuild
 
 ##
 ## Environnement setup
@@ -38,8 +38,8 @@ mkdir -p $BUILD
 
 echo "-------- Update git submodule --------"
 
-# git pull --recurse-submodules
-# git submodule update --init --remote --recursive
+git pull --recurse-submodules
+git submodule update --init --remote --recursive
 
 ##
 ## Set the script controlflow
@@ -70,11 +70,11 @@ trap RAISE EXIT
 
 echo "-------- Install dependencies --------"
 
-# npm install ../src/backend --prefix ../src/backend
+npm install ../src/backend --prefix ../src/backend
 
 echo "-------- Create SAM bucket --------"
 
-# aws s3api create-bucket --bucket $bucket --region $region --create-bucket-configuration LocationConstraint=$region --profile $awsprofile
+aws s3api create-bucket --bucket $bucket --region $region --create-bucket-configuration LocationConstraint=$region --profile $awsprofile
 
 echo "-------- Deploy resources --------"
 
@@ -95,13 +95,14 @@ sam deploy                                       \
     --parameter-overrides                        \
         Project=$project                         \
         Region=$region                           \
-        matchuniqu=$matchuniqu
+        MatchUniqu=$MatchUniqu                   \
+        Resources="$(cat resources-target.json)"
 
 echo "-------- Build config --------"
 
 apiendpoint=$(getValueFromKey APIendpoint $project $awsprofile)
 
-. config.sh
+. ./config.sh
 
 echo "-------- Deploy frontend --------"
 

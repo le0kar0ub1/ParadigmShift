@@ -36,11 +36,8 @@ echo -e "const API_TAGREGISTER_ENDPOINT=\"$apiendpoint\"/tag-register" >> $TARGE
 # Then put the handled resources
 # so far, it's not useful but later that will allow us a deploy-time config for resources
 
-echo -en "
-const resourceref = [
-    \"ec2::instance\",
-    \"rds::instance\",
-    \"appstream::fleet\"
-];" >> $TARGET
+echo -n "const resourceref = [" >> $TARGET
+cat resources-target.list >> $TARGET
+echo "];" >> $TARGET
 
 trap - EXIT

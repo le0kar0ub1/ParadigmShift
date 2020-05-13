@@ -60,7 +60,7 @@ async function scheduleOneContext(context)
     if (isNaN(state))
         return;
     invokeLambdaApplySched(context.resources, context.powerState == true ? "STOP" : "START");
-    await updateLastScheduling();
+    await updateLastScheduling(context.contextID, state);
 }
 
 exports.handler = async (event, context, callback) =>
@@ -75,13 +75,13 @@ exports.handler = async (event, context, callback) =>
         return callback(null, {
             statusCode: 200,
             body: "Success",
-            headers: {'Content-Type': 'application/json', 'Access-Control-Allow-Origin':'*'}
+            headers: {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'}
         });
     } catch (err) {
         return callback(err, {
             statusCode: 500,
             body: JSON.stringify(err),
-            headers: {'Content-Type': 'application/json', 'Access-Control-Allow-Origin':'*'}
+            headers: {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'}
         });
     }
 };

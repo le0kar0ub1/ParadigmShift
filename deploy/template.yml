@@ -47,13 +47,14 @@ Parameters:
   RootSrcDir:
     Type: String
     Default: ../src/backend
-  matchuniqu:
+  MatchUniqu:
     Type: String
     MinLength: 4
     MaxLength: 20
     AllowedPattern: '[a-z][a-z0-9\-]+'
     ConstraintDescription: must begin with a letter and contain only lowercase characters and '-'.
-
+  ResourcesTarget:
+    CommaDelimitedList: String
 
 Globals:
   Function:
@@ -67,6 +68,7 @@ Globals:
         DBID_CONTEXTDEF: !Sub "${Project}-context"
         DBID_RESOURCES: !Sub "${Project}-resource"
         DBID_TAGDEF: !Sub "${Project}-tag"
+        TARGET_RESOURCES: !Ref ResourcesTarget
 
 Resources:
 
@@ -367,7 +369,7 @@ Resources:
   S3BucketWebsite:
     Type: AWS::S3::Bucket
     Properties:
-      BucketName: !Sub "${Project}-${matchuniqu}-static"
+      BucketName: !Sub "${Project}-${MatchUniqu}-static"
       BucketEncryption:
         ServerSideEncryptionConfiguration:
           - ServerSideEncryptionByDefault:

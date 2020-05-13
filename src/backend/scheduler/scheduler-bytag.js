@@ -43,13 +43,13 @@ exports.handler = async (event, context, callback) =>
         return callback(null, {
             statusCode: 200,
             body: "Success",
-            headers: {'Content-Type': 'application/json', 'Access-Control-Allow-Origin':'*'}
+            headers: {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'}
         });
     } catch (err) {
         return callback(err, {
             statusCode: 500,
             body: JSON.stringify(err),
-            headers: {'Content-Type': 'application/json', 'Access-Control-Allow-Origin':'*'}
+            headers: {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'}
         });
     }
 };
