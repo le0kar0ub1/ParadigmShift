@@ -15,12 +15,11 @@ function backend_request_context(contextid, type)
     });
 }
 
-function backend_request_tag(tagKey, type)
+function backend_request_tag(tagKey)
 {
     return new Promise((resolve, reject) => {
         axios.post(API_CONTEXTGET_ENDPOINT, {
             data: {
-                type: type,
                 tagKey: tagKey
             }
         }).then(function (response) {
@@ -87,7 +86,7 @@ async function preload()
 {
     return;
     const rawdatacontext = await backend_request_context("restricted-all", "context");
-    const rawdatatag = await backend_request_tag("restricted-all", "tag");
+    const rawdatatag = await backend_request_tag("restricted-all");
 
     try {
         contextlist = JSON.parse(rawdatacontext);

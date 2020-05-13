@@ -25,20 +25,34 @@ exports.handler = async (event, context, callback) =>
 
 function unregisterContext(contextID)
 {
-    return dynamodb.deleteItem({
-        Key : {
-            "contextID": contextID
-        },
-        TableName: process.env.DBID_CONTEXTDEF
-    }).promise();
+    return new Promise((resolve, reject) => {
+        dynamodb.deleteItem({
+            Key : {
+                "contextID": contextID
+            },
+            TableName: process.env.DBID_CONTEXTDEF
+        }, function(err, data) {
+            if (err)
+                return reject (err);
+            else
+                return resolve (true);
+        });
+    });
 }
 
 function unregisterResources(contextID)
 {
-    return dynamodb.deleteItem({
-        Key : {
-            "contextID": contextID
-        },
-        TableName: process.env.DBID_RESOURCES
-    }).promise();
+    return new Promise((resolve, reject) => {
+        dynamodb.deleteItem({
+            Key : {
+                "contextID": contextID
+            },
+            TableName: process.env.DBID_RESOURCES
+        }, function(err, data) {
+            if (err)
+                return reject (err);
+            else
+                return resolve (true);
+        });
+    });
 }
