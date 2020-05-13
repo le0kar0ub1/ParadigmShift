@@ -102,6 +102,7 @@ The JSON below is a sample entry. In reality, the JSON objects are stringifyied.
 | `schedulingRuleStart`    | _String_            | crontab expression               | The scheduling rule applied to the context to start          |
 | `schedulingRuleStop`     | _String_            | crontab expression               | The scheduling rule applied to the context to stop           |
 | `isScheduled`            | _Boolean_           | None                             | Is the current tag scheduled                                 |
+| `powerState`             | _Boolean_           | None                             | The current power state of the tag                           |
 
 The JSON below is a sample entry.
 
@@ -112,7 +113,8 @@ The JSON below is a sample entry.
     tagDesc: "simple project tagging",
     schedulingRuleStart: "0 8 * * ? *",
     schedulingRuleStop: "0 18 * * ? *",
-    isScheduled: true
+    isScheduled: true,
+    powerState: false
 }
 ```
 

@@ -60,19 +60,6 @@ function checkFileValidity(data)
     return (true);
 }
 
-function isContextAlreadyExist(context)
-{
-    console.log(contextlist);
-    for (i in contextlist)
-    {
-        if (context === contextlist[i].contextID)
-        {
-            return (false);
-        }
-    }
-    return (true);
-}
-
 async function fireRegisteringContext()
 {
     const form = document.getElementById("registerFormContext");

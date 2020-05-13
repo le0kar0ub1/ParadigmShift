@@ -19,7 +19,7 @@
         </div>
         <div class="bodywrapper">
             <div class="registering">
-                <form acti id="registerFormTag" class="registerform" onsubmit="fireRegisteringTag()">
+                <form acti id="registerFormTag" class="registerform" onsubmit="fireRegisteringTag(); return false">
                 <input required id="form-tag-Key" title="A uniqu tag key" pattern="[a-zA-Z][a-zA-Z\-]+" type="text" placeholder="tagKey">
                 <input required id="form-tag-Values" title="tag values, separated by a coma" pattern="[a-zA-Z][a-zA-Z\-]+(,[a-zA-Z][a-zA-Z\-]+)*" type="text" placeholder="tagValues">
                 <input required id="form-tag-Description" title="The tag description" type="text" placeholder="Description">
@@ -28,7 +28,7 @@
                 <input required id="form-tag-Scheduling-stop" type="text" placeholder="Scheduling rule stop" pattern="(\*|([0-9]|1[0-9]|2[0-9]|3[0-9]|4[0-9]|5[0-9])|\*\/([0-9]|1[0-9]|2[0-9]|3[0-9]|4[0-9]|5[0-9])) (\*|([0-9]|1[0-9]|2[0-3])|\*\/([0-9]|1[0-9]|2[0-3])) (\*|([1-9]|1[0-9]|2[0-9]|3[0-1])|\*\/([1-9]|1[0-9]|2[0-9]|3[0-1])) (\*|([1-9]|1[0-2])|\*\/([1-9]|1[0-2])) (\*|([0-6])|\*\/([0-6]))"
                 title="must match cron syntax">
                 <input required id="form-tag-isScheduled" type="text" placeholder="Will be scheduled ?" pattern="yes|no" title="'yes' or 'no'">
-                <input required id="form-context-isRunning" type="text" placeholder="Is running currently ?" pattern="yes|no" title="'yes' or 'no'">
+                <input required id="form-tag-isRunning" type="text" placeholder="Is running currently ?" pattern="yes|no" title="'yes' or 'no'">
                 <input type="submit">
                 </form>
             </div>

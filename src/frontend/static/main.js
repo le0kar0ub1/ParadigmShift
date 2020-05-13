@@ -67,7 +67,7 @@ function tagDescription()
         rulestart.textContent = data.schedulingRuleStart;
         rulestop.textContent = data.schedulingRuleStop;
         issched.textContent = data.isScheduled == true ? "True" : "False";
-        // setPowerState(data.powerState, "contextPowerState");
+        setPowerState(data.powerState, "tagPowerState");
     } catch (err) {
         console.log("An unexpected error occured: " + err);
     }
