@@ -245,17 +245,17 @@ Resources:
   lambdaGetData:
     Type: AWS::Serverless::Function
     Properties:
-        FunctionName: !Sub "${Project}-getdata"
+        FunctionName: !Sub "${Project}-context-get"
         Description: get context and resources from database
-        CodeUri: !Sub ${RootSrcDir}/requests
-        Handler: getdata.handler
+        CodeUri: !Sub ${RootSrcDir}/requests/context
+        Handler: context-get.handler
         Role: !GetAtt LambdaRole.Arn
         Events:
           getData:
             Type: Api
             Properties:
               RestApiId: !Ref APIGateway
-              Path: /getdata
+              Path: /context-get
               Method: POST
 
   ##################################################
@@ -265,17 +265,17 @@ Resources:
   lambdaContextRegister:
     Type: AWS::Serverless::Function
     Properties:
-        FunctionName: !Sub "${Project}-registercontext"
+        FunctionName: !Sub "${Project}-context-register"
         Description: register an entire context in database
-        CodeUri: !Sub ${RootSrcDir}/requests
-        Handler: context_register.handler
+        CodeUri: !Sub ${RootSrcDir}/requests/context
+        Handler: context-register.handler
         Role: !GetAtt LambdaRole.Arn
         Events:
           getData:
             Type: Api
             Properties:
               RestApiId: !Ref APIGateway
-              Path: /registercontext
+              Path: /context-register
               Method: POST
 
   ##################################################
@@ -285,17 +285,17 @@ Resources:
   lambdaContextUNRegister:
     Type: AWS::Serverless::Function
     Properties:
-        FunctionName: !Sub "${Project}-unregistercontext"
+        FunctionName: !Sub "${Project}-context-unregister"
         Description: unregister an entire context in database
-        CodeUri: !Sub ${RootSrcDir}/requests
-        Handler: context_unregister.handler
+        CodeUri: !Sub ${RootSrcDir}/requests/context
+        Handler: context-unregister.handler
         Role: !GetAtt LambdaRole.Arn
         Events:
           getData:
             Type: Api
             Properties:
               RestApiId: !Ref APIGateway
-              Path: /unregistercontext
+              Path: /context-unregister
               Method: POST
 
   ####################################

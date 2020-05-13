@@ -25,7 +25,7 @@ async function transferResources(key, values, description, schedStart, schedStop
         alert("Registering failed: " + resolved);
 }
 
-async function fireRegisteringTag()
+function fireRegisteringTag()
 {
     const form = document.getElementById("registerFormTag");
     const key = form["form-tag-Key"].value;
