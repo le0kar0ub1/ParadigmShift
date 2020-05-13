@@ -53,8 +53,8 @@ Parameters:
     MaxLength: 20
     AllowedPattern: '[a-z][a-z0-9\-]+'
     ConstraintDescription: must begin with a letter and contain only lowercase characters and '-'.
-  ResourcesTarget:
-    CommaDelimitedList: String
+  TargetResources:
+    Type: String
 
 Globals:
   Function:
@@ -68,7 +68,7 @@ Globals:
         DBID_CONTEXTDEF: !Sub "${Project}-context"
         DBID_RESOURCES: !Sub "${Project}-resource"
         DBID_TAGDEF: !Sub "${Project}-tag"
-        TARGET_RESOURCES: !Ref ResourcesTarget
+        TARGET_RESOURCES: !Ref TargetResources
 
 Resources:
 
