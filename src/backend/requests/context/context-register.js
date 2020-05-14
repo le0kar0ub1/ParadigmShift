@@ -60,9 +60,9 @@ function registerResources(contextID, resources)
         dynamodb.put({
             Item: {
                 "contextID"         : contextID,
-                "ec2::instance"     : JSON.stringify(resources["ec2::instance"]),
-                "rds::instance"     : JSON.stringify(resources["rds::instance"]),
-                "appstream::fleet"  : JSON.stringify(resources["appstream::fleet"])
+                "ec2:instance"     : JSON.stringify(resources["ec2:instance"]),
+                "rds:instance"     : JSON.stringify(resources["rds:instance"]),
+                "appstream:fleet"  : JSON.stringify(resources["appstream:fleet"])
             },
             TableName: process.env.DBID_RESOURCES
         }, function(err, data) {

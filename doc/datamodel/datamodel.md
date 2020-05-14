@@ -50,13 +50,13 @@ The entry below represent an entry which reference resources in one context abov
 | Field                    | DB Type             | Format (string relevant)         | Description                                                  |
 |--------------------------|---------------------|----------------------------------|--------------------------------------------------------------|
 | `contextID`              | _String_            | None                             | The name of the context (must match the one above)           |
-| `service::resource`      | _String_            | JSON stringifed                  | A list of resources with the same type in the context        |
-| `appstream::fleet`       | _String_            | JSON stringifed                  | List of appstream fleet in the context                       |
-| `...::...`               | _String_            | JSON stringifed                  | List of ............... in the context                       |
+| `service:resource`       | _String_            | JSON stringifed                  | A list of resources with the same type in the context        |
+| `appstream:fleet`        | _String_            | JSON stringifed                  | List of appstream fleet in the context                       |
+| `...:...`                | _String_            | JSON stringifed                  | List of ............... in the context                       |
 
-`service::resource` is a template for the registering of a particular `resource`.
+`service:resource` is a template for the registering of a particular `resource`.
 
-Each `service::resource` entry has the following JSON format.
+Each `service:resource` entry has the following JSON format.
 
 ```javascript
 {
@@ -79,12 +79,12 @@ The JSON below is a sample entry. In reality, the JSON objects are stringifyied.
 ```javascript
 {
   contextID: "myapp",
-  ec2::instance: {
+  ec2:instance: {
       id: ["ec2id1","ec2id2"],
       isScheduled: [true, false],
       attrib:["",""]
   },
-  rds::instance: {
+  rds:instance: {
       id: ["rdsid1", "rdsid2", "rdsid3"],
       isScheduled: [true, false, true],
       attrib: ["", "", ""]

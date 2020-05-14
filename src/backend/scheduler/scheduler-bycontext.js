@@ -19,14 +19,15 @@ function ISO8601parse(asStr)
     return (asMs / 1000);
 }
 
-function schedulingEval(cronStr, lastscheduling)
+function schedulingEval(cronStr, lastScheduling)
 {
     const now = Date.now();
     const appnext = ISO8601parse(cron.parseExpression(cronStr).next().toString());
+    const appnextnext = ISO8601parse(cron.parseExpression(cronStr).next().next().toString());
 
     if (isNaN(appnext))
         return (NaN)
-    if (now >= appnext)
+    if (now >= appnext && (appnext - lastScheduling === appnextnext - appnext))
         return (appnext);
     return (NaN);
 }
@@ -37,7 +38,10 @@ function invokeLambdaApplySched(playload, action)
         var params = {
             FunctionName: func,
             InvocationType: 'RequestResponse',
-            Payload: JSON.stringify(playload)
+            Payload: {
+                type: action,
+                data: JSON.stringify(playload)
+            }
         };
         lambda.invoke(params, function(err, data) {
             if (err) {
@@ -69,7 +73,6 @@ exports.handler = async (event, context, callback) =>
         var allcontext = await getScheduledContexts();
         for (let inc in allcontext)
         {
-            console.log(inc);
             scheduleOneContext(inc);
         }
         return callback(null, {

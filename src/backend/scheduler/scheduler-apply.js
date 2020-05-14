@@ -23,7 +23,7 @@ function invokeLambda(func, playload)
 async function scheduleResources(action, resources)
 {
     try {
-        const ec2 = resources["ec2::instance"];
+        const ec2 = resources["ec2:instance"];
         for (let inc in ec2.id)
         {
             if (ec2.isScheduled[inc] == true)

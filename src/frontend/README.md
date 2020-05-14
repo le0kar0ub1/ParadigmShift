@@ -36,12 +36,12 @@ Example of the file 'resources.json'
 
 ```javascript
 {
-    "ec2::instance": {
+    "ec2:instance": {
         "id" : ["ec2id1", "ec2id2"],
         "isScheduled": [true, false],
         "attrib": ["", ""]
     },
-    "rds::instance": {
+    "rds:instance": {
         "id" : ["rdsid1"],
         "isScheduled": [true],
         "attrib": [""]

@@ -4,13 +4,34 @@ const AWS = require('aws-sdk');
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 const resourcegroupstaggingapi = new AWS.ResourceGroupsTaggingAPI();
 
-// const cron = require('cron-parser');
+const cron = require('cron-parser');
+
+function invokeLambdaApplySched(playload, action)
+{
+    return new Promise((resolve, reject) => {
+        var params = {
+            FunctionName: func,
+            InvocationType: 'RequestResponse',
+            Payload: {
+                type: action,
+                data: JSON.stringify(playload)
+            }
+        };
+        lambda.invoke(params, function(err, data) {
+            if (err) {
+                return reject (err);
+            } else {
+                return resolve (data.Payload);
+            }
+        });
+    });
+}
 
 function getResourcesByTag(tag, values)
 {
     return new Promise((resolve, reject) => {
         var params = {
-            ResourceTypeFilters: [
+            ResourceTypeFilters: [ // ENV: TARGETRESOURCES
               'ec2:instance',
               'rds:instance',
               'appstream:fleet'
