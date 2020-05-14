@@ -2,6 +2,7 @@
 
 const AWS = require('aws-sdk');
 const dynamodb = new AWS.DynamoDB.DocumentClient();
+const lambda = new AWS.Lambda();
 
 function invokeLambda(handler, action, ids)
 {

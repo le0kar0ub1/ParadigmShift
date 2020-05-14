@@ -67,44 +67,43 @@ trap RAISE EXIT
 ## Start deploying
 ##
 
-echo "-------- Install dependencies --------"
+# echo "-------- Install dependencies --------"
 
-npm install ../src/backend --prefix ../src/backend
+# npm install ../src/backend --prefix ../src/backend
 
-echo "-------- Create SAM bucket --------"
+# echo "-------- Create SAM bucket --------"
 
-aws s3api create-bucket --bucket $bucket --region $region --create-bucket-configuration LocationConstraint=$region --profile $awsprofile
+# aws s3api create-bucket --bucket $bucket --region $region --create-bucket-configuration LocationConstraint=$region --profile $awsprofile
 
+# echo "-------- Deploy Thunderbolt resources --------"
 
-echo "-------- Deploy Thunderbolt resources --------"
+# cd ../src/backend/scheduler/target/Thunderbolt/aws
 
-cd ../src/backend/scheduler/target/Thunderbolt/aws
+# ./deploy.sh paradigmshift-thunderbolt eu-west-1 $matchUniqu $awsprofile
 
-./deploy.sh paradigmshift eu-west-1 thunderbolt-$matchUniqu $awsprofile
-
-cd -
+# cd -
 
 echo "-------- Deploy ParadigmShift resources --------"
 
 sam build --profile $awsprofile
 
-sam package                                      \
-    --s3-bucket $bucket                          \
-    --output-template-file build/package.yml     \
+sam package                                   \
+    --s3-bucket $bucket                       \
+    --output-template-file build/package.yml  \
     --profile $awsprofile
 
-sam deploy                                       \
-    --template-file build/package.yml            \
-    --stack-name $project                        \
-    --capabilities CAPABILITY_NAMED_IAM          \
-    --region $region                             \
-    --tags Project=$project                      \
-    --profile $awsprofile                        \
-    --parameter-overrides                        \
-        Project=$project                         \
-        Region=$region                           \
-        MatchUniqu=$matchUniqu                   \
-        Resources="$(cat resources-target.json)"
+sam deploy                                              \
+    --template-file build/package.yml                   \
+    --stack-name $project                               \
+    --capabilities CAPABILITY_NAMED_IAM                 \
+    --region $region                                    \
+    --tags Project=$project                             \
+    --profile $awsprofile                               \
+    --parameter-overrides                               \
+        Project=$project                                \
+        Region=$region                                  \
+        MatchUniqu=$matchUniqu                          \
+        TargetResources="$(cat resources-target.json)"  \
 
 echo "-------- Build config --------"
 

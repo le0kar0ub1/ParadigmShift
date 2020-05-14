@@ -37,9 +37,9 @@ Tag requests.
 |----------------------------------|----------------|---------------|
 | Tag scheduler start/stop         | _Must_         |               |
 | Tag power state on/off           | _Should_       |               |
-| Register a tag                   | _Must_         |               |
-| Unregister a tag                 | _Must_         |               |
-| Get tag attrib                   | _Must_         |               |
+| Register a tag                   | _Must_         | Handled       |
+| Unregister a tag                 | _Must_         | Handled       |
+| Get tag attrib                   | _Must_         | Handled       |
 | Add a value to a tag             | _Should_       |               |
 | Sub a value to a tag             | _Should_       |               |
 

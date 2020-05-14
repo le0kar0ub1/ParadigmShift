@@ -3,6 +3,7 @@
 const AWS = require('aws-sdk');
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 const resourcegroupstaggingapi = new AWS.ResourceGroupsTaggingAPI();
+const lambda = new AWS.Lambda();
 
 const cron = require('cron-parser');
 

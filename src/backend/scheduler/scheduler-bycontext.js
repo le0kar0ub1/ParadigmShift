@@ -7,6 +7,7 @@ const DBID_RESOURCES="paradigmshift-resource"
 
 const AWS = require('aws-sdk');
 const dynamodb = new AWS.DynamoDB.DocumentClient();
+const lambda = new AWS.Lambda();
 
 const cron = require('cron-parser');
 
@@ -57,6 +58,8 @@ async function scheduleOneContext(context)
 {
     let state;
 
+    if (context.isScheduled == false)
+        return;
     if (context.powerState == false)
         state = schedulingEval(context.schedulingRuleStart, context.lastscheduling);
     else
@@ -73,7 +76,7 @@ exports.handler = async (event, context, callback) =>
         var allcontext = await getScheduledContexts();
         for (let inc in allcontext)
         {
-            scheduleOneContext(inc);
+            scheduleOneContext(allcontext[inc]);
         }
         return callback(null, {
             statusCode: 200,
