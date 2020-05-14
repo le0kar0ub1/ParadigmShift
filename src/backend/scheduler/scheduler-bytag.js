@@ -27,14 +27,12 @@ function invokeLambdaApplySched(playload, action)
     });
 }
 
-function getResourcesByTag(tag, values)
+function getResourcesByTag(resource, tag, values)
 {
     return new Promise((resolve, reject) => {
         var params = {
-            ResourceTypeFilters: [ // ENV: TARGETRESOURCES
-              'ec2:instance',
-              'rds:instance',
-              'appstream:fleet'
+            ResourceTypeFilters: [
+              resource
             ],
             TagFilters: [
               {
@@ -52,14 +50,47 @@ function getResourcesByTag(tag, values)
     });
 }
 
+function getIDfromARN(data)
+{
+    var ret = [];
+
+    for (let i in data)
+    {
+        var current = data[i].split("/");
+        ret.push(current[current.lenght - 1]);
+    }
+    return ret;
+}
+
+async function scheduleOnetag(tag)
+{
+    const allres = ["ec2:instance","rds:instance", "appstream:fleet"]; // ENV: TARGETRESOURCES
+    var schedres = {};
+    var action;
+
+    if (tag.isScheduled == false)
+        return;
+    // check what do on this tag /!\
+    for (let i in allres)
+    {
+        var res = getResourcesByTag(allres[i], tag.tagKey, tag.tagValues);
+        var ids = getIDfromARN(res);
+        schedres[allres[i]] = {
+            id: ids,
+            isScheduled: new Array(ids.lenght).fill(true),
+            attrib: new Array(ids.lenght).fill("")
+        };
+    }
+    invokeLambdaApplySched(schedres);
+}
+
 exports.handler = async (event, context, callback) =>
 {
     try {
         var alltags = await getScheduledTags();
         for (let tag in alltags)
         {
-            console.log(tag);
-            scheduleOneContext(tag);
+            scheduleOnetag(alltags[tag]);
         }
         return callback(null, {
             statusCode: 200,

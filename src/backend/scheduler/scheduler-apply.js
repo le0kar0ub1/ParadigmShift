@@ -3,13 +3,16 @@
 const AWS = require('aws-sdk');
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 
-function invokeLambda(func, playload)
+function invokeLambda(func, action, ids)
 {
     return new Promise((resolve, reject) => {
         var params = {
             FunctionName: func,
             InvocationType: 'RequestResponse',
-            Payload: JSON.stringify(playload)
+            Payload: {
+                action: action,
+                ids: ids
+            }
         };
         lambda.invoke(params, function(err, data) {
             if (err)
@@ -20,18 +23,31 @@ function invokeLambda(func, playload)
     });
 }
 
+function getScheduledResources(data)
+{
+    var res = [];
+
+    for (let i in data.id)
+    {
+        if (data.isScheduled[i] == true)
+            res.push(data.id[i]);
+    }
+    return res;
+}
+
 async function scheduleResources(action, resources)
 {
+    const allres = ["ec2:instance","rds:instance", "appstream:fleet"]; // ENV: TARGETRESOURCES
     try {
-        const ec2 = resources["ec2:instance"];
-        for (let inc in ec2.id)
+        for (let res in allres)
         {
-            if (ec2.isScheduled[inc] == true)
-            {
-                await invokeLambda('ec2handler', ec2.id[inc]);
-            }
+            const sched = getScheduledResources(allres[res]);
+            if (shed.lenght != 0)
+                await invokeLambda('ec2handler', action, sched);
         }
-    } catch (err) {}
+    } catch (err) {
+        console.log(err);
+    }
 }
 
 exports.handler = async (event, context, callback) =>
