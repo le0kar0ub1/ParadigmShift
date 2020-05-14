@@ -27,6 +27,28 @@ function invokeLambdaApplySched(playload, action)
     });
 }
 
+function ISO8601parse(asStr)
+{
+    const asMs = Date.parse(asStr);
+
+    if (isNaN(asMs))
+        return (NaN);
+    return (asMs / 1000);
+}
+
+function schedulingEval(cronStr, lastScheduling)
+{
+    const now = Date.now();
+    const appnext = ISO8601parse(cron.parseExpression(cronStr).next().toString());
+    const appnextnext = ISO8601parse(cron.parseExpression(cronStr).next().next().toString());
+
+    if (isNaN(appnext))
+        return (NaN)
+    if (now >= appnext && (appnext - lastScheduling === appnextnext - appnext))
+        return (appnext);
+    return (NaN);
+}
+
 function getResourcesByTag(resource, tag, values)
 {
     return new Promise((resolve, reject) => {
@@ -67,10 +89,16 @@ async function scheduleOnetag(tag)
     const allres = ["ec2:instance","rds:instance", "appstream:fleet"]; // ENV: TARGETRESOURCES
     var schedres = {};
     var action;
-
+    
     if (tag.isScheduled == false)
         return;
-    // check what do on this tag /!\
+    let state;
+    if (tag.powerState == false)
+        state = schedulingEval(tag.schedulingRuleStart, tag.lastscheduling);
+    else
+        state = schedulingEval(tag.schedulingRuleStop, tag.lastscheduling);
+    if (isNaN(state))
+        return;
     for (let i in allres)
     {
         var res = getResourcesByTag(allres[i], tag.tagKey, tag.tagValues);

@@ -3,11 +3,11 @@
 const AWS = require('aws-sdk');
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 
-function invokeLambda(func, action, ids)
+function invokeLambda(handler, action, ids)
 {
     return new Promise((resolve, reject) => {
         var params = {
-            FunctionName: func,
+            FunctionName: handler,
             InvocationType: 'RequestResponse',
             Payload: {
                 action: action,
@@ -42,8 +42,9 @@ async function scheduleResources(action, resources)
         for (let res in allres)
         {
             const sched = getScheduledResources(allres[res]);
+            const handler = "paradigmshift-" + (allres[res].split(":"))[0] + "-handler";
             if (shed.lenght != 0)
-                await invokeLambda('ec2handler', action, sched);
+                await invokeLambda(handler, action, sched);
         }
     } catch (err) {
         console.log(err);

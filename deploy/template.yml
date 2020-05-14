@@ -69,6 +69,8 @@ Globals:
         DBID_RESOURCES: !Sub "${Project}-resource"
         DBID_TAGDEF: !Sub "${Project}-tag"
         TARGET_RESOURCES: !Ref TargetResources
+        TARGET_RESOURCES_HANDLER_PREFIX: !Sub "${Project}-"
+        TARGET_RESOURCES_HANDLER_SUFFIX: !Sub "-handler"
 
 Resources:
 

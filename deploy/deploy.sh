@@ -2,7 +2,7 @@
 
 # Variables required : 
 # region
-# MatchUniqu for bucket
+# matchUniqu for bucket
 # aws profile
 
 echo $@
@@ -12,15 +12,15 @@ echo $@
 ##
 
 if [ $# -ne 3 ] || [ $1 == "--help" ]; then
-    echo "$0 \$region \$MatchUniqu \$awsprofile"
+    echo "$0 \$region \$matchUniqu \$awsprofile"
     exit 0
 fi
 
 project="paradigmshift"
 region=$1
-MatchUniqu=$2
+matchUniqu=$2
 awsprofile=$3
-bucket=$project-$MatchUniqu-sambuild
+bucket=$project-$matchUniqu-sambuild
 
 ##
 ## Environnement setup
@@ -38,7 +38,6 @@ mkdir -p $BUILD
 
 echo "-------- Update git submodule --------"
 
-git pull --recurse-submodules
 git submodule update --init --remote --recursive
 
 ##
@@ -76,7 +75,16 @@ echo "-------- Create SAM bucket --------"
 
 aws s3api create-bucket --bucket $bucket --region $region --create-bucket-configuration LocationConstraint=$region --profile $awsprofile
 
-echo "-------- Deploy resources --------"
+
+echo "-------- Deploy Thunderbolt resources --------"
+
+cd ../src/backend/scheduler/target/Thunderbolt/aws
+
+./deploy.sh paradigmshift eu-west-1 thunderbolt-$matchUniqu $awsprofile
+
+cd -
+
+echo "-------- Deploy ParadigmShift resources --------"
 
 sam build --profile $awsprofile
 
@@ -95,7 +103,7 @@ sam deploy                                       \
     --parameter-overrides                        \
         Project=$project                         \
         Region=$region                           \
-        MatchUniqu=$MatchUniqu                   \
+        MatchUniqu=$matchUniqu                   \
         Resources="$(cat resources-target.json)"
 
 echo "-------- Build config --------"
