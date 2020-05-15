@@ -84,7 +84,6 @@ function setPowerState(bool, id)
 
 async function preload()
 {
-    return;
     const rawdatacontext = await backend_request_context("restricted-all", "context");
     const rawdatatag = await backend_request_tag("restricted-all");
 

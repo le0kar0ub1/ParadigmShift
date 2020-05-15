@@ -83,27 +83,30 @@ trap RAISE EXIT
 
 # cd -
 
-echo "-------- Deploy ParadigmShift resources --------"
+# echo "-------- Deploy ParadigmShift resources --------"
 
-sam build --profile $awsprofile
 
-sam package                                   \
-    --s3-bucket $bucket                       \
-    --output-template-file build/package.yml  \
-    --profile $awsprofile
+# sam build --profile $awsprofile
 
-sam deploy                                              \
-    --template-file build/package.yml                   \
-    --stack-name $project                               \
-    --capabilities CAPABILITY_NAMED_IAM                 \
-    --region $region                                    \
-    --tags Project=$project                             \
-    --profile $awsprofile                               \
-    --parameter-overrides                               \
-        Project=$project                                \
-        Region=$region                                  \
-        MatchUniqu=$matchUniqu                          \
-        TargetResources="$(cat resources-target.json)"  \
+# sam package                                   \
+#     --s3-bucket $bucket                       \
+#     --output-template-file build/package.yml  \
+#     --profile $awsprofile
+
+# targetResources="$(cat resources-target.json)"
+
+# sam deploy                                              \
+#     --template-file build/package.yml                   \
+#     --stack-name $project                               \
+#     --capabilities CAPABILITY_NAMED_IAM                 \
+#     --region $region                                    \
+#     --tags Project=$project                             \
+#     --profile $awsprofile                               \
+#     --parameter-overrides                               \
+#         Project=$project                                \
+#         Region=$region                                  \
+#         MatchUniqu=$matchUniqu                          \
+#         TargetResources=$targetResources                \
 
 echo "-------- Build config --------"
 
@@ -123,6 +126,6 @@ echo "We are done !"
 
 CFendpoint=$(getValueFromKey CloudfrontEndpoint $project $awsprofile)
 
-echo "\nEndpoint Access: $CFendpoint"
+echo -e "\nEndpoint Access: $CFendpoint"
 
 trap - EXIT
