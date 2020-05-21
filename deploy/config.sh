@@ -9,10 +9,10 @@ rm -f $TARGET
 touch $TARGET
 
 # First we need the API endpoints 
-echo -e "const API_CONTEXTGET_ENDPOINT=\"$apiendpoint/context-get\"" >> $TARGET
-echo -e "const API_CONTEXTREGISTER_ENDPOINT=\"$apiendpoint/context-register\"" >> $TARGET
-echo -e "const API_TAGGET_ENDPOINT=\"$apiendpoint/tag-get\"" >> $TARGET
-echo -e "const API_TAGREGISTER_ENDPOINT=\"$apiendpoint/tag-register\"" >> $TARGET
+echo -e "const API_CONTEXTGET_ENDPOINT=\"$apiendpoint/context-get\";" >> $TARGET
+echo -e "const API_CONTEXTREGISTER_ENDPOINT=\"$apiendpoint/context-register\";" >> $TARGET
+echo -e "const API_TAGGET_ENDPOINT=\"$apiendpoint/tag-get\";" >> $TARGET
+echo -e "const API_TAGREGISTER_ENDPOINT=\"$apiendpoint/tag-register\";" >> $TARGET
 
 
 # Then put the handled resources

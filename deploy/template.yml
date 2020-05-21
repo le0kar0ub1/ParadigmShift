@@ -55,7 +55,6 @@ Parameters:
     ConstraintDescription: must begin with a letter and contain only lowercase characters and '-'.
   TargetResources:
     Type: String
-    AllowedPattern: '\[\"ec2:instance\",\"rds:instance\",\"appstream:fleet\"\]'
     ConstraintDescription: just array failed.
 
 Globals:
@@ -145,29 +144,29 @@ Resources:
   ######## the two DynamoDB #########
   ###################################
 
-  # dynamoDBcontext:
-  #   Type: AWS::DynamoDB::Table
-  #   Properties:
-  #     TableName: !Sub "${Project}-context"
-  #     AttributeDefinitions:
-  #     - AttributeName: contextID
-  #       AttributeType: S
-  #     KeySchema:
-  #     - AttributeName: contextID
-  #       KeyType: HASH
-  #     BillingMode: PAY_PER_REQUEST
+  dynamoDBcontext:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: !Sub "${Project}-context"
+      AttributeDefinitions:
+      - AttributeName: contextID
+        AttributeType: S
+      KeySchema:
+      - AttributeName: contextID
+        KeyType: HASH
+      BillingMode: PAY_PER_REQUEST
   
-  # dynamoDBresource:
-  #   Type: AWS::DynamoDB::Table
-  #   Properties:
-  #     TableName: !Sub "${Project}-resource"
-  #     AttributeDefinitions:
-  #     - AttributeName: contextID
-  #       AttributeType: S
-  #     KeySchema:
-  #     - AttributeName: contextID
-  #       KeyType: HASH
-  #     BillingMode: PAY_PER_REQUEST
+  dynamoDBresource:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: !Sub "${Project}-resource"
+      AttributeDefinitions:
+      - AttributeName: contextID
+        AttributeType: S
+      KeySchema:
+      - AttributeName: contextID
+        KeyType: HASH
+      BillingMode: PAY_PER_REQUEST
 
   dynamoDBtag:
     Type: AWS::DynamoDB::Table
@@ -242,15 +241,15 @@ Resources:
         StageName: prod
         EndpointConfiguration: EDGE
         Cors:
-            AllowMethods: "'*'"
-            AllowHeaders: "'*'"
-            AllowOrigin: "'*'"
+            AllowMethods: '*'
+            AllowHeaders: '*'
+            AllowOrigin: '*'
 
   #############################################
   ######## Context get Lambda Resources #######
   #############################################
 
-  lambdaGetData:
+  lambdaGetContext:
     Type: AWS::Serverless::Function
     Properties:
         FunctionName: !Sub "${Project}-context-get"
@@ -259,7 +258,7 @@ Resources:
         Handler: context-get.handler
         Role: !GetAtt LambdaRole.Arn
         Events:
-          getData:
+          getContext:
             Type: Api
             Properties:
               RestApiId: !Ref APIGateway
@@ -279,7 +278,7 @@ Resources:
         Handler: context-register.handler
         Role: !GetAtt LambdaRole.Arn
         Events:
-          getData:
+          contextRegister:
             Type: Api
             Properties:
               RestApiId: !Ref APIGateway
@@ -299,7 +298,7 @@ Resources:
         Handler: context-unregister.handler
         Role: !GetAtt LambdaRole.Arn
         Events:
-          getData:
+          contextUNRegister:
             Type: Api
             Properties:
               RestApiId: !Ref APIGateway
@@ -310,7 +309,7 @@ Resources:
   ######## Tag get Lambda Resources #######
   #########################################
 
-  lambdaGetData:
+  lambdaGetTag:
     Type: AWS::Serverless::Function
     Properties:
         FunctionName: !Sub "${Project}-tag-get"
@@ -319,7 +318,7 @@ Resources:
         Handler: tag-get.handler
         Role: !GetAtt LambdaRole.Arn
         Events:
-          getData:
+          tagGet:
             Type: Api
             Properties:
               RestApiId: !Ref APIGateway
@@ -330,7 +329,7 @@ Resources:
   ######## Tag register Lambda Resources #######
   ##############################################
 
-  lambdaContextRegister:
+  lambdaTagRegister:
     Type: AWS::Serverless::Function
     Properties:
         FunctionName: !Sub "${Project}-tag-register"
@@ -339,7 +338,7 @@ Resources:
         Handler: tag-register.handler
         Role: !GetAtt LambdaRole.Arn
         Events:
-          getData:
+          tagRegister:
             Type: Api
             Properties:
               RestApiId: !Ref APIGateway
@@ -350,7 +349,7 @@ Resources:
   ######## Tag unregister Lambda Resources #######
   ################################################
   
-  lambdaContextUNRegister:
+  lambdaTagUNRegister:
     Type: AWS::Serverless::Function
     Properties:
         FunctionName: !Sub "${Project}-tag-unregister"
@@ -359,7 +358,7 @@ Resources:
         Handler: tag-unregister.handler
         Role: !GetAtt LambdaRole.Arn
         Events:
-          getData:
+          unregisterTag:
             Type: Api
             Properties:
               RestApiId: !Ref APIGateway
@@ -409,7 +408,7 @@ Resources:
         Enabled: true
         HttpVersion: http2
         Origins:
-          - Id: s3-website
+          - Id: !Ref Project
             DomainName: !GetAtt S3BucketWebsite.DomainName
             S3OriginConfig:
               OriginAccessIdentity: 
@@ -426,7 +425,7 @@ Resources:
             - PATCH
           ForwardedValues:
             QueryString: false
-          TargetOriginId: s3-website
+          TargetOriginId: !Ref Project
           ViewerProtocolPolicy : redirect-to-https
       Tags:
         - Key: Project
