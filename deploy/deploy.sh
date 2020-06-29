@@ -67,23 +67,23 @@ trap RAISE EXIT
 ## Start deploying
 ##
 
-# echo "-------- Install dependencies --------"
+echo "-------- Install dependencies --------"
 
 npm install ../src/backend --prefix ../src/backend
 
-# echo "-------- Deploy Thunderbolt resources --------"
+echo "-------- Deploy Thunderbolt resources --------"
 
-# cd ../src/backend/scheduler/target/Thunderbolt/aws
+cd ../src/backend/scheduler/target/Thunderbolt/aws
 
-# ./deploy.sh paradigmshift-thunderbolt eu-west-1 $matchUniqu $awsprofile
+./deploy.sh paradigmshift-thunderbolt eu-west-1 $matchUniqu $awsprofile
 
-# cd -
+cd -
 
-# echo "-------- Create SAM bucket --------"
+echo "-------- Create SAM bucket --------"
 
-# aws s3api create-bucket --bucket $bucket --region $region --create-bucket-configuration LocationConstraint=$region --profile $awsprofile
+aws s3api create-bucket --bucket $bucket --region $region --create-bucket-configuration LocationConstraint=$region --profile $awsprofile
 
-# echo "-------- Deploy ParadigmShift resources --------"
+echo "-------- Deploy ParadigmShift resources --------"
 
 sam build --profile $awsprofile
 

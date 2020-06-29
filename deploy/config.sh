@@ -16,7 +16,7 @@ echo -e "const API_TAGREGISTER_ENDPOINT=\"$apiendpoint/tag-register\";" >> $TARG
 
 
 # Then put the handled resources
-# so far, it's not useful but later that will allow us a deploy-time config for resources
+# so far it's not useful but later that will allow us a deploy-time config for resources
 
 echo -n "const resourceref = " >> $TARGET
 cat resources-target.json >> $TARGET
